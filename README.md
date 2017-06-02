@@ -59,7 +59,9 @@ Roles
 |image_create           | create an image from obs|
 |image_delete           | delete an image |
 |job                    | show job status|
-|keypairs               | show keypairs|
+|keypairs               | show ssh keypairs|
+|keypair_create         | create a ssh keypair|
+|keypair_delete         | delete a ssh keypair|
 |services               | discover API services|
 |s3                     | show s3 buckets|
 |s3_bucket_create       | create s3 bucket|
@@ -296,6 +298,14 @@ show job status
 show keypairs
 
     ansible-playbook -i hosts keypairs.yml --vault-password-file vaultpass.txt
+
+create keypair
+
+    ansible-playbook -i hosts -e "keypair_name=test-key" -e "keypair_file=~/.ssh/id_rsa.pub" keypair_create.yml --vault-password-file vaultpass.txt
+
+delete keypair
+
+    ansible-playbook -i hosts -e "keypair_name=test-key"  keypair_delete.yml --vault-password-file vaultpass.txt
 
 discover API services
 

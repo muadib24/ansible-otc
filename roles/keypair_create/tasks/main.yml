@@ -1,0 +1,20 @@
+- name: grab ssh pub key
+  shell: awk '$1=$1' ORS='\\n' {{ keypair_file }}
+  register: keypair_file_content
+
+- name: Send request to API
+  uri:
+    url: "{{ AUTH_URL_KEYPAIRS }}"
+    method: POST
+    body_format: raw
+    follow_redirects: all
+    return_content: yes 
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+    body: "{{ lookup('template', 'roles/keypair_create/templates/request.json.j2')|to_json }}" 
+  register: keypair
+
+- debug:
+    msg: "{{ keypair }}"
+
