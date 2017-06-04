@@ -13,3 +13,9 @@
     body: "{{ lookup('template', 'roles/token/templates/request.json.j2',convert_data=True)|to_json }}" 
   register: token
 
+- set_fact: 
+#    OS_USER_DOMAIN_ID: "{{ (token.content|from_json)['token']['user']['domain']['id'] }}"
+    OS_USER_DOMAIN_ID: "{{ (token.content|from_json)|json_query('token.user.domain.id') }}"
+
+# - debug:
+#     msg: "{{ token }}"
