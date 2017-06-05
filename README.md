@@ -116,7 +116,7 @@ Requirements
       
 (should work on all other *nix systems)
 
-* :exclamation: credentials on OTC (username, projectid, generated API key, S3 access/secret key)
+* :exclamation: credentials on OTC (username, password, domain, S3 access/secret key)
 
 Files
 =====
