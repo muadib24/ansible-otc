@@ -1,4 +1,5 @@
 _secrets.yml
+_ecs.ini
 _elb_secrets.yml
 _ecs_secrets.yml
 *.retry
