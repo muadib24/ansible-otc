@@ -1,0 +1,81 @@
+
+
+
+- name: Request images list from  API
+  uri:
+    url: "{{ AUTH_URL_IMS }}/v2/cloudimages?name={{ image_name }}"
+    method: GET
+    return_content: yes 
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: image_name is defined
+  register: ims_result
+
+- set_fact:
+    imageid: "{{ (ims_result.content|from_json)|json_query('images[].id|[0]') }}"
+  when: image_name is defined
+
+- name: Request vpc list from API
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/vpcs"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: vpc_name is defined
+  register: vpc_result
+
+- set_fact:
+    vpcid: "{{ (vpc_result.content|from_json)|json_query(\"vpcs[?name=='\" + vpc_name + \"'].id\") }}"
+  when: vpc_name is defined
+
+- name: Request subnet list from API
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: subnet_name is defined
+  register: subnet_result
+
+- set_fact:
+    subnetid: "{{ (subnet_result.content|from_json)|json_query(\"subnets[?name=='\" + subnet_name + \"'].id\") }}"
+  when: subnet_name is defined
+
+- name: Request secgroup list from API
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: secgroup_name is defined
+  register: secgroup_result
+
+- set_fact:
+    secgroupid: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id\") }}"
+  when: secgroup_name is defined
+
+- name: Request flavor list from API
+  uri:
+    url: "{{ AUTH_URL_ECS_CLOUD }}/{{ PROJECT_ID }}/cloudservers/flavors"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: ecs_ram is defined and ecs_vcpus is defined
+  register: flavor_result
+
+- set_fact:
+    flavorid: "{{ (flavor_result.content|from_json)|json_query('sort_by(flavors, &ram)|[?ram>=`' + ecs_ram + '` && vcpus>=`' + ecs_vcpus + '`].id|[0]') }}"
+  when: ecs_ram is defined and ecs_vcpus is defined
+
+# - debug:
+#     msg: "{{ flavorid }}"
+

@@ -63,6 +63,7 @@ Roles
 |keypairs               | show ssh keypairs|
 |keypair_create         | create a ssh keypair|
 |keypair_delete         | delete a ssh keypair|
+|lookup_name            | lookup id by name (set_fact imageid, vpcid, subnetid, secgroupid, flavorid|
 |rds_versions		| list provided database versions for RDS|
 |services               | discover API services|
 |s3                     | show s3 buckets|
@@ -308,6 +309,26 @@ create keypair
 delete keypair
 
     ansible-playbook -i hosts -e "keypair_name=test-key"  keypair_delete.yml --vault-password-file vaultpass.txt
+
+lookup id by name (image)
+
+    ansible-playbook -i hosts lookup_name.yml -e "name=Community_Ubuntu_16.04_TSI_latest" --vault-password-file vaultpass.txt
+
+lookup id by name (flavor)
+
+    ansible-playbook -i hosts lookup_name.yml -e "ecs_ram=2048" -e "ecs_vcpus=4" --vault-password-file vaultpass.txt
+
+lookup id by name (subnet)
+
+    ansible-playbook -i hosts lookup_name.yml -e "subnet_name=subnet-5831" --vault-password-file vaultpass.txt
+
+lookup id by name (secgroup)
+
+     ansible-playbook -i hosts lookup_name.yml -e "secgroup_name=bitnami-wordpress-56a9-securitygroup" --vault-password-file vaultpass.txt
+
+lookup id by name (vpc)
+
+     ansible-playbook -i hosts lookup_name.yml -e "vpc_name=vpc-4988" --vault-password-file vaultpass.txt
 
 list provided database versions for RDS
 
