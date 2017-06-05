@@ -4,7 +4,7 @@
 
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_KEYPAIRS }}"
+    url: "{{ AUTH_URL_ECS }}/os-keypairs"
     method: POST
     body_format: raw
     follow_redirects: all

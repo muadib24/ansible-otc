@@ -2,7 +2,7 @@
 
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_CLOUDIMAGES }}/action"
+    url: "{{ AUTH_URL_IMS }}/v2/cloudimages/action"
     method: POST
     body_format: raw
     follow_redirects: all

@@ -1,6 +1,6 @@
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_VPC }}/subnets"
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
     method: POST
     body_format: raw
     follow_redirects: all

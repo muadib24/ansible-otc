@@ -1,6 +1,6 @@
 - name: Request delete zonerecord  from  API
   uri:
-    url: "{{ AUTH_URL_DNS }}/zones/{{ zoneid }}/recordsets/{{ zonerecordid}}"
+    url: "{{ AUTH_URL_DNS }}/v2/zones/{{ zoneid }}/recordsets/{{ zonerecordid}}"
     method: DELETE
     return_content: yes 
     validate_certs: yes

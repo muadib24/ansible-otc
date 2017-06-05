@@ -1,6 +1,6 @@
 - name: Request delete zone  from  API
   uri:
-    url: "{{ AUTH_URL_DNS }}/zones/{{ zoneid }}"
+    url: "{{ AUTH_URL_DNS }}/v2/zones/{{ zoneid }}"
     method: DELETE
     return_content: yes 
     validate_certs: yes

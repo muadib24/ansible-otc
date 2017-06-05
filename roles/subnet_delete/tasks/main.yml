@@ -1,6 +1,6 @@
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_VPC }}/vpcs/{{ vpc_id }}/subnets/{{ subnet_id }}"
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/vpcs/{{ vpc_id }}/subnets/{{ subnet_id }}"
     method: DELETE
     body_format: raw
     follow_redirects: all

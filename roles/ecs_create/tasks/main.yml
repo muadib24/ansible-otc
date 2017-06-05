@@ -2,7 +2,7 @@
 
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_ECS_CLOUD }}"
+    url: "{{ AUTH_URL_ECS_CLOUD }}/{{ PROJECT_ID }}/cloudservers"
     method: POST
     body_format: raw
     follow_redirects: all

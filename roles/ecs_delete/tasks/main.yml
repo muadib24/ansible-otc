@@ -1,6 +1,6 @@
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_ECS_CLOUD }}/delete"
+    url: "{{ AUTH_URL_ECS_CLOUD }}/{{ PROJECT_ID }}/cloudservers/delete"
     method: POST
     body_format: raw
     follow_redirects: all
