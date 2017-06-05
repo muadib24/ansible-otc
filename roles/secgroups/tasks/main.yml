@@ -11,7 +11,7 @@
 
 - name: Request secgroup list from API
   uri:
-    url: "{{ AUTH_URL_VPC }}/security-groups"
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
     method: GET
     return_content: yes 
     validate_certs: yes
