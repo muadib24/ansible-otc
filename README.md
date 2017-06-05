@@ -13,6 +13,7 @@ Open Telekom Cloud (OTC). The service includes
 * Image Management Service (IMS)
 * Object Storage Service (OBS)
 * Dynamic Name Service (DNS)
+* Relational Database Service (RDS)
 and other useful things. The portfolio will rapidly developed.
 
 
@@ -62,6 +63,7 @@ Roles
 |keypairs               | show ssh keypairs|
 |keypair_create         | create a ssh keypair|
 |keypair_delete         | delete a ssh keypair|
+|rds_versions		| list provided database versions for RDS|
 |services               | discover API services|
 |s3                     | show s3 buckets|
 |s3_bucket_create       | create s3 bucket|
@@ -306,6 +308,10 @@ create keypair
 delete keypair
 
     ansible-playbook -i hosts -e "keypair_name=test-key"  keypair_delete.yml --vault-password-file vaultpass.txt
+
+list provided database versions for RDS
+
+    ansible-playbook -i hosts rds_versions.yml --vault-password-file vaultpass.txt
 
 discover API services
 
