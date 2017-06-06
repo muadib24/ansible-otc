@@ -63,7 +63,7 @@ Roles
 |keypairs               | show ssh keypairs|
 |keypair_create         | create a ssh keypair|
 |keypair_delete         | delete a ssh keypair|
-|lookup_name            | lookup id by name (set_fact imageid, vpcid, subnetid, secgroupid, flavorid|
+|lookup_name            | lookup id by name (set_fact imageid, vpcid, subnetid, secgroupid, flavorid)|
 |rds_versions		| list provided database versions for RDS|
 |services               | discover API services|
 |s3                     | show s3 buckets|
@@ -80,8 +80,8 @@ Roles
 |subnet_delete          | delete subnet|
 |token                  | get auth token|
 |vpc                    | show vpc|
-|create_vpc             | create vpc|
-|delete_vpc             | delete vpc|
+|vpc_create             | create vpc|
+|vpc_delete             | delete vpc|
 |zones                  | show DNS zones|
 |zonerecords            | show DNS zonerecords|
 |zone_create            | create DNS zone|
@@ -312,7 +312,7 @@ delete keypair
 
 lookup id by name (image)
 
-    ansible-playbook -i hosts lookup_name.yml -e "name=Community_Ubuntu_16.04_TSI_latest" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts lookup_name.yml -e "image_name=Community_Ubuntu_16.04_TSI_latest" --vault-password-file vaultpass.txt
 
 lookup id by name (flavor)
 
