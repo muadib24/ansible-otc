@@ -13,7 +13,7 @@
   register: ims_result
 
 - set_fact:
-    imageid: "{{ (ims_result.content|from_json)|json_query('images[].id|[0]') }}"
+    image_id: "{{ (ims_result.content|from_json)|json_query('images[].id|[0]') }}"
   when: image_name is defined
 
 - name: Request vpc list from API
@@ -28,7 +28,7 @@
   register: vpc_result
 
 - set_fact:
-    vpcid: "{{ (vpc_result.content|from_json)|json_query(\"vpcs[?name=='\" + vpc_name + \"'].id\") }}"
+    vpc_id: "{{ (vpc_result.content|from_json)|json_query(\"vpcs[?name=='\" + vpc_name + \"'].id\") }}"
   when: vpc_name is defined
 
 - name: Request subnet list from API
@@ -43,7 +43,7 @@
   register: subnet_result
 
 - set_fact:
-    subnetid: "{{ (subnet_result.content|from_json)|json_query(\"subnets[?name=='\" + subnet_name + \"'].id\") }}"
+    subnet_id: "{{ (subnet_result.content|from_json)|json_query(\"subnets[?name=='\" + subnet_name + \"'].id\") }}"
   when: subnet_name is defined
 
 - name: Request secgroup list from API
@@ -58,7 +58,7 @@
   register: secgroup_result
 
 - set_fact:
-    secgroupid: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id\") }}"
+    secgroup_id: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id\") }}"
   when: secgroup_name is defined
 
 - name: Request flavor list from API
@@ -73,9 +73,9 @@
   register: flavor_result
 
 - set_fact:
-    flavorid: "{{ (flavor_result.content|from_json)|json_query('sort_by(flavors, &ram)|[?ram>=`' + ecs_ram + '` && vcpus>=`' + ecs_vcpus + '`].id|[0]') }}"
+    flavor_id: "{{ (flavor_result.content|from_json)|json_query('sort_by(flavors, &ram)|[?ram>=`' + ecs_ram + '` && vcpus>=`' + ecs_vcpus + '`].id|[0]') }}"
   when: ecs_ram is defined and ecs_vcpus is defined
 
 # - debug:
-#     msg: "{{ flavorid }}"
+#     msg: "{{ flavor_id }}"
 

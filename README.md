@@ -63,7 +63,7 @@ Roles
 |keypairs               | show ssh keypairs|
 |keypair_create         | create a ssh keypair|
 |keypair_delete         | delete a ssh keypair|
-|lookup_name            | lookup id by name (set_fact imageid, vpcid, subnetid, secgroupid, flavorid)|
+|lookup_name            | lookup id by name (set_fact image_id, vpc_id, subnet_id, secgroup_id, flavor_id)|
 |rds_versions		| list provided database versions for RDS|
 |services               | discover API services|
 |s3                     | show s3 buckets|
