@@ -11,6 +11,9 @@
     body: "{{ lookup('template', 'roles/eip_apply/templates/request.json.j2')|to_json }}" 
   register: eip
 
+- set_fact: 
+    public_ip_address: "{{ (eip.content|from_json)|json_query('publicip.public_ip_address') }}"
+
 - debug:
-    msg: "{{ eip }}"
+    msg: "{{ public_ip_address }}"
 
