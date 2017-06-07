@@ -27,7 +27,7 @@
   register: vpc_result
 
 - set_fact:
-    vpc_id: "{{ (vpc_result.content|from_json)|json_query(\"vpcs[?name=='\" + vpc_name + \"'].id\") }}"
+    vpc_id: "{{ (vpc_result.content|from_json)|json_query(\"vpcs[?name=='\" + vpc_name + \"'].id|[0]\") }}"
   when: vpc_name is defined
 
 - name: Request subnet list from API
@@ -42,7 +42,7 @@
   register: subnet_result
 
 - set_fact:
-    subnet_id: "{{ (subnet_result.content|from_json)|json_query(\"subnets[?name=='\" + subnet_name + \"'].id\") }}"
+    subnet_id: "{{ (subnet_result.content|from_json)|json_query(\"subnets[?name=='\" + subnet_name + \"'].id|[0]\") }}"
   when: subnet_name is defined
 
 - name: Request secgroup list from API
@@ -57,7 +57,7 @@
   register: secgroup_result
 
 - set_fact:
-    secgroup_id: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id\") }}"
+    secgroup_id: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id|[0]\") }}"
   when: secgroup_name is defined
 
 - name: Request flavor list from API
@@ -87,8 +87,8 @@
   register: keypairlist_result
 
 - set_fact:
-    ecs_adminkey: "{{ (keypairlist_result.content|from_json)|json_query(\"keypairs[?keypair.name=='\" + ecs_adminkey + \"'].keypair.name\") }}"
+    ecs_adminkey_name: "{{ (keypairlist_result.content|from_json)|json_query(\"keypairs[?keypair.name=='\" + ecs_adminkey + \"'].keypair.name\") }}"
   when: ecs_adminkey is defined
 
-# - debug:
-#     msg: "{{ ecs_adminkey }}"
+- debug:
+    msg: "{{ vpc_id }}"

@@ -13,6 +13,7 @@
 
 - set_fact: 
     public_ip_address: "{{ (eip.content|from_json)|json_query('publicip.public_ip_address') }}"
+    eip_id: "{{ (eip.content|from_json)|json_query('publicip.id') }}"
 
 - debug:
     msg: "{{ public_ip_address }}"

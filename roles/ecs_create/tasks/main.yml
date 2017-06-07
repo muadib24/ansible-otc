@@ -13,6 +13,10 @@
     body: "{{ lookup('template', 'roles/ecs_create/templates/request.json.j2')|to_json }}" 
   register: ecs
 
+- set_fact:
+    job_id: "{{ (ecs.content|from_json)|json_query('job_id') }}"
+  when: ecs is defined
+
 - debug:
-    msg: "{{ ecs }}"
+    msg: "{{ job_id }}"
 
