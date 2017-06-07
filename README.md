@@ -131,6 +131,7 @@ Files
 |subnet_var.yml  | var file for subnet |
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
 |hosts           | host file for ansible (we use only localhost)|
+|tenant.ini      | configuration file for complete tenant|
 
 Examples
 ========
@@ -437,6 +438,17 @@ delete DNS zonerecord
 
     ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e"  zonerecord_delete.yml --vault-password-file vaultpass.txt
 
+
+Full Working Example
+--------------------
+
+configure your VM in tenant.ini and run all necessary roles to bootstrap a VM
+
+    ansible-playbook -i hosts tenant_create.yml -e "ecs_name=ansible-test01" --vault-password-file vaultpass.txt
+
+This playbook will create VPC,Subnet, SecurityGroup, SSH-Keypair, allocate Floating-IP and boostrap the VM.
+
+TODO: Add SecurityGroupRules, Configure existing Floating-IP
 
 Contributing
 ------------
