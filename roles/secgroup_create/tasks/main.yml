@@ -13,5 +13,5 @@
   register: secgroup
 
 - debug:
-    msg: "{{ secgroup }}"
+    msg: "{{ secgroup_id }}"
 
