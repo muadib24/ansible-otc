@@ -304,11 +304,11 @@ show keypairs
 
 create keypair
 
-    ansible-playbook -i hosts -e "keypair_name=test-key" -e "keypair_file=~/.ssh/id_rsa.pub" keypair_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "ecs_adminkey=test-key" -e "keypair_file=~/.ssh/id_rsa.pub" keypair_create.yml --vault-password-file vaultpass.txt
 
 delete keypair
 
-    ansible-playbook -i hosts -e "keypair_name=test-key"  keypair_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "ecs_adminkey=test-key"  keypair_delete.yml --vault-password-file vaultpass.txt
 
 lookup id by name (image)
 

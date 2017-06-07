@@ -1,6 +1,6 @@
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_ECS }}/os-keypairs/{{ keypair_name }}"
+    url: "{{ AUTH_URL_ECS }}/os-keypairs/{{ ecs_adminkey }}"
     method: DELETE
     follow_redirects: all
     return_content: yes 
