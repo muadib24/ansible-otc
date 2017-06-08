@@ -279,7 +279,7 @@ show elastic ip-addresses
 
 apply a new elastic ip-address (bandwidth between 1-300 MBit/s)
 
-    ansible-playbook -i hosts eip_apply.yml -e "eip_bandwidth_name=ansible-eip1" -e "eip_bandwidth_size=100"  --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts eip_apply.yml -e "eip_bandwidth_name=ansible-eip1" -e "eip_bandwidth_size=100" -e "public_ip_address=0.0.0.0" --vault-password-file vaultpass.txt
 
 delete elastic ip-address
 

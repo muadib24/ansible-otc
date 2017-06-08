@@ -1,6 +1,7 @@
 ---
 
 - hosts: localhost
+  gather_facts: no
   connection: local
   vars_files:
     - tenant_var.yml
@@ -10,6 +11,7 @@
     - role: vpc_create
 
 - hosts: localhost
+  gather_facts: no
   connection: local
   vars_files:
     - tenant_var.yml
@@ -19,6 +21,7 @@
     - role: subnet_create
 
 - hosts: localhost
+  gather_facts: no
   connection: local
   vars_files:
     - tenant_var.yml
@@ -27,7 +30,21 @@
     - role: lookup_name
     - role: secgroup_create
 
+# - debug:
+#     msg: "{{ item }}"
+#   with_ini:
+#     - secgroup_rule[1-2]
+#     - section: {{ ecs_name }}
+#     - file: "tenant.ini"
+#     - re: true
+#tasks:
+#    - name: Let's split
+#      debug: var=item
+#with_items: "facter_blockdevices.split(',')"
+
+
 - hosts: localhost
+  gather_facts: no
   connection: local
   vars_files:
     - tenant_var.yml
@@ -37,6 +54,7 @@
     - role: keypair_create
 
 - hosts: localhost
+  gather_facts: no
   connection: local
   vars_files:
     - tenant_var.yml
@@ -46,11 +64,12 @@
     - role: eip_apply
 
 - hosts: localhost
+  gather_facts: no
   connection: local
   vars_files:
     - tenant_var.yml
-  vars:
-    eip_id: "{{ eip_id }}"
+#  vars:
+#    eip_id: "{{ eip_id }}"
   roles:
     - role: token
     - role: lookup_name

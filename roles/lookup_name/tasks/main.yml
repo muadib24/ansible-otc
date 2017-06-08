@@ -90,5 +90,21 @@
     ecs_adminkey_name: "{{ (keypairlist_result.content|from_json)|json_query(\"keypairs[?keypair.name=='\" + ecs_adminkey + \"'].keypair.name\") }}"
   when: ecs_adminkey is defined
 
-- debug:
-    msg: "{{ vpc_id }}"
+- name: Request floatingip list from API
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/publicips"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  register: floatingiplist_result
+
+- set_fact: 
+    eip_id: "{{ (floatingiplist_result.content|from_json)|json_query(\"publicips[?public_ip_address=='\" + public_ip_address + \"'].id|[0]\") }}"
+  when: public_ip_address | ipaddr
+
+#- debug:
+#    msg: "{{ eip_id }}"
+#  when: eip_id is defined
+#  when: public_ip_address | ipaddr
