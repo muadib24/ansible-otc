@@ -30,18 +30,15 @@
     - role: lookup_name
     - role: secgroup_create
 
-# - debug:
-#     msg: "{{ item }}"
-#   with_ini:
-#     - secgroup_rule[1-2]
-#     - section: {{ ecs_name }}
-#     - file: "tenant.ini"
-#     - re: true
-#tasks:
-#    - name: Let's split
-#      debug: var=item
-#with_items: "facter_blockdevices.split(',')"
-
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: secgrouprule_helper
 
 - hosts: localhost
   gather_facts: no
