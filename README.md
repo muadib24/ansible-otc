@@ -65,6 +65,7 @@ Roles
 |keypair_delete         | delete a ssh keypair|
 |lookup_name            | lookup id by name (set_fact image_id, vpc_id, subnet_id, secgroup_id, flavor_id)|
 |rds_versions		| list provided database versions for RDS|
+|rds_flavors		| list provided flavors for selected database version in RDS|
 |services               | discover API services|
 |s3                     | show s3 buckets|
 |s3_bucket_create       | create s3 bucket|
@@ -331,9 +332,21 @@ lookup id by name (vpc)
 
      ansible-playbook -i hosts lookup_name.yml -e "vpc_name=vpc-4988" --vault-password-file vaultpass.txt
 
+lookup id by name (eip)
+
+     ansible-playbook -i hosts lookup_name.yml -e "public_ip_address=160.44.1.1" --vault-password-file vaultpass.txt
+  
+lookup id by name (zone)
+
+     ansible-playbook -i hosts lookup_name.yml -e "zone_name=example.com." --vault-password-file vaultpass.txt
+
 list provided database versions for RDS
 
     ansible-playbook -i hosts rds_versions.yml --vault-password-file vaultpass.txt
+
+list provided flavors for selected database version in RDS
+
+     ansible-playbook -i hosts rds_flavors.yml -e "rds_version_id=286a34fc-a605-11e6-88fd-286ed488c9cb" --vault-password-file vaultpass.txt
 
 discover API services
 

@@ -102,9 +102,23 @@
 
 - set_fact: 
     eip_id: "{{ (floatingiplist_result.content|from_json)|json_query(\"publicips[?public_ip_address=='\" + public_ip_address + \"'].id|[0]\") }}"
-  when: public_ip_address | ipaddr
+  when: (public_ip_address is defined and public_ip_address | ipaddr)
 
-#- debug:
-#    msg: "{{ eip_id }}"
-#  when: eip_id is defined
-#  when: public_ip_address | ipaddr
+- name: Request zone list from API
+  uri:
+    url: "{{ AUTH_URL_DNS }}/v2/zones"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: zone_name is defined
+  register: zonelist_result
+
+- set_fact: 
+    zone_id: "{{ (zonelist_result.content|from_json)|json_query(\"zones[?name=='\" + zone_name + \"'].id|[0]\") }}"
+  when: zone_name is defined
+
+- debug:
+    msg: "{{ zone_id }}"
+  when: zone_id is defined
