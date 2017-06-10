@@ -425,7 +425,7 @@ create DNS zone (name and ttl are mandatory)
 
 delete DNS zone
 
-    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec5ca2620234" zone_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec5ca2620234" zone_delete.yml --vault-password-file vaultpass.txt
 
 show DNS zone records
 
@@ -433,7 +433,7 @@ show DNS zone records
 
 create DNS zonerecord (A-Record) possible values A,AAAA,MX,CNAME,PTR,TXT,NS
 
-    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec620968023a" -e "zonerecord_name=testserver.example.com." -e "zonerecord_type=A" -e "zonerecord_value=160.44.196.210" -e "zonerecord_ttl=86400" zonerecord_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecord_name=testserver.example.com." -e "zonerecord_type=A" -e "zonerecord_value=160.44.196.210" -e "zonerecord_ttl=86400" zonerecord_create.yml --vault-password-file vaultpass.txt
 
 create DNS zonerecord (PTR-Record)
 
@@ -443,13 +443,13 @@ create DNS zonerecord (PTR-Record)
 
     then create PTR-Record:
     
-    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec8911e60240" -e "zonerecord_name=210.196.44.160.in-addr.arpa." -e "zonerecord_type=PTR" -e "zonerecord_value=testserver.example.com" -e "zonerecord_ttl=300" zonerecord_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec8911e60240" -e "zonerecord_name=210.196.44.160.in-addr.arpa." -e "zonerecord_type=PTR" -e "zonerecord_value=testserver.example.com" -e "zonerecord_ttl=300" zonerecord_create.yml --vault-password-file vaultpass.txt
 
     beware of "." in the end of name and name convention of the PTR zones
 
 delete DNS zonerecord 
 
-    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e"  zonerecord_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e"  zonerecord_delete.yml --vault-password-file vaultpass.txt
 
 
 Full Working Example
@@ -461,7 +461,10 @@ configure your VM in tenant.ini and run all necessary roles to bootstrap a VM
 
 This playbook will create VPC,Subnet, SecurityGroup, SSH-Keypair, allocate Floating-IP and boostrap the VM.
 
-TODO: Add SecurityGroupRules, Configure existing Floating-IP
+configure your DNS in tenant.ini and deploy all zones and zonerecords
+
+   ansible-playbook -i hosts dns_create.yml --vault-password-file vaultpass.txt
+
 
 Contributing
 ------------

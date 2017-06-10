@@ -1,4 +1,12 @@
 ---
+# DNS vars
+#  zone_description: "{{ lookup('ini', 'zone_description section={{ zone_name }} file=tenant.ini') }}"
+#  zone_email: "{{ lookup('ini', 'zone_email section={{ zone_name }} file=tenant.ini') }}"
+#  zone_ttl: "{{ lookup('ini', 'zone_ttl section={{ zone_name }} file=tenant.ini') }}"
+#  zonerecord_type: "{{ lookup('ini', 'zonerecord_type section={{ zonerecord_name }} file=tenant.ini') }}"
+#  zonerecord_value: "{{ lookup('ini', 'zonerecord_value section={{ zonerecord_name }} file=tenant.ini') }}"
+#  zonerecord_ttl: "{{ lookup('ini', 'zonerecord_ttl section={{ zonerecord_name }} file=tenant.ini') }}"
+# ECS vars
   availability_zone: "{{ lookup('ini', 'availability_zone section={{ ecs_name }} file=tenant.ini') }}"
   ecs_adminkey: "{{ lookup('ini', 'ecs_adminkey section={{ ecs_name }} file=tenant.ini') }}"
   ecs_volumetype: "{{ lookup('ini', 'ecs_volumetype section={{ ecs_name }} file=tenant.ini') }}"

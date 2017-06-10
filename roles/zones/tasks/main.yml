@@ -1,12 +1,12 @@
 - name: Request single zone  from  API
   uri:
-    url: "{{ AUTH_URL_DNS }}/v2/zones/{{ zoneid }}"
+    url: "{{ AUTH_URL_DNS }}/v2/zones/{{ zone_id }}"
     method: GET
     return_content: yes 
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: zoneid is defined
+  when: zone_id is defined
   register: zone
 
 - debug: var=zone.json
@@ -20,7 +20,7 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: zoneid is undefined
+  when: zone_id is undefined
   register: zonelist
 
 - debug: var=zonelist.json
