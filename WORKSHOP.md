@@ -76,7 +76,7 @@ availability_zone=eu-de-01
 # Configure a static internal ipaddress (optional)
 ecs_ipaddress=192.168.0.80
 # Configure a public floating ipaddress. Set value if address is known. 0.0.0.0 to apply a new one. If empty no floating ip will set
-ecs_publicip=160.44.196.80
+ecs_publicip=0.0.0.0
 # Name and site of the floating ipaddress (bandwidth in Mbit/sec)
 eip_bandwidth_name=cloudcamp-eip1
 eip_bandwidth_size=100
@@ -84,6 +84,12 @@ ecs_adminkey=my-key
 # SSH-key to inject the ecs instance
 keypair_file=~/.ssh/id_rsa.pub
 ```
+
+Pitfalls: 
+
+* ecs_ipaddress must be in subnet_net
+* subnet_net must be in vpc_net
+* names are often not unique. multiple ecs, security groups can have the same name
 
 ## 8. Start and check your ECS instance
 
