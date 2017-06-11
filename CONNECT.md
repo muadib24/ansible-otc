@@ -110,13 +110,14 @@ Test connection
 ```
 cd otc-tools
 ./otc.sh ecs list
+cd ~
 ```
 
 # 4. Ansible for Open Telekom Cloud
 
 ```
 git clone https://github.com/eumel8/ansible-otc.git
-cd openstack-ansible
+cd ansible-otc
 cp secrets.yml  _secrets.yml 
 cp ecs_secrets.yml  _ecs_secrets.yml 
 cp elb_secrets.yml _elb_secrets.yml
