@@ -20,8 +20,8 @@ Follow instruction as normal user. You need always username, password, domain da
 
 ```
 mkdir -p ~/.config/openstack
-touch ~/.config/openstack
-chmod 600 ~/.config/openstack
+touch ~/.config/openstack/clouds.yml
+chmod 600 ~/.config/openstack/clouds.yml
 vi ~/.config/openstack/clouds.yml
 ```
 
