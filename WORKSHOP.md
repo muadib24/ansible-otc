@@ -2,43 +2,43 @@
 
 You need  a valid connetion to OTC with ansible. See CONNECT.md section 4.
 
-# 1. List all running ECS instances (VMs)
+## 1. List all running ECS instances (VMs)
 
 ```
 ansible-playbook -i hosts ecs.yml --vault-password-file vaultpass.txt
 ```
 
-# 2. List all available images (IMS)
+## 2. List all available images (IMS)
 
 ```
 ansible-playbook -i hosts images.yml --vault-password-file vaultpass.txt
 ```
 
-# 3. List all available VPC (Network)
+## 3. List all available VPC (Network)
 
 ```
 ansible-playbook -i hosts vpc.yml --vault-password-file vaultpass.txt
 ```
 
-# 4. List all available Floating IP (EIP)
+## 4. List all available Floating IP (EIP)
 
 ```
 ansible-playbook -i hosts eip.yml --vault-password-file vaultpass.txt
 ```
 
-# 5. List all available security groups (Network)
+## 5. List all available security groups (Network)
 
 ```
 ansible-playbook -i hosts secgroups.yml --vault-password-file vaultpass.txt
 ```
 
-# 6. Generate local ssh-key
+## 6. Generate local ssh-key
 
 ```
 ssh-keygen
 ```
 
-# 7. Configure your ECS instance in tenant.ini
+## 7. Configure your ECS instance in tenant.ini
 
 To distinguish the resources, use your own namespace
 
@@ -85,7 +85,7 @@ ecs_adminkey=my-key
 keypair_file=~/.ssh/id_rsa.pub
 ```
 
-# 8. Start and check your ECS instance
+## 8. Start and check your ECS instance
 
 ```
 ansible-playbook -i hosts tenant_create.yml -e "ecs_name=myecs" --vault-password-file vaultpass.txt
@@ -120,14 +120,14 @@ ansible-playbook -i hosts -e "ecs_id="c814e303-7e66-4f08-ac70-18c8e27ca623"" -e 
 ansible-playbook -i hosts -e eip.yml --vault-password-file vaultpass.txt
 ```
 
-# 9. SSH Login in your ECS instance
+## 9. SSH Login in your ECS instance
 
 ```
 ssh -i .ssh/id_rsa ubuntu@160.44.xxx.xxx
 exit
 ```
 
-# 10. Delete ECS instance
+## 10. Delete ECS instance
 
 ```
 ansible-playbook -i hosts -e "ecs_id="c814e303-7e66-4f08-ac70-18c8e27ca623"" -e "ecs_name=myecs" -e "delete_publicip=1" -e  "delete_volume=1" ecs_delete.yml --vault-password-file vaultpass.txt
