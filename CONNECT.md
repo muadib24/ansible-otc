@@ -128,7 +128,7 @@ Adjust these lines
 ```
 USERNAME: "xxxxx"
 PASSWORD: "xxxxx"
-DOMAIN: "xxxxx"
+DOMAIN: "OTC-EU-DE-00000000001000019720"
 ```
 
 Test connection
