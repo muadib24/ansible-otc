@@ -1,4 +1,4 @@
-# OTC Connect Sheet Cheat
+# OTC Connect Cheat Sheet
 
 How to connect to the Open Telekom Cloud
 ----------------------------------------
