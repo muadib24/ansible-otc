@@ -2,7 +2,7 @@
 
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_DNS }}/zones/{{ zoneid }}/recordsets"
+    url: "{{ AUTH_URL_DNS }}/v2/zones/{{ zone_id }}/recordsets"
     method: POST
     body_format: raw
     follow_redirects: all
@@ -13,6 +13,7 @@
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'roles/zonerecord_create/templates/request.json.j2')|to_json }}" 
   register: zonerecord
+  when: zonerecord_type is defined
 
 - debug:
     msg: "{{ zonerecord }}"

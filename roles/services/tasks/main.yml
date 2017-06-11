@@ -2,7 +2,7 @@
 
 - name: Request services list from AUTH API
   uri:
-    url: "{{ AUTH_URL_KEYSTONE }}/services"
+    url: "{{ IAM_AUTH_URL }}/services"
     method: GET
     return_content: yes 
     validate_certs: yes

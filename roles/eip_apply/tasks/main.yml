@@ -1,6 +1,6 @@
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_VPC }}/publicips"
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/publicips"
     method: POST
     body_format: raw
     follow_redirects: all
@@ -9,8 +9,14 @@
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'roles/eip_apply/templates/request.json.j2')|to_json }}" 
+  when: public_ip_address == "0.0.0.0"
   register: eip
 
+- set_fact: 
+    public_ip_address: "{{ (eip.content|from_json)|json_query('publicip.public_ip_address') }}"
+    eip_id: "{{ (eip.content|from_json)|json_query('publicip.id') }}"
+  when: public_ip_address == "0.0.0.0"
+
 - debug:
-    msg: "{{ eip }}"
+    msg: "{{ public_ip_address }}"
 

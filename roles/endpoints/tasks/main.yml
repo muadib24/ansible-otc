@@ -2,7 +2,7 @@
 
 - name: Request endpoints list from AUTH API
   uri:
-    url: "{{ AUTH_URL_KEYSTONE }}/endpoints"
+    url: "{{ IAM_AUTH_URL }}/endpoints"
     method: GET
     return_content: yes 
     validate_certs: yes

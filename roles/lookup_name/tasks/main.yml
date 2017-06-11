@@ -1,0 +1,124 @@
+
+
+- name: Request images list from  API
+  uri:
+    url: "{{ AUTH_URL_IMS }}/v2/cloudimages?name={{ image_name }}"
+    method: GET
+    return_content: yes 
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: image_name is defined
+  register: ims_result
+
+- set_fact:
+    image_id: "{{ (ims_result.content|from_json)|json_query('images[].id|[0]') }}"
+  when: image_name is defined
+
+- name: Request vpc list from API
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/vpcs"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: vpc_name is defined
+  register: vpc_result
+
+- set_fact:
+    vpc_id: "{{ (vpc_result.content|from_json)|json_query(\"vpcs[?name=='\" + vpc_name + \"'].id|[0]\") }}"
+  when: vpc_name is defined
+
+- name: Request subnet list from API
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: subnet_name is defined
+  register: subnet_result
+
+- set_fact:
+    subnet_id: "{{ (subnet_result.content|from_json)|json_query(\"subnets[?name=='\" + subnet_name + \"'].id|[0]\") }}"
+  when: subnet_name is defined
+
+- name: Request secgroup list from API
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: secgroup_name is defined
+  register: secgroup_result
+
+- set_fact:
+    secgroup_id: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id|[0]\") }}"
+  when: secgroup_name is defined
+
+- name: Request flavor list from API
+  uri:
+    url: "{{ AUTH_URL_ECS_CLOUD }}/{{ PROJECT_ID }}/cloudservers/flavors"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: ecs_ram is defined and ecs_vcpus is defined
+  register: flavor_result
+
+- set_fact:
+    flavor_id: "{{ (flavor_result.content|from_json)|json_query('sort_by(flavors, &ram)|[?ram>=`' + ecs_ram + '` && vcpus>=`' + ecs_vcpus + '`].id|[0]') }}"
+  when: ecs_ram is defined and ecs_vcpus is defined
+
+- name: Request keypair list from  API
+  uri:
+    url: "{{ AUTH_URL_ECS }}/os-keypairs"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: ecs_adminkey is defined
+  register: keypairlist_result
+
+- set_fact:
+    ecs_adminkey_name: "{{ (keypairlist_result.content|from_json)|json_query(\"keypairs[?keypair.name=='\" + ecs_adminkey + \"'].keypair.name\") }}"
+  when: ecs_adminkey is defined
+
+- name: Request floatingip list from API
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/publicips"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  register: floatingiplist_result
+
+- set_fact: 
+    eip_id: "{{ (floatingiplist_result.content|from_json)|json_query(\"publicips[?public_ip_address=='\" + public_ip_address + \"'].id|[0]\") }}"
+  when: (public_ip_address is defined and public_ip_address | ipaddr)
+
+- name: Request zone list from API
+  uri:
+    url: "{{ AUTH_URL_DNS }}/v2/zones"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: zone_name is defined
+  register: zonelist_result
+
+- set_fact: 
+    zone_id: "{{ (zonelist_result.content|from_json)|json_query(\"zones[?name=='\" + zone_name + \"'].id|[0]\") }}"
+  when: zone_name is defined
+
+- debug:
+    msg: "{{ zone_id }}"
+  when: zone_id is defined

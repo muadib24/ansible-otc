@@ -2,7 +2,7 @@
 
 - name: Request ecs list from AUTH API
   uri:
-    url: "{{ AUTH_URL_ECS }}"
+    url: "{{ AUTH_URL_ECS }}/servers"
     method: GET
     return_content: yes 
     validate_certs: yes

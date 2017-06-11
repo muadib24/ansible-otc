@@ -1,13 +1,13 @@
 - name: Request delete zone  from  API
   uri:
-    url: "{{ AUTH_URL_DNS }}/zones/{{ zoneid }}"
+    url: "{{ AUTH_URL_DNS }}/v2/zones/{{ zone_id }}"
     method: DELETE
     return_content: yes 
     validate_certs: yes
     status_code: 200,201,202,203
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: zoneid is defined
+  when: zone_id is defined
   register: zone
 
 - debug: var=zone.json

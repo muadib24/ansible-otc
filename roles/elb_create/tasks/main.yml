@@ -2,7 +2,7 @@
 
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_ELB }}"
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/loadbalancers"
     method: POST
     body_format: raw
     follow_redirects: all

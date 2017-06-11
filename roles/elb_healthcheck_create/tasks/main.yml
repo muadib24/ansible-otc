@@ -2,7 +2,7 @@
 
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_ELB_HEALTHCHECK }}"
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/healthcheck"
     method: POST
     body_format: raw
     follow_redirects: all

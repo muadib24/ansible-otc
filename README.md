@@ -13,6 +13,7 @@ Open Telekom Cloud (OTC). The service includes
 * Image Management Service (IMS)
 * Object Storage Service (OBS)
 * Dynamic Name Service (DNS)
+* Relational Database Service (RDS)
 and other useful things. The portfolio will rapidly developed.
 
 
@@ -59,7 +60,12 @@ Roles
 |image_create           | create an image from obs|
 |image_delete           | delete an image |
 |job                    | show job status|
-|keypairs               | show keypairs|
+|keypairs               | show ssh keypairs|
+|keypair_create         | create a ssh keypair|
+|keypair_delete         | delete a ssh keypair|
+|lookup_name            | lookup id by name (set_fact image_id, vpc_id, subnet_id, secgroup_id, flavor_id)|
+|rds_versions		| list provided database versions for RDS|
+|rds_flavors		| list provided flavors for selected database version in RDS|
 |services               | discover API services|
 |s3                     | show s3 buckets|
 |s3_bucket_create       | create s3 bucket|
@@ -75,8 +81,8 @@ Roles
 |subnet_delete          | delete subnet|
 |token                  | get auth token|
 |vpc                    | show vpc|
-|create_vpc             | create vpc|
-|delete_vpc             | delete vpc|
+|vpc_create             | create vpc|
+|vpc_delete             | delete vpc|
 |zones                  | show DNS zones|
 |zonerecords            | show DNS zonerecords|
 |zone_create            | create DNS zone|
@@ -89,7 +95,10 @@ Requirements
 * curl
 * openssl
 * base64
-* Ansible >=2.0.1.0
+* ansible >=2.2.0.0
+* python-jmespath
+* python-netaddr
+
 
   *Ubuntu 12.04/14.04/16.04:*
   
@@ -99,7 +108,7 @@ Requirements
      apt-get update
      apt-cache policy ansible
      # should have version >2.1.0
-     apt-get install ansible
+     apt-get install curl ansible python-jmespath python-netaddr
   ```
   
   *OpenSuSE 13.2:*
@@ -107,12 +116,12 @@ Requirements
   ```
      zypper ar http://download.opensuse.org/repositories/systemsmanagement/openSUSE_13.2/systemsmanagement.repo
      zypper up
-     zypper install ansible
+     zypper install curl ansible python-jmespath python-netaddr
   ```    
       
 (should work on all other *nix systems)
 
-* :exclamation: credentials on OTC (username, projectid, generated API key, S3 access/secret key)
+* :exclamation: credentials on OTC (username, password, domain, S3 access/secret key)
 
 Files
 =====
@@ -126,6 +135,7 @@ Files
 |subnet_var.yml  | var file for subnet |
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
 |hosts           | host file for ansible (we use only localhost)|
+|tenant.ini      | configuration file for complete tenant|
 
 Examples
 ========
@@ -273,7 +283,7 @@ show elastic ip-addresses
 
 apply a new elastic ip-address (bandwidth between 1-300 MBit/s)
 
-    ansible-playbook -i hosts eip_apply.yml -e "eip_bandwidth_name=ansible-eip1" -e "eip_bandwidth_size=100"  --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts eip_apply.yml -e "eip_bandwidth_name=ansible-eip1" -e "eip_bandwidth_size=100" -e "public_ip_address=0.0.0.0" --vault-password-file vaultpass.txt
 
 delete elastic ip-address
 
@@ -296,6 +306,50 @@ show job status
 show keypairs
 
     ansible-playbook -i hosts keypairs.yml --vault-password-file vaultpass.txt
+
+create keypair
+
+    ansible-playbook -i hosts -e "ecs_adminkey=test-key" -e "keypair_file=~/.ssh/id_rsa.pub" keypair_create.yml --vault-password-file vaultpass.txt
+
+delete keypair
+
+    ansible-playbook -i hosts -e "ecs_adminkey=test-key"  keypair_delete.yml --vault-password-file vaultpass.txt
+
+lookup id by name (image)
+
+    ansible-playbook -i hosts lookup_name.yml -e "image_name=Community_Ubuntu_16.04_TSI_latest" --vault-password-file vaultpass.txt
+
+lookup id by name (flavor)
+
+    ansible-playbook -i hosts lookup_name.yml -e "ecs_ram=2048" -e "ecs_vcpus=4" --vault-password-file vaultpass.txt
+
+lookup id by name (subnet)
+
+    ansible-playbook -i hosts lookup_name.yml -e "subnet_name=subnet-5831" --vault-password-file vaultpass.txt
+
+lookup id by name (secgroup)
+
+     ansible-playbook -i hosts lookup_name.yml -e "secgroup_name=bitnami-wordpress-56a9-securitygroup" --vault-password-file vaultpass.txt
+
+lookup id by name (vpc)
+
+     ansible-playbook -i hosts lookup_name.yml -e "vpc_name=vpc-4988" --vault-password-file vaultpass.txt
+
+lookup id by name (eip)
+
+     ansible-playbook -i hosts lookup_name.yml -e "public_ip_address=160.44.1.1" --vault-password-file vaultpass.txt
+  
+lookup id by name (zone)
+
+     ansible-playbook -i hosts lookup_name.yml -e "zone_name=example.com." --vault-password-file vaultpass.txt
+
+list provided database versions for RDS
+
+    ansible-playbook -i hosts rds_versions.yml --vault-password-file vaultpass.txt
+
+list provided flavors for selected database version in RDS
+
+     ansible-playbook -i hosts rds_flavors.yml -e "rds_version_id=286a34fc-a605-11e6-88fd-286ed488c9cb" --vault-password-file vaultpass.txt
 
 discover API services
 
@@ -374,7 +428,7 @@ create DNS zone (name and ttl are mandatory)
 
 delete DNS zone
 
-    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec5ca2620234" zone_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec5ca2620234" zone_delete.yml --vault-password-file vaultpass.txt
 
 show DNS zone records
 
@@ -382,7 +436,7 @@ show DNS zone records
 
 create DNS zonerecord (A-Record) possible values A,AAAA,MX,CNAME,PTR,TXT,NS
 
-    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec620968023a" -e "zonerecord_name=testserver.example.com." -e "zonerecord_type=A" -e "zonerecord_value=160.44.196.210" -e "zonerecord_ttl=86400" zonerecord_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecord_name=testserver.example.com." -e "zonerecord_type=A" -e "zonerecord_value=160.44.196.210" -e "zonerecord_ttl=86400" zonerecord_create.yml --vault-password-file vaultpass.txt
 
 create DNS zonerecord (PTR-Record)
 
@@ -392,13 +446,27 @@ create DNS zonerecord (PTR-Record)
 
     then create PTR-Record:
     
-    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec8911e60240" -e "zonerecord_name=210.196.44.160.in-addr.arpa." -e "zonerecord_type=PTR" -e "zonerecord_value=testserver.example.com" -e "zonerecord_ttl=300" zonerecord_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec8911e60240" -e "zonerecord_name=210.196.44.160.in-addr.arpa." -e "zonerecord_type=PTR" -e "zonerecord_value=testserver.example.com" -e "zonerecord_ttl=300" zonerecord_create.yml --vault-password-file vaultpass.txt
 
     beware of "." in the end of name and name convention of the PTR zones
 
 delete DNS zonerecord 
 
-    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e"  zonerecord_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e"  zonerecord_delete.yml --vault-password-file vaultpass.txt
+
+
+Full Working Example
+--------------------
+
+configure your VM in tenant.ini and run all necessary roles to bootstrap a VM
+
+    ansible-playbook -i hosts tenant_create.yml -e "ecs_name=ansible-test01" --vault-password-file vaultpass.txt
+
+This playbook will create VPC,Subnet, SecurityGroup, SSH-Keypair, allocate Floating-IP and boostrap the VM.
+
+configure your DNS in tenant.ini and deploy all zones and zonerecords
+
+   ansible-playbook -i hosts dns_create.yml --vault-password-file vaultpass.txt
 
 
 Contributing

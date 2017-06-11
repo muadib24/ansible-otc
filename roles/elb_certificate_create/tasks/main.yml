@@ -8,7 +8,7 @@
 
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_ELB_CERTIFICATE }}"
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/certificate"
     method: POST
     body_format: raw
     follow_redirects: all

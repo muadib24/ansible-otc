@@ -1,0 +1,32 @@
+
+- name: fetch secgroup rules from ini
+  set_fact: 
+    secgrouprules: "{{ item }}"
+  with_ini: secgroup_rule[1-9] section={{ ecs_name }} file=tenant.ini re=true
+  register: secgrouprule_reg
+
+- name: make a list from secgroup rules
+  set_fact: 
+    secgrouprule_list: "{{ secgrouprule_reg.results | map(attribute='ansible_facts.secgrouprules') | list }}"
+
+- name: send request to API
+  vars:
+    secgrouprule_part: "{{ item.split(';') }}"
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v2.0/security-group-rules"
+    method: POST
+    body_format: raw
+    follow_redirects: all
+    return_content: yes 
+    validate_certs: yes
+    status_code: 200,201,202,203,204,409
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+    body: "{{ lookup('template', 'roles/secgrouprule_helper/templates/request.json.j2')|to_json }}" 
+  register: secgrouprule
+  with_items:
+    - "{{ secgrouprule_list }}"
+
+# - debug: 
+#    msg: "{{ secgrouprule }}"
+#    msg: "{{ secgrouprule_list[1] }}"

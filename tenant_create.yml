@@ -1,0 +1,81 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: vpc_create
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: subnet_create
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: secgroup_create
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: secgrouprule_helper
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: keypair_create
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: eip_apply
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+#  vars:
+#    eip_id: "{{ eip_id }}"
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: ecs_create
+    - role: job
