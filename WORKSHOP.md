@@ -136,6 +136,6 @@ exit
 ## 10. Delete ECS instance
 
 ```
-ansible-playbook -i hosts -e "ecs_id="c814e303-7e66-4f08-ac70-18c8e27ca623"" -e "ecs_name=myecs" -e "delete_publicip=1" -e  "delete_volume=1" ecs_delete.yml --vault-password-file vaultpass.txt
+ansible-playbook -i hosts -e "ecs_id=c814e303-7e66-4f08-ac70-18c8e27ca623" -e "ecs_name=myecs" -e "delete_publicip=1" -e  "delete_volume=1" ecs_delete.yml --vault-password-file vaultpass.txt
 ```
 
