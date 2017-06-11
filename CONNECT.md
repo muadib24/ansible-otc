@@ -1,12 +1,9 @@
-OTC Connect Sheet Cheat
-=======================
+# OTC Connect Sheet Cheat
 
 How to connect to the Open Telekom Cloud
 ----------------------------------------
 
-( shown for Ubuntu 16.04 machine )
-
-Install prerequisites as root:
+Install prerequisites as root on your Ubuntu 16.04 machine:
 
 
 ```
@@ -19,8 +16,7 @@ pip install python-otcclient
 Follow instruction as normal user. You need always username, password, domain data.
 
 
-1. Openstack-Client
-===================
+# 1. Openstack-Client
 
 ```
 mkdir -p ~/.config/openstack
@@ -62,8 +58,7 @@ Test connection
 openstack --os-cloud otc.19720 server list
 ```
 
-2. Python OTC-Client
-====================
+# 2. Python OTC-Client
 
 ```
 mkdir -p ~/.otc
@@ -91,8 +86,7 @@ Test connection
 otc ecs describe_instances
 ```
 
-3. Bash OTC-Tools
-=================
+# 3. Bash OTC-Tools
 
 ```
 git clone https://github.com/OpenTelekomCloud/otc-tools.git
@@ -118,8 +112,7 @@ cd otc-tools
 ./otc.sh ecs list
 ```
 
-4. Ansible for Open Telekom Cloud
-=================================
+# 4. Ansible for Open Telekom Cloud
 
 ```
 git clone https://github.com/eumel8/ansible-otc.git
