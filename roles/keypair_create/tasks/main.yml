@@ -13,7 +13,7 @@
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'roles/keypair_create/templates/request.json.j2')|to_json }}" 
-  when: ecs_adminkey_name is undefined
+  when: not ecs_adminkey_name
   register: keypair
 
 - debug:
