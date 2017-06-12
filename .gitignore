@@ -2,4 +2,5 @@ _secrets.yml
 _elb_secrets.yml
 _ecs_secrets.yml
 _user_data*.txt
+_tenant.ini
 *.retry
