@@ -174,15 +174,15 @@ create and start virtual machine with injection user_data
 
 show virtual machine (single)
 
-    ansible-playbook -e "ecs_id=51b6558a-7a6d-49f4-94e5-f4ec94314746 ecs_name=test05-ansible" -i hosts ecs_show.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_show.yml -e "ecs_name=ansible-test01" --vault-password-file vaultpass.txt
 
 delete virtual machine (only the machine)
 
-    ansible-playbook -e "ecs_id=51b6558a-7a6d-49f4-94e5-f4ec94314746 ecs_name=test05-ansible" -i hosts ecs_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=ansible-01" --vault-password-file vaultpass.txt
 
 delete virtual machine (delete also floating ip and attached volumes)
 
-    ansible-playbook -e "ecs_id=f6b7536e-b954-4d73-940f-248de71ce58b ecs_name=test06-ansible delete_publicip=1 delete_volume=1" -i hosts ecs_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=test01-ansible delete_publicip=1 delete_volume=1" --vault-password-file vaultpass.txt
 
 
 show information about a single virtual machines
