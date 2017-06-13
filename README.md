@@ -343,6 +343,10 @@ lookup id by name (zone)
 
      ansible-playbook -i hosts lookup_name.yml -e "zone_name=example.com." --vault-password-file vaultpass.txt
 
+lookup id by name (ecs)
+
+     ansible-playbook -i hosts lookup_name.yml -e "ecs_name=ansible-test01" --vault-password-file vaultpass.txt
+
 list provided database versions for RDS
 
     ansible-playbook -i hosts rds_versions.yml --vault-password-file vaultpass.txt
