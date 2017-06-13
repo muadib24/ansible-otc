@@ -158,17 +158,17 @@ create and start virtual machine (defined in _ecs_secrets.yml)
 
 create and start virtual machine (defined in _ecs_secrets.yml and overwrite options)
 
-    ansible-playbook -i hosts ecs_create.yml -e @_ecs_secrets.yml -e "ecs_name=test02-ansible" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_create.yml -e @_ecs_secrets.yml -e "ecs_name=test01-ansible" --vault-password-file vaultpass.txt
 
 create and start virtual machine with file injection 
 (inject up to 5 max 1k base64 encoded files)
 
-    ansible-playbook -i hosts -e "ecs_fileinject_1=/etc/hosts ecs_fileinject_data_1=$(base64 -w 0 hosts.txt) ecs_fileinject_2=/root/README.md2 ecs_fileinject_data_2=$(base64 -w 0 hallo.txt)" ecs_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_create.yml -e "ecs_fileinject_1=/etc/hosts ecs_fileinject_data_1=$(base64 -w 0 hosts.txt) ecs_fileinject_2=/root/README.md2 ecs_fileinject_data_2=$(base64 -w 0 hallo.txt)" --vault-password-file vaultpass.txt
 
 create and start virtual machine with injection user_data
 (inject max 32k base64 encoded user-data files)
 
-    ansible-playbook -i hosts -e "ecs_user_data=$(base64 -w 0 user-data.txt)" ecs_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_create.yml -e "ecs_user_data=$(base64 -w 0 user-data.txt)" --vault-password-file vaultpass.txt
 
 (!) You can define ecs_fileinject_1, ecs_fileinject_data_1 and ecs_user_data also in _ecs_secrets.yml. Files must be base64 encoded.
 
@@ -185,10 +185,6 @@ delete virtual machine (delete also floating ip and attached volumes)
     ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=test01-ansible delete_publicip=1 delete_volume=1" --vault-password-file vaultpass.txt
 
 
-show information about a single virtual machines
-
-    ansible-playbook -e "ecs_id=f6b7536e-b954-4d73-940f-248de71ce58b ecs_name=test06-ansible" -i hosts ecs_info.yml --vault-password-file vaultpass.txt
-    
 list elastic loadbalancers
 
     ansible-playbook -i hosts elb.yml --vault-password-file vaultpass.txt
