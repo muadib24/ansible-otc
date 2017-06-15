@@ -1,4 +1,10 @@
+- set_fact:
+    availability_zone_id: "bf84aba586ce4e948da0b97d9a7d62fb"
+  when: availability_zone == "eu-de-01"
 
+- set_fact:
+    availability_zone_id: "bf84aba586ce4e948da0b97d9a7d62fc"
+  when: availability_zone == "eu-de-02"
 
 - name: Request images list from  API
   uri:
