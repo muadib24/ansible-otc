@@ -50,6 +50,7 @@ Roles
 |elb_backends           | list backends for elastic loadbalancer|
 |elb_backends_create    | create backends for elastic loadbalancer|
 |elb_backends_delete    | delete backends for elastic loadbalancer|
+|enable_snat            | enable SNAT on specific VPC|
 |endpoints              | discover API endpoints|
 |evs                    | list volumes|
 |evs_create             | create a volume|
@@ -184,7 +185,6 @@ delete virtual machine (delete also floating ip and attached volumes)
 
     ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=test01-ansible delete_publicip=1 delete_volume=1" --vault-password-file vaultpass.txt
 
-
 list elastic loadbalancers
 
     ansible-playbook -i hosts elb.yml --vault-password-file vaultpass.txt
@@ -248,6 +248,14 @@ create backends for elastic loadbalancer
 delete backends for elastic loadbalancer
 
     ansible-playbook -i hosts -e "elb_listener_id=e12454b93f304b759be699cb0270648c elb_backends_id=f6b7536e-b954-4d73-940f-248de71ce58b" elb_backends_delete.yml --vault-password-file vaultpass.txt
+
+enable SNAT on specific VPC
+
+    ansible-playbook -i hosts snat_enable.yml -e "vpc_name=ansible-vpc1" -e "enable_snat=true" --vault-password-file vaultpass.txt
+
+disable SNAT on specific VPC
+
+    ansible-playbook -i hosts snat_enable.yml -e "vpc_name=ansible-vpc1" -e "enable_snat=false" --vault-password-file vaultpass.txt
 
 discover API endpoints
 
