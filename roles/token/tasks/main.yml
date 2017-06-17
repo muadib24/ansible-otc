@@ -1,4 +1,36 @@
-- include_vars: _secrets.yml
+- name: Load auth variable file from os-client config or ansible-vault secret
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "env.yml"
+    - "_secrets.yml"
+
+- name: set fact user home
+  set_fact:
+    user_home: "{{ lookup('env','HOME') }}"
+
+- stat: 
+    path: "{{ user_home }}/.config/openstack/clouds.yml"
+  register: osclientconfigfile
+
+- name: set fact os-client config file
+  set_fact:
+    os_client_config: "{{ lookup('file', osclientconfigfile.stat.path)|from_yaml }}"
+  when: osclientconfigfile.stat.exists
+
+- name: set facts from os-client-config
+  set_fact: 
+    USERNAME: "{{ os_client_config['clouds'][CLOUD]['auth']['username'] }}"
+    PASSWORD: "{{ os_client_config['clouds'][CLOUD]['auth']['password'] }}"
+    PROJECT_NAME: "{{ os_client_config['clouds'][CLOUD]['auth']['project_name'] }}"
+    DOMAIN: "{{ os_client_config['clouds'][CLOUD]['auth']['user_domain_name'] }}"
+  when: osclientconfigfile.stat.exists
+
+- name: set fact generic endpoints
+  set_fact:
+    IAM_AUTH_URL: "https://iam.{{ PROJECT_NAME }}.otc.t-systems.com/v3"
+    AUTH_URL_ELB: "https://elb.{{ PROJECT_NAME }}.otc.t-systems.com/v1.0"
+    AUTH_URL_ECS_CLOUD: "https://ecs.{{ PROJECT_NAME }}.otc.t-systems.com/v1"
+    AUTH_URL_RDS: "https://rds.{{ PROJECT_NAME }}.otc.t-systems.com/rds/v1"
 
 - name: Request token from AUTH API
   uri:
@@ -13,7 +45,8 @@
     body: "{{ lookup('template', 'roles/token/templates/request.json.j2',convert_data=True)|to_json }}" 
   register: token
 
-- set_fact: 
+- name: set facts dynamic endpoints
+  set_fact: 
 #    OS_USER_DOMAIN_ID: "{{ (token.content|from_json)['token']['user']['domain']['id'] }}"
     OS_USER_DOMAIN_ID: "{{ (token.content|from_json)|json_query('token.user.domain.id') }}"
     PROJECT_ID: "{{ (token.content|from_json)|json_query('token.project.id') }}"
@@ -24,6 +57,7 @@
     AUTH_URL_EVSv2: "{{ (token.content|from_json)|json_query('token.catalog[?type==`volumev2`].endpoints[].url|[0]') }}"
     AUTH_URL_RTS: "{{ (token.content|from_json)|json_query('token.catalog[?type==`orchestration`].endpoints[].url|[0]') }}"
     AUTH_URL_IMS: "{{ (token.content|from_json)|json_query('token.catalog[?type==`image`].endpoints[].url|[0]') }}"
+    IAM_AUTH_URL: "https://iam.{{ PROJECT_NAME }}.otc.t-systems.com/v3"
 
 # - debug:
 #     msg: "{{ token }}"

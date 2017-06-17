@@ -124,12 +124,19 @@ Requirements
 
 * :exclamation: credentials on OTC (username, password, domain, S3 access/secret key)
 
+Files outside the repo
+======================
+| filename                      | description|
+|-------------------------------|------------|
+|~/.config/openstack/clouds.yml | os-client configuration file for multiple openstack environments|
+
 Files
 =====
 | filename       | description|
 |----------------|------------|
 |ajob            | shell script to fetch job status from OTC|
-|secrets.yml     | var file for OTC credentials and endpoints (ansible-vault)|
+|env.yml         | profile to use in clouds.yml|
+|secrets.yml     | var file for S3 credentials and endpoints (ansible-vault)|
 |ecs_secrets.yml | var file for virtual machine and volume conf (ansible-vault)|
 |elb_secrets.yml | var file for elastic loadbalancer conf (ansible-vault)|
 |secgrouprule.yml| var file for single security group rule |
@@ -138,8 +145,19 @@ Files
 |hosts           | host file for ansible (we use only localhost)|
 |tenant.ini      | configuration file for complete tenant|
 
-Examples
-========
+
+Os-client config
+================
+
+for more comfort and standardization we moved credential lookup from secrets.yml to clouds.yml (part of https://docs.openstack.org/developer/os-client-config/). If you already configured your OTC credentials there put your profile name in env.yml or use
+```
+    ansible-playbook -e "CLOUD=otc" ...
+```
+if your profile named otc
+
+
+Starting up
+===========
 
 ```
     cp secrets.yml  _secrets.yml 
@@ -149,9 +167,13 @@ Examples
   
 :exclamation: **adjust your own data in this file before you using the examples:**
 
-list virtual machines
+list virtual machines (with secrets.yml)
 
     ansible-playbook -i hosts ecs.yml --vault-password-file vaultpass.txt
+
+list virtual machines (with clouds.yml)
+
+    ansible-playbook -i hosts ecs.yml
 
 create and start virtual machine (defined in _ecs_secrets.yml)
 
@@ -175,15 +197,15 @@ create and start virtual machine with injection user_data
 
 show virtual machine (single)
 
-    ansible-playbook -i hosts ecs_show.yml -e "ecs_name=ansible-test01" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_show.yml -e "ecs_name=ansible-test01"
 
 delete virtual machine (only the machine)
 
-    ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=ansible-01" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=ansible-01"
 
 delete virtual machine (delete also floating ip and attached volumes)
 
-    ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=test01-ansible delete_publicip=1 delete_volume=1" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=test01-ansible delete_publicip=1 delete_volume=1"
 
 list elastic loadbalancers
 
@@ -251,15 +273,15 @@ delete backends for elastic loadbalancer
 
 enable SNAT on specific VPC
 
-    ansible-playbook -i hosts snat_enable.yml -e "vpc_name=ansible-vpc1" -e "enable_snat=true" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts snat_enable.yml -e "vpc_name=ansible-vpc1" -e "enable_snat=true"
 
 disable SNAT on specific VPC
 
-    ansible-playbook -i hosts snat_enable.yml -e "vpc_name=ansible-vpc1" -e "enable_snat=false" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts snat_enable.yml -e "vpc_name=ansible-vpc1" -e "enable_snat=false"
 
 discover API endpoints
 
-    ansible-playbook -i hosts endpoints.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts endpoints.yml
 
 list volumes
 
@@ -279,89 +301,89 @@ show information about a single volume
 
 show flavors
 
-    ansible-playbook -i hosts flavors.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts flavors.yml
 
 show elastic ip-addresses
 
-    ansible-playbook -i hosts eip.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts eip.yml
 
 apply a new elastic ip-address (bandwidth between 1-300 MBit/s)
 
-    ansible-playbook -i hosts eip_apply.yml -e "eip_bandwidth_name=ansible-eip1" -e "eip_bandwidth_size=100" -e "public_ip_address=0.0.0.0" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts eip_apply.yml -e "eip_bandwidth_name=ansible-eip1" -e "eip_bandwidth_size=100" -e "public_ip_address=0.0.0.0"
 
 delete elastic ip-address
 
-    ansible-playbook -i hosts eip_delete.yml -e "eip_id=c417c3bf-fdd2-47c4-a64f-320add5759b5"  --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts eip_delete.yml -e "eip_id=c417c3bf-fdd2-47c4-a64f-320add5759b5"
 
 show images
 
-    ansible-playbook -i hosts images.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts images.yml
 
 delete an image (API return code is 204 when success, ansible expected 200 and may give an error)
 
-     ansible-playbook -i hosts -e "image_id=af0a0bcf-7be3-4722-98ba-3350801a8cd5" image_delete.yml  --vault-password-file vaultpass.txt
+     ansible-playbook -i hosts -e "image_id=af0a0bcf-7be3-4722-98ba-3350801a8cd5" image_delete.yml
 
 show job status
 
-    ansible-playbook -e "job_id=2c9eb2c15693b00901571e32ad5e1755" -i hosts job.yml --vault-password-file vaultpass.txt
+    ansible-playbook -e "job_id=2c9eb2c15693b00901571e32ad5e1755" -i hosts job.yml
 
     ./ajob 2c9eb2c15693b00901571e32ad5e1755
 
 show keypairs
 
-    ansible-playbook -i hosts keypairs.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts keypairs.yml
 
 create keypair
 
-    ansible-playbook -i hosts -e "ecs_adminkey=test-key" -e "keypair_file=~/.ssh/id_rsa.pub" keypair_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "ecs_adminkey=test-key" -e "keypair_file=~/.ssh/id_rsa.pub" keypair_create.yml
 
 delete keypair
 
-    ansible-playbook -i hosts -e "ecs_adminkey=test-key"  keypair_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "ecs_adminkey=test-key"  keypair_delete.yml
 
 lookup id by name (image)
 
-    ansible-playbook -i hosts lookup_name.yml -e "image_name=Community_Ubuntu_16.04_TSI_latest" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts lookup_name.yml -e "image_name=Community_Ubuntu_16.04_TSI_latest"
 
 lookup id by name (flavor)
 
-    ansible-playbook -i hosts lookup_name.yml -e "ecs_ram=2048" -e "ecs_vcpus=4" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts lookup_name.yml -e "ecs_ram=2048" -e "ecs_vcpus=4"
 
 lookup id by name (subnet)
 
-    ansible-playbook -i hosts lookup_name.yml -e "subnet_name=subnet-5831" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts lookup_name.yml -e "subnet_name=subnet-5831"
 
 lookup id by name (secgroup)
 
-     ansible-playbook -i hosts lookup_name.yml -e "secgroup_name=bitnami-wordpress-56a9-securitygroup" --vault-password-file vaultpass.txt
+     ansible-playbook -i hosts lookup_name.yml -e "secgroup_name=bitnami-wordpress-56a9-securitygroup"
 
 lookup id by name (vpc)
 
-     ansible-playbook -i hosts lookup_name.yml -e "vpc_name=vpc-4988" --vault-password-file vaultpass.txt
+     ansible-playbook -i hosts lookup_name.yml -e "vpc_name=vpc-4988"
 
 lookup id by name (eip)
 
-     ansible-playbook -i hosts lookup_name.yml -e "public_ip_address=160.44.1.1" --vault-password-file vaultpass.txt
+     ansible-playbook -i hosts lookup_name.yml -e "public_ip_address=160.44.1.1"
   
 lookup id by name (zone)
 
-     ansible-playbook -i hosts lookup_name.yml -e "zone_name=example.com." --vault-password-file vaultpass.txt
+     ansible-playbook -i hosts lookup_name.yml -e "zone_name=example.com."
 
 lookup id by name (ecs)
 
-     ansible-playbook -i hosts lookup_name.yml -e "ecs_name=ansible-test01" --vault-password-file vaultpass.txt
+     ansible-playbook -i hosts lookup_name.yml -e "ecs_name=ansible-test01"
 
 list provided database versions for RDS
 
-    ansible-playbook -i hosts rds_versions.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts rds_versions.yml
 
 list provided flavors for selected database version in RDS
 
-     ansible-playbook -i hosts rds_flavors.yml -e "rds_version_id=286a34fc-a605-11e6-88fd-286ed488c9cb" --vault-password-file vaultpass.txt
+     ansible-playbook -i hosts rds_flavors.yml -e "rds_version_id=286a34fc-a605-11e6-88fd-286ed488c9cb"
 
 discover API services
 
-    ansible-playbook -i hosts services.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts services.yml
 
 show s3 buckets
 
@@ -381,86 +403,87 @@ upload files in s3 object store (VHD, ZVHD, VMDK, QCOW2 are supported for otc im
 
 show security groups
 
-    ansible-playbook -i hosts secgroups.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts secgroups.yml
 
 show security groups (only from one vpc)
 
-    ansible-playbook -i hosts secgroups.yml -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts secgroups.yml -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961"
 
 create security group
 
-    ansible-playbook -i hosts secgroup_create.yml -e "secgroup_name=ansible-secgroup01" -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts secgroup_create.yml -e "secgroup_name=ansible-secgroup01" -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961" 
 
 delete security group
 
-    ansible-playbook -i hosts secgroup_delete.yml -e "secgroup_id="6e8ac0a0-e0ec-4c4d-a786-9c9c946fd673"" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts secgroup_delete.yml -e "secgroup_id=6e8ac0a0-e0ec-4c4d-a786-9c9c946fd673"
 
 create security group rule
 
-    ansible-playbook -i hosts secgrouprule_create.yml -e "secgroup_id=e67e7ef1-b582-47f7-a43f-6a244fd01353" -e @secgrouprule.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts secgrouprule_create.yml -e "secgroup_id=e67e7ef1-b582-47f7-a43f-6a244fd01353" -e @secgrouprule.yml
 
 delete security group rule
 
-    ansible-playbook -i hosts secgrouprule_delete.yml -e "secgrouprule_id=3c329359-fef5-402f-b29a-caac734065a1" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts secgrouprule_delete.yml -e "secgrouprule_id=3c329359-fef5-402f-b29a-caac734065a1"
 
 show subnets
 
-    ansible-playbook -i hosts subnet.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts subnet.yml
 
 create subnet (vars in subnet_var.yml)
 
-    ansible-playbook -i hosts subnet_create.yml -e @subnet_var.yml  --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts subnet_create.yml -e @subnet_var.yml
 
 delete subnet
 
-    ansible-playbook -i hosts subnet_delete.yml -e "vpc_id=0db2af4b-115d-426a-acae-889b025110c8" -e "subnet_id=3ec461e1-eca4-485b-a2a5-91a840968a4f"  --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts subnet_delete.yml -e "vpc_id=0db2af4b-115d-426a-acae-889b025110c8" -e "subnet_id=3ec461e1-eca4-485b-a2a5-91a840968a4f"
 
 show vpc
 
-    ansible-playbook -i hosts vpc.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts vpc.yml
 
 create vpc
 
-    ansible-playbook -i hosts vpc_create.yml -e "vpc_name=ansible-vpc1" -e "vpc_net=192.168.0.0/16" --vault-password-file vaultpass.txt 
+    ansible-playbook -i hosts vpc_create.yml -e "vpc_name=ansible-vpc1" -e "vpc_net=192.168.0.0/16"
 
 delete vpc
 
-    ansible-playbook -i hosts vpc_delete.yml -e "vpc_id=0db2af4b-115d-426a-acae-889b025110c8" --vault-password-file vaultpass.txt 
+    ansible-playbook -i hosts vpc_delete.yml -e "vpc_id=0db2af4b-115d-426a-acae-889b025110c8"
+
 show DNS zones
 
-    ansible-playbook -i hosts  zones.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts  zones.yml
 
 create DNS zone (name and ttl are mandatory)
 
-    ansible-playbook -i hosts -e "zone_name=example.com." -e "zone_description=example zone" -e "zone_email=example@example.com" -e "zone_ttl=86400" zone_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_name=example.com." -e "zone_description=example zone" -e "zone_email=example@example.com" -e "zone_ttl=86400" zone_create.yml
 
 delete DNS zone
 
-    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec5ca2620234" zone_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec5ca2620234" zone_delete.yml
 
 show DNS zone records
 
-    ansible-playbook -i hosts  zonerecords.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts  zonerecords.yml
 
 create DNS zonerecord (A-Record) possible values A,AAAA,MX,CNAME,PTR,TXT,NS
 
-    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecord_name=testserver.example.com." -e "zonerecord_type=A" -e "zonerecord_value=160.44.196.210" -e "zonerecord_ttl=86400" zonerecord_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecord_name=testserver.example.com." -e "zonerecord_type=A" -e "zonerecord_value=160.44.196.210" -e "zonerecord_ttl=86400" zonerecord_create.yml
 
 create DNS zonerecord (PTR-Record)
 
     first create reverse zone:
 
-    ansible-playbook -i hosts -e "zone_name=210.196.44.160.in-addr.arpa." -e "zone_description=reverse  zone 160.44.196.210" -e "zone_email=test@example.com" -e "zone_ttl=300" zone_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_name=210.196.44.160.in-addr.arpa." -e "zone_description=reverse  zone 160.44.196.210" -e "zone_email=test@example.com" -e "zone_ttl=300" zone_create.yml
 
     then create PTR-Record:
     
-    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec8911e60240" -e "zonerecord_name=210.196.44.160.in-addr.arpa." -e "zonerecord_type=PTR" -e "zonerecord_value=testserver.example.com" -e "zonerecord_ttl=300" zonerecord_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec8911e60240" -e "zonerecord_name=210.196.44.160.in-addr.arpa." -e "zonerecord_type=PTR" -e "zonerecord_value=testserver.example.com" -e "zonerecord_ttl=300" zonerecord_create.yml
 
     beware of "." in the end of name and name convention of the PTR zones
 
 delete DNS zonerecord 
 
-    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e"  zonerecord_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e"  zonerecord_delete.yml
 
 
 Full Working Example
