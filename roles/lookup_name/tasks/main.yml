@@ -1,10 +1,12 @@
-- set_fact:
+- name: set fact for availability_zone_id (eu_de-01)
+  set_fact:
     availability_zone_id: "bf84aba586ce4e948da0b97d9a7d62fb"
-  when: availability_zone == "eu-de-01"
+  when: elb_availability_zone is defined and elb_availability_zone == "eu_de-01"
 
-- set_fact:
+- name: set fact for availability_zone_id /ei_de-01)
+  set_fact:
     availability_zone_id: "bf84aba586ce4e948da0b97d9a7d62fc"
-  when: availability_zone == "eu-de-02"
+  when: elb_availability_zone is defined and elb_availability_zone == "eu_de-02"
 
 - name: Request images list from  API
   uri:
@@ -36,7 +38,23 @@
     vpc_id: "{{ (vpc_result.content|from_json)|json_query(\"vpcs[?name=='\" + vpc_name + \"'].id|[0]\") }}"
   when: vpc_name is defined
 
-- name: Request subnet list from API
+- name: Request subnet list from API for elb
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: elb_subnet_name is defined
+  register: subnet_result
+
+- name: set fact for subnet_name (for elb)
+  set_fact:
+    subnet_name: "{{ elb_subnet_name }}"
+  when: elb_subnet_name is defined and elb_subnet_name|length != 0
+
+- name: Request subnet list from API for ecs
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
     method: GET
@@ -47,11 +65,28 @@
   when: subnet_name is defined
   register: subnet_result
 
-- set_fact:
+- name: set fact for subnet_id
+  set_fact:
     subnet_id: "{{ (subnet_result.content|from_json)|json_query(\"subnets[?name=='\" + subnet_name + \"'].id|[0]\") }}"
-  when: subnet_name is defined
+  when: subnet_name is defined and subnet_name|length != 0
 
-- name: Request secgroup list from API
+- name: Request secgroup list from API for elb
+  uri:
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: elb_secgroup_name is defined
+  register: secgroup_result
+
+- name: set fact secgroup_name (for elb)
+  set_fact:
+    secgroup_name: "{{ elb_secgroup_name }}"
+  when: elb_secgroup_name is defined
+
+- name: Request secgroup list from API for ecs
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
     method: GET
@@ -62,7 +97,8 @@
   when: secgroup_name is defined
   register: secgroup_result
 
-- set_fact:
+- name: set fact for secgroup_id
+  set_fact:
     secgroup_id: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id|[0]\") }}"
   when: secgroup_name is defined
 
@@ -79,7 +115,7 @@
 
 - set_fact:
     flavor_id: "{{ (flavor_result.content|from_json)|json_query('sort_by(flavors, &ram)|[?ram>=`' + ecs_ram + '` && vcpus>=`' + ecs_vcpus + '`].id|[0]') }}"
-  when: ecs_ram is defined and ecs_vcpus is defined
+  when: (ecs_ram is defined and ecs_ram |length != 0) or (ecs_vcpus is defined and ecs_vcpus|length != 0)
 
 - name: Request keypair list from  API
   uri:
@@ -94,7 +130,7 @@
 
 - set_fact:
     ecs_adminkey_name: "{{ (keypairlist_result.content|from_json)|json_query(\"keypairs[?keypair.name=='\" + ecs_adminkey + \"'].keypair.name\") }}"
-  when: ecs_adminkey is defined
+  when: ecs_adminkey is defined and ecs_adminkey|length != 0
 
 - name: Request floatingip list from API
   uri:
@@ -134,11 +170,28 @@
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: ecs_result
+  when: ecs_name is defined
 
 - set_fact:
     ecs_id: "{{ (ecs_result.content|from_json)|json_query(\"servers[?name=='\" + ecs_name + \"'].id|[0]\") }}"
   when: ecs_name is defined
 
-#- debug:
-#    msg: "{{ ecs_id }}"
+- name: Request elb list from API
+  uri:
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/loadbalancers"
+    method: GET
+    follow_redirects: all
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  register: elb_result
+  when: elb_name is defined
+
+- set_fact:
+    elb_id: "{{ (elb_result.content|from_json)|json_query(\"loadbalancers[?name=='\" + elb_name + \"'].id|[0]\") }}"
+  when: elb_name is defined
+
+- debug:
+    msg: "{{ elb_id }}"
 #  when: ecs_id is defined

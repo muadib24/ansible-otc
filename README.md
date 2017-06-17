@@ -146,7 +146,7 @@ Files
 |tenant.ini      | configuration file for complete tenant|
 
 
-Os-client config
+os-client config
 ================
 
 for more comfort and standardization we moved credential lookup from secrets.yml to clouds.yml (part of https://docs.openstack.org/developer/os-client-config/). If you already configured your OTC credentials there put your profile name in env.yml or use
@@ -373,6 +373,10 @@ lookup id by name (ecs)
 
      ansible-playbook -i hosts lookup_name.yml -e "ecs_name=ansible-test01"
 
+lookup id by name (elb)
+
+     ansible-playbook -i hosts lookup_name.yml -e "elb_name=ansible-elb01"
+
 list provided database versions for RDS
 
     ansible-playbook -i hosts rds_versions.yml
@@ -497,7 +501,7 @@ This playbook will create VPC,Subnet, SecurityGroup, SSH-Keypair, allocate Float
 
 configure your DNS in tenant.ini and deploy all zones and zonerecords
 
-   ansible-playbook -i hosts dns_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts dns_create.yml --vault-password-file vaultpass.txt
 
 
 Contributing
