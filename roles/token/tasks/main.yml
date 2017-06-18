@@ -4,7 +4,7 @@
     - "env.yml"
     - "_secrets.yml"
 
-- name: set fact user home
+- name: Set fact user home
   set_fact:
     user_home: "{{ lookup('env','HOME') }}"
 
@@ -12,12 +12,12 @@
     path: "{{ user_home }}/.config/openstack/clouds.yml"
   register: osclientconfigfile
 
-- name: set fact os-client config file
+- name: Set fact os-client config file
   set_fact:
     os_client_config: "{{ lookup('file', osclientconfigfile.stat.path)|from_yaml }}"
   when: osclientconfigfile.stat.exists
 
-- name: set facts from os-client-config
+- name: Set facts from os-client-config
   set_fact: 
     USERNAME: "{{ os_client_config['clouds'][CLOUD]['auth']['username'] }}"
     PASSWORD: "{{ os_client_config['clouds'][CLOUD]['auth']['password'] }}"
@@ -25,7 +25,7 @@
     DOMAIN: "{{ os_client_config['clouds'][CLOUD]['auth']['user_domain_name'] }}"
   when: osclientconfigfile.stat.exists
 
-- name: set fact generic endpoints
+- name: Set fact generic endpoints
   set_fact:
     IAM_AUTH_URL: "https://iam.{{ PROJECT_NAME }}.otc.t-systems.com/v3"
     AUTH_URL_ELB: "https://elb.{{ PROJECT_NAME }}.otc.t-systems.com/v1.0"
@@ -45,7 +45,7 @@
     body: "{{ lookup('template', 'roles/token/templates/request.json.j2',convert_data=True)|to_json }}" 
   register: token
 
-- name: set facts dynamic endpoints
+- name: Set facts dynamic endpoints
   set_fact: 
 #    OS_USER_DOMAIN_ID: "{{ (token.content|from_json)['token']['user']['domain']['id'] }}"
     OS_USER_DOMAIN_ID: "{{ (token.content|from_json)|json_query('token.user.domain.id') }}"
