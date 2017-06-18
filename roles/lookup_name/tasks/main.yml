@@ -5,7 +5,7 @@
     - listener_name is undefined
     - elb_availability_zone is defined and elb_availability_zone == "eu_de-01"
 
-- name: Set fact for availability_zone_id /ei_de-01)
+- name: Set fact for availability_zone_id (eu_de-02)
   set_fact:
     availability_zone_id: "bf84aba586ce4e948da0b97d9a7d62fc"
   when: 
