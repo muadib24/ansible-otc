@@ -1,12 +1,16 @@
 - name: set fact for availability_zone_id (eu_de-01)
   set_fact:
     availability_zone_id: "bf84aba586ce4e948da0b97d9a7d62fb"
-  when: elb_availability_zone is defined and elb_availability_zone == "eu_de-01"
+  when: 
+    - listener_name is undefined
+    - elb_availability_zone is defined and elb_availability_zone == "eu_de-01"
 
 - name: set fact for availability_zone_id /ei_de-01)
   set_fact:
     availability_zone_id: "bf84aba586ce4e948da0b97d9a7d62fc"
-  when: elb_availability_zone is defined and elb_availability_zone == "eu_de-02"
+  when: 
+    - listener_name is undefined
+    - elb_availability_zone is defined and elb_availability_zone == "eu_de-02"
 
 - name: Request images list from  API
   uri:
@@ -46,13 +50,17 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: elb_subnet_name is defined
+  when: 
+    - listener_name is undefined
+    - elb_subnet_name is defined
   register: subnet_result
 
 - name: set fact for subnet_name (for elb)
   set_fact:
     subnet_name: "{{ elb_subnet_name }}"
-  when: elb_subnet_name is defined and elb_subnet_name|length != 0
+  when: 
+    - listener_name is undefined
+    - elb_subnet_name is defined and elb_subnet_name|length != 0
 
 - name: Request subnet list from API for ecs
   uri:
@@ -78,13 +86,17 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: elb_secgroup_name is defined
+  when: 
+    - listener_name is undefined
+    - elb_secgroup_name is defined
   register: secgroup_result
 
 - name: set fact secgroup_name (for elb)
   set_fact:
     secgroup_name: "{{ elb_secgroup_name }}"
-  when: elb_secgroup_name is defined
+  when: 
+    - listener_name is undefined
+    - elb_secgroup_name is defined
 
 - name: Request secgroup list from API for ecs
   uri:
@@ -100,7 +112,8 @@
 - name: set fact for secgroup_id
   set_fact:
     secgroup_id: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id|[0]\") }}"
-  when: secgroup_name is defined
+  when: 
+    - secgroup_name is defined and secgroup_name| length != 0
 
 - name: Request flavor list from API
   uri:
@@ -192,6 +205,38 @@
     elb_id: "{{ (elb_result.content|from_json)|json_query(\"loadbalancers[?name=='\" + elb_name + \"'].id|[0]\") }}"
   when: elb_name is defined
 
-- debug:
-    msg: "{{ elb_id }}"
+- name: Request elb certificate list from API
+  uri:
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/certificate"
+    method: GET
+    follow_redirects: all
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  register: listener_certificate_result
+  when: listener_certificate_name is defined and listener_certificate_name|length != 0
+
+- set_fact:
+    listener_certificate_id: "{{ (listener_certificate_result.content|from_json)|json_query(\"certificates[?name=='\" + listener_certificate_name + \"'].id|[0]\") }}"
+  when: listener_certificate_name is defined and listener_certificate_name|length != 0
+
+- name: Request elb listener from  API
+  uri:
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners?loadbalancer_id={{ elb_id}}"
+    method: GET
+    follow_redirects: all
+    return_content: yes
+    validate_certs: yes
+    HEADER_Content-Type: "application/json"
+    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  register: listener_result
+  when: elb_id is defined
+
+- set_fact:
+    listener_id: "{{ (listener_result.content|from_json)|json_query(\"[?name=='\" + listener_name + \"'].id|[0]\") }}"
+  when: listener_name is defined
+
+#- debug:
+#    msg: "{{ listener_certificate_id }}"
 #  when: ecs_id is defined
