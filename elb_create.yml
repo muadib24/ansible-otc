@@ -3,4 +3,5 @@
   gather_facts: no
   roles:
   - role: token
+  - role: lookup_name
   - role: elb_create

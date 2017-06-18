@@ -1,8 +1,6 @@
-- include_vars: _elb_secrets.yml
-
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_ELB_LISTENER }}/{{ elb_listener_id}}/members?limit=10&marker=0"
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners/{{ listener_id}}/members?limit=10&marker=0"
     method: GET
     follow_redirects: all
     return_content: yes 

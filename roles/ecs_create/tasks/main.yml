@@ -12,12 +12,16 @@
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'roles/ecs_create/templates/request.json.j2')|to_json }}" 
   register: ecs
-  when: ecs_name is defined
+  when: 
+    - ecs_name is defined
+    - image_id is defined
+    - flavor_id is defined
+    - listener_name is undefined
 
 - set_fact:
     job_id: "{{ (ecs.content|from_json)|json_query('job_id') }}"
-  when: ecs is defined
+  when: ecs is defined and ecs.content|length != 0
 
 - debug:
     msg: "{{ job_id }}"
-
+  when: job_id is defined

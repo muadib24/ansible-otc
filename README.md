@@ -138,7 +138,6 @@ Files
 |env.yml         | profile to use in clouds.yml|
 |secrets.yml     | var file for S3 credentials and endpoints (ansible-vault)|
 |ecs_secrets.yml | var file for virtual machine and volume conf (ansible-vault)|
-|elb_secrets.yml | var file for elastic loadbalancer conf (ansible-vault)|
 |secgrouprule.yml| var file for single security group rule |
 |subnet_var.yml  | var file for subnet |
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
@@ -162,7 +161,6 @@ Starting up
 ```
     cp secrets.yml  _secrets.yml 
     cp ecs_secrets.yml  _ecs_secrets.yml 
-    cp elb_secrets.yml _elb_secrets.yml
 ```
   
 :exclamation: **adjust your own data in this file before you using the examples:**
@@ -201,7 +199,7 @@ show virtual machine (single)
 
 delete virtual machine (only the machine)
 
-    ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=ansible-01"
+    ansible-playbook -i hosts ecs_delete.yml -e "ecs_name=ansible-test01"
 
 delete virtual machine (delete also floating ip and attached volumes)
 
@@ -209,31 +207,31 @@ delete virtual machine (delete also floating ip and attached volumes)
 
 list elastic loadbalancers
 
-    ansible-playbook -i hosts elb.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb.yml
 
-create elastic loadbalancer
+create elastic loadbalancer (tenant.ini)
 
-    ansible-playbook -i hosts elb_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_create.yml
 
 delete elastic loadbalancer
 
-    ansible-playbook -i hosts -e "elb_id=43848329789145988d1e0bf25edb5ea8" elb_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_delete.yml -e "ecs_name=ansible-elb01"
 
 show elastic loadbalancer
 
-    ansible-playbook -i hosts -e "elb_id=43848329789145988d1e0bf25edb5ea8" elb_show.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_show.yml -e "elb_name=ansible-elb01"
 
 list elastic loadbalancer certificates
 
-    ansible-playbook -i hosts  elb_certificate.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_certificate.yml 
 
-create elastic loadbalancer certificate
+create elastic loadbalancer certificate (we hate comments in cert file)
 
-    ansible-playbook -i hosts -e "elb_certificate_name=ansible-cert elb_certificate_key_file=cert.key elb_certificate_certificate_file=cert.crt"  elb_certificate_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "elb_certificate_name=ansible-cert elb_certificate_key_file=cert.key elb_certificate_certificate_file=cert.crt"  elb_certificate_create.yml
 
 delete elastic loadbalancer certificates
 
-    ansible-playbook -i hosts -e "elb_certificate_id=43848329789145988d1e0bf25edb5ea8"  elb_certificate_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "elb_certificate_id=43848329789145988d1e0bf25edb5ea8"  elb_certificate_delete.yml
 
 create elastic loadbalancer healthcheck
 
@@ -249,27 +247,27 @@ show elastic loadbalancer healthcheck
 
 list listener for elastic loadbalancer
 
-    ansible-playbook -i hosts -e "elb_id=e12454b93f304b759be699cb0270648c" elb_listener.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_listener.yml -e "elb_name=ansible-elb01"
 
-create listener for elastic loadbalancer
+create listener for elastic loadbalancer (tenant.ini)
 
-    ansible-playbook -i hosts -e "elb_id=e12454b93f304b759be699cb0270648c" elb_listener_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts tenant_create.yml -e "elb_name=ansible-elb01" -e "listener_name=ansible-listener01"
 
 delete listener for elastic loadbalancer
 
-    ansible-playbook -i hosts -e "elb_listener_id=e12454b93f304b759be699cb0270648c" elb_listener_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_listener_delete.yml -e "elb_name=ansible-elb01"  -e "listener_name=ansible-listener03"
 
 list backends for elastic loadbalancer
 
-    ansible-playbook -i hosts -e "elb_listener_id=e12454b93f304b759be699cb0270648c elb_backends.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "listener_id=e12454b93f304b759be699cb0270648c elb_backends.yml
 
 create backends for elastic loadbalancer
 
-    ansible-playbook -i hosts -e "elb_listener_id=e12454b93f304b759be699cb0270648c ecs_id=f6b7536e-b954-4d73-940f-248de71ce58b ecs_address=192.168.0.112" elb_backends_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "listener_id=e12454b93f304b759be699cb0270648c ecs_id=f6b7536e-b954-4d73-940f-248de71ce58b ecs_address=192.168.0.112" elb_backends_create.yml --vault-password-file vaultpass.txt
 
 delete backends for elastic loadbalancer
 
-    ansible-playbook -i hosts -e "elb_listener_id=e12454b93f304b759be699cb0270648c elb_backends_id=f6b7536e-b954-4d73-940f-248de71ce58b" elb_backends_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts -e "listener_id=e12454b93f304b759be699cb0270648c elb_backends_id=f6b7536e-b954-4d73-940f-248de71ce58b" elb_backends_delete.yml --vault-password-file vaultpass.txt
 
 enable SNAT on specific VPC
 
@@ -376,6 +374,14 @@ lookup id by name (ecs)
 lookup id by name (elb)
 
      ansible-playbook -i hosts lookup_name.yml -e "elb_name=ansible-elb01"
+
+lookup id by name (certificate)
+
+     ansible-playbook -i hosts lookup_name.yml  -e "listener_certificate_name=ansible-cert"
+
+lookup id by name (listener)
+
+     ansible-playbook -i hosts lookup_name.yml  -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01"
 
 list provided database versions for RDS
 

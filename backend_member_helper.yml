@@ -4,4 +4,4 @@
   roles:
   - role: token
   - role: lookup_name
-  - role: elb_healthcheck_create
+  - role: backend_member_helper
