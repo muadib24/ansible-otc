@@ -82,6 +82,7 @@ Roles
 |subnet_delete          | delete subnet|
 |token                  | get auth token|
 |vpc                    | show vpc|
+|vpc_router             | show vpc router info and set facts|
 |vpc_create             | create vpc|
 |vpc_delete             | delete vpc|
 |zones                  | show DNS zones|
@@ -257,13 +258,13 @@ delete listener for elastic loadbalancer
 
     ansible-playbook -i hosts elb_listener_delete.yml -e "elb_name=ansible-elb01"  -e "listener_name=ansible-listener03"
 
-list backends for elastic loadbalancer
+list backends for elastic loadbalancer (tenant.ini)
 
-    ansible-playbook -i hosts -e "listener_id=e12454b93f304b759be699cb0270648c elb_backends.yml
+    ansible-playbook -i hosts elb_backends.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" elb_backends.yml
 
 create backends for elastic loadbalancer
 
-    ansible-playbook -i hosts -e "listener_id=e12454b93f304b759be699cb0270648c ecs_id=f6b7536e-b954-4d73-940f-248de71ce58b ecs_address=192.168.0.112" elb_backends_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_backends_create.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" -e "ecs_name=ansible-test01" -e "ecs_address=192.168.0.10"
 
 delete backends for elastic loadbalancer
 
@@ -450,6 +451,10 @@ delete subnet
 show vpc
 
     ansible-playbook -i hosts vpc.yml
+
+show vpc router info and set facts
+
+    ansible-playbook -i hosts vpc_router.yml -e "vpc_name=ansible-vpc01"
 
 create vpc
 
