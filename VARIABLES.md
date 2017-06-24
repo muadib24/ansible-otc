@@ -1,5 +1,5 @@
 |variable|description|
-|+------------------------------+---------------------------------------------|
+|------------------------------|---------------------------------------------|
 |availability_zone|		name of the availability zone (e.g. eu-de_01)|
 |availability_zone_id|		UUID of the availability zone (static)|
 |backend_member_id|
