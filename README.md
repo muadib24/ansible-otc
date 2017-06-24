@@ -228,11 +228,11 @@ list elastic loadbalancer certificates
 
 create elastic loadbalancer certificate (we hate comments in cert file)
 
-    ansible-playbook -i hosts -e "elb_certificate_name=ansible-cert elb_certificate_key_file=cert.key elb_certificate_certificate_file=cert.crt"  elb_certificate_create.yml
+    ansible-playbook -i hosts elb_certificate_create.yml -e "elb_certificate_name=ansible-cert elb_certificate_key_file=cert.key elb_certificate_certificate_file=cert.crt" 
 
 delete elastic loadbalancer certificates
 
-    ansible-playbook -i hosts -e "elb_certificate_id=43848329789145988d1e0bf25edb5ea8"  elb_certificate_delete.yml
+    ansible-playbook -i hosts elb_certificate_delete.yml -e "listener_certificate_name=ansible-cert"
 
 create elastic loadbalancer healthcheck
 
