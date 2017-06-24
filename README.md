@@ -138,7 +138,6 @@ Files
 |ajob            | shell script to fetch job status from OTC|
 |env.yml         | profile to use in clouds.yml|
 |secrets.yml     | var file for S3 credentials and endpoints (ansible-vault)|
-|ecs_secrets.yml | var file for virtual machine and volume conf (ansible-vault)|
 |secgrouprule.yml| var file for single security group rule |
 |subnet_var.yml  | var file for subnet |
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
@@ -161,7 +160,6 @@ Starting up
 
 ```
     cp secrets.yml  _secrets.yml 
-    cp ecs_secrets.yml  _ecs_secrets.yml 
 ```
   
 :exclamation: **adjust your own data in this file before you using the examples:**
@@ -174,14 +172,6 @@ list virtual machines (with clouds.yml)
 
     ansible-playbook -i hosts ecs.yml
 
-create and start virtual machine (defined in _ecs_secrets.yml)
-
-    ansible-playbook -i hosts ecs_create.yml -e @_ecs_secrets.yml --vault-password-file vaultpass.txt
-
-create and start virtual machine (defined in _ecs_secrets.yml and overwrite options)
-
-    ansible-playbook -i hosts ecs_create.yml -e @_ecs_secrets.yml -e "ecs_name=test01-ansible" --vault-password-file vaultpass.txt
-
 create and start virtual machine with file injection 
 (inject up to 5 max 1k base64 encoded files)
 
@@ -191,8 +181,6 @@ create and start virtual machine with injection user_data
 (inject max 32k base64 encoded user-data files)
 
     ansible-playbook -i hosts ecs_create.yml -e "ecs_user_data=$(base64 -w 0 user-data.txt)" --vault-password-file vaultpass.txt
-
-(!) You can define ecs_fileinject_1, ecs_fileinject_data_1 and ecs_user_data also in _ecs_secrets.yml. Files must be base64 encoded.
 
 show virtual machine (single)
 
