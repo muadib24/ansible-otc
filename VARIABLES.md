@@ -1,35 +1,34 @@
 #
 #
 #
-availability_zone
-availability_zone_id
+availability_zone		name of the availability zone (e.g. eu-de_01)
+availability_zone_id		UUID of the availability zone (static)
 backend_member_id
 backend_member_ip
 certificate_names
 ecs
 ecs_address
-ecs_adminkey		name of ssh-key
-ecs_adminpass
-ecs_adminpass		Admin password of ECS instance
-ecs_fileinject_1	file to inject in ECS
-ecs_fileinject_2	file to inject in ECS
-ecs_fileinject_3	file to inject in ECS
-ecs_fileinject_4	file to inject in ECS
-ecs_fileinject_6	file to inject in ECS
-ecs_fileinject_data_1	data of injected file in ECS
-ecs_fileinject_data_2	data of injected file in ECS
-ecs_fileinject_data_3	data of injected file in ECS
-ecs_fileinject_data_4	data of injected file in ECS
-ecs_fileinject_data_5	data of injected file in ECS
-ecs_id			UUID of ECS instance
-ecs_ipaddress		local ipaddress of ECS instance
-ecs_name		name of ECS instance
-ecs_user_data		cloud-init user_data to inject in ECS
-ecs_volumetype		type of ECS volume (SATA,SAS,SSD)
+ecs_adminkey			name of ssh-key
+ecs_adminpass			Admin password of ECS instance
+ecs_fileinject_1		file to inject in ECS
+ecs_fileinject_2		file to inject in ECS
+ecs_fileinject_3		file to inject in ECS
+ecs_fileinject_4		file to inject in ECS
+ecs_fileinject_6		file to inject in ECS
+ecs_fileinject_data_1		data of injected file in ECS
+ecs_fileinject_data_2		data of injected file in ECS
+ecs_fileinject_data_3		data of injected file in ECS
+ecs_fileinject_data_4		data of injected file in ECS
+ecs_fileinject_data_5		data of injected file in ECS
+ecs_id				UUID of ECS instance
+ecs_ipaddress			local ipaddress of ECS instance
+ecs_name			name of ECS instance
+ecs_user_data			cloud-init user_data to inject in ECS
+ecs_volumetype			type of ECS volume (SATA,SAS,SSD)
 eip
 eip_bandwidth_name
 eip_bandwidth_size
-eip_id			UUID of floating ipaddress
+eip_id				UUID of floating ipaddress
 elb
 elb_availability_zone
 elbbackends
@@ -43,7 +42,7 @@ elb_id
 elblist
 elblistener
 elblistner
-elb_name		name of ELB instance
+elb_name			name of ELB instance
 elb_secgroup_name
 elb_subnet_name
 elb_type
@@ -52,12 +51,13 @@ evs
 evs_availability_zone
 evs_backup_id
 evs_ims_id
-evs_name
-evs_shareable
-evs_size
-evs_volume_type
-external_network_id
-flavor_id		UUID of selected flavor
+evs_multiattach			EVS is shareble (true/false)
+evs_scsi			EVS volume is scsi device instead vdb
+evs_name			EVS name
+evs_size			EVS size in GB
+evs_volume_type			EVS volume type (SATA/SAS/SSD)
+external_network_id		UUID of the external network
+flavor_id			UUID of selected flavor
 healthcheck_connect_port
 healthcheck_interval
 healthcheck_protocol
@@ -66,7 +66,7 @@ healthcheck_treshold
 healthcheck_uri
 image_create
 image_delete
-image_id		UUID of selected IMS image
+image_id			UUID of selected IMS image
 image_min_disk
 image_name
 image_os_version
