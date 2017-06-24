@@ -452,7 +452,7 @@ create vpc
 
 delete vpc
 
-    ansible-playbook -i hosts vpc_delete.yml -e "vpc_id=0db2af4b-115d-426a-acae-889b025110c8"
+    ansible-playbook -i hosts vpc_delete.yml -e "vpc_name=ansible-vpc01"
 
 show DNS zones
 
