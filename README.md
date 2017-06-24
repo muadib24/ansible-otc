@@ -212,11 +212,11 @@ list elastic loadbalancers
 
 create elastic loadbalancer (tenant.ini)
 
-    ansible-playbook -i hosts elb_create.yml
+    ansible-playbook -i hosts elb_create.yml -e "elb_name=ansible-elb01"
 
 delete elastic loadbalancer
 
-    ansible-playbook -i hosts elb_delete.yml -e "ecs_name=ansible-elb01"
+    ansible-playbook -i hosts elb_delete.yml -e "elb_name=ansible-elb01"
 
 show elastic loadbalancer
 
@@ -234,17 +234,17 @@ delete elastic loadbalancer certificates
 
     ansible-playbook -i hosts elb_certificate_delete.yml -e "listener_certificate_name=ansible-cert"
 
-create elastic loadbalancer healthcheck
+create elastic loadbalancer healthcheck (tenant.ini)
 
-    ansible-playbook -i hosts -e "elb_listener_id=1595f0e7b6984395ab2832a22cd246f2" elb_healthcheck_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_healthcheck_create.yml -e "elb_name=ansible-elb01" -e "listener_name=ansible-listener01"
 
 delete elastic loadbalancer healthcheck
 
-    ansible-playbook -i hosts -e "elb_healthcheck_id=e12454b93f304b759be699cb0270648c" elb_healthcheck_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_healthcheck_delete.yml -e "elb_healthcheck_id=e12454b93f304b759be699cb0270648c"
 
 show elastic loadbalancer healthcheck
 
-    ansible-playbook -i hosts -e "elb_healthcheck_id=e12454b93f304b759be699cb0270648c" elb_healthcheck_show.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_healthcheck_show.yml -e "elb_healthcheck_id=e12454b93f304b759be699cb0270648c"
 
 list listener for elastic loadbalancer
 
@@ -252,7 +252,7 @@ list listener for elastic loadbalancer
 
 create listener for elastic loadbalancer (tenant.ini)
 
-    ansible-playbook -i hosts tenant_create.yml -e "elb_name=ansible-elb01" -e "listener_name=ansible-listener01"
+    ansible-playbook -i hosts elb_listener_create.yml -e "elb_name=ansible-elb01" -e "listener_name=ansible-listener01"
 
 delete listener for elastic loadbalancer
 
