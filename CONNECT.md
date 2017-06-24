@@ -119,7 +119,6 @@ cd ~
 git clone https://github.com/eumel8/ansible-otc.git
 cd ansible-otc
 cp secrets.yml  _secrets.yml 
-cp elb_secrets.yml _elb_secrets.yml
 ansible-vault edit _secrets.yml --vault-password-file vaultpass.txt
 ```
 
