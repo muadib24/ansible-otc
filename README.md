@@ -138,7 +138,6 @@ Files
 |ajob            | shell script to fetch job status from OTC|
 |env.yml         | profile to use in clouds.yml|
 |secrets.yml     | var file for S3 credentials and endpoints (ansible-vault)|
-|secgrouprule.yml| var file for single security group rule |
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
 |hosts           | host file for ansible (we use only localhost)|
 |tenant.ini      | configuration file for complete tenant|
@@ -419,9 +418,9 @@ delete security group
 
     ansible-playbook -i hosts secgroup_delete.yml -e "secgroup_id=6e8ac0a0-e0ec-4c4d-a786-9c9c946fd673"
 
-create security group rule
+create security group rule (subtask in tenant_create ecs section)
 
-    ansible-playbook -i hosts secgrouprule_create.yml -e "secgroup_id=e67e7ef1-b582-47f7-a43f-6a244fd01353" -e @secgrouprule.yml
+    ...
 
 delete security group rule
 
@@ -433,7 +432,7 @@ show subnets
 
 create subnet (subtask in tenant_create ecs section)
 
-    ansible-playbook -i hosts subnet_create.yml
+    ...
 
 delete subnet
 
