@@ -408,11 +408,11 @@ show security groups
 
 show security groups (only from one vpc)
 
-    ansible-playbook -i hosts secgroups.yml -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961"
+    ansible-playbook -i hosts secgroups.yml -e "vpc_name=ansible-vpc01"
 
-create security group
+create security group (subtask in tenant_create ecs section)
 
-    ansible-playbook -i hosts secgroup_create.yml -e "secgroup_name=ansible-secgroup01" -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961" 
+    ....
 
 delete security group
 
