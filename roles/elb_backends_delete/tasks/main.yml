@@ -1,6 +1,6 @@
 - name: Send request to API
   uri:
-    url: {{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners/{{ listener_id }}/members/action"
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners/{{ listener_id }}/members/action"
     method: POST
     body_format: raw
     follow_redirects: all

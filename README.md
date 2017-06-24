@@ -260,7 +260,7 @@ delete listener for elastic loadbalancer
 
 list backends for elastic loadbalancer (tenant.ini)
 
-    ansible-playbook -i hosts elb_backends.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" elb_backends.yml
+    ansible-playbook -i hosts elb_backends.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" 
 
 create backends for elastic loadbalancer
 
@@ -268,7 +268,7 @@ create backends for elastic loadbalancer
 
 delete backends for elastic loadbalancer
 
-    ansible-playbook -i hosts -e "listener_id=e12454b93f304b759be699cb0270648c elb_backends_id=f6b7536e-b954-4d73-940f-248de71ce58b" elb_backends_delete.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts elb_backends_delete.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" -e "elb_backends_id=d15e2f8dd7d64d95a6b5c2a791cac408"
 
 enable SNAT on specific VPC
 
