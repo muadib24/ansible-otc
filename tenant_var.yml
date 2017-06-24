@@ -27,6 +27,12 @@
   subnet_secondary_dns: "{{ lookup('ini', 'subnet_secondary_dns section={{ ecs_name }} file=tenant.ini') }}"
   vpc_name: "{{ lookup('ini', 'vpc_name section={{ ecs_name }} file=tenant.ini') }}"
   vpc_net: "{{ lookup('ini', 'vpc_net section={{ ecs_name }} file=tenant.ini') }}"
+# EVS vars
+  evs_availability_zone: "{{ lookup('ini', 'evs_availability_zone section={{ evs_name }} file=tenant.ini') }}"
+  evs_volume_type: "{{ lookup('ini', 'evs_volume_type section={{ evs_name }} file=tenant.ini') }}"
+  evs_size: "{{ lookup('ini', 'evs_size section={{ evs_name }} file=tenant.ini') }}"
+  evs_multiattach: "{{ lookup('ini', 'evs_multiattach section={{ evs_name }} file=tenant.ini') }}"
+  evs_scsi: "{{ lookup('ini', 'evs_scsi section={{ evs_name }} file=tenant.ini') }}"
 # ELB vars
   admin_state_up: "{{ lookup('ini', 'admin_state_up section={{ elb_name }} file=tenant.ini') }}"
   elb_availability_zone: "{{ lookup('ini', 'elb_availability_zone section={{ elb_name }} file=tenant.ini') }}"

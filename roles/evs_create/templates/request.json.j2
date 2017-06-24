@@ -12,8 +12,13 @@
 {% if evs_backup_id is defined %}  
         "backup_id": "{{ evs_backup_id }}",
 {% endif %}  
-{% if evs_shareable is defined %}  
-        "shareable": "{{ evs_shareable }}",
+{% if evs_scsi is defined and evs_scsi|length != 0 %}  
+        "metadata": {
+            "hw:passthrough": {{ evs_scsi }}
+        },
+{% endif %}  
+{% if evs_multiattach is defined and evs_multiattach|length != 0 %}  
+        "multiattach": {{ evs_multiattach }},
 {% endif %}  
         "count": 1
    }

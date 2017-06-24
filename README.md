@@ -292,11 +292,11 @@ create a volume (tenant.ini)
 
 delete a volume 
 
-    ansible-playbook -i hosts evs_delete.yml -e "evs_id=05f143e0-3ca9-4ec7-97e6-733dd281c283" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts evs_delete.yml -e "evs_name=ansible-evs01"
 
 show information about a single volume
 
-    ansible-playbook -i hosts evs_show.yml -e "evs_id=05f143e0-3ca9-4ec7-97e6-733dd281c283" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts evs_show.yml -e "evs_name=ansible-evs01"
 
 show flavors
 
@@ -312,7 +312,7 @@ apply a new elastic ip-address (bandwidth between 1-300 MBit/s)
 
 delete elastic ip-address
 
-    ansible-playbook -i hosts eip_delete.yml -e "eip_id=c417c3bf-fdd2-47c4-a64f-320add5759b5"
+    ansible-playbook -i hosts eip_delete.yml -e "public_ip_address=160.44.195.18"
 
 show images
 
