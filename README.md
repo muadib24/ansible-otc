@@ -284,11 +284,11 @@ discover API endpoints
 
 list volumes
 
-    ansible-playbook -i hosts evs.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts evs.yml
 
-create a volume (defined in ecs_secrets.yml)
+create a volume (tenant.ini)
 
-    ansible-playbook -i hosts evs_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts evs_create.yml -e "evs_name=ansible-evs01"
 
 delete a volume 
 
@@ -371,6 +371,10 @@ lookup id by name (zone)
 lookup id by name (ecs)
 
      ansible-playbook -i hosts lookup_name.yml -e "ecs_name=ansible-test01"
+
+lookup id by name (evs)
+
+     ansible-playbook -i hosts lookup_name.yml -e "evs_name=ansible-evs01"
 
 lookup id by name (elb)
 
