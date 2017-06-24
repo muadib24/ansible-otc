@@ -6,6 +6,12 @@
 {% if zone_list_part[2]|length != 0 %}  
     "zone_type": "{{ zone_list_part[2] }}",
 {% endif %}  
+{% if zone_list_part[2] == "private" %}  
+    "router": {
+            "router_id": "{{ router_id }}",
+            "router_region": "{{ PROJECT_NAME }}"
+    },
+{% endif %}  
 {% if zone_list_part[3]|length != 0 %}  
     "email": "{{ zone_list_part[3] }}",
 {% endif %}  
