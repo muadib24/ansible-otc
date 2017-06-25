@@ -58,7 +58,7 @@ Roles
 |evs_show               | information about a specific volume|
 |flavors                | show flavors|
 |images                 | show images|
-|image_create           | create an image from obs|
+|image_create           | create an image |
 |image_delete           | delete an image |
 |job                    | show job status|
 |keypairs               | show ssh keypairs|
@@ -303,6 +303,10 @@ delete elastic ip-address
 show images
 
     ansible-playbook -i hosts images.yml
+
+create image (from stopped ecs instance)
+
+    ansible-playbook -i hosts image_create.yml -e "image_name=ansible-image01" -e "ecs_name=ansible-test01"
 
 delete an image (API return code is 204 when success, ansible expected 200 and may give an error)
 
