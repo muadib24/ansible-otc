@@ -70,6 +70,15 @@
   gather_facts: no
   connection: local
   vars_files:
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: ptrrecord_create
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
     - tenant_var_default.yml
     - tenant_var.yml
   roles:
