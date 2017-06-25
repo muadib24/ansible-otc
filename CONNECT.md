@@ -5,21 +5,11 @@ How to connect to the Open Telekom Cloud
 
 Install prerequisites as root on your Ubuntu 16.04 machine:
 
-
 ```
-NOTE: In dev branch are issues with conditions in lookup role which breaks the rolling tenant_create playbook
-It works only in ansible 2.2.0.0 to use from wily repo
-
-```
-cat <<EOF > /etc/apt/sources.list.d/ansible-ubuntu-ansible-wily.list
-deb http://ppa.launchpad.net/ansible/ansible/ubuntu wily main 
-deb-src http://ppa.launchpad.net/ansible/ansible/ubuntu wily main 
-EOF
-
-# add-apt-repository -y ppa:ansible/ansible-2.2
 apt-get update
 apt-get -y install curl git ansible python-openstackclient python-pip python-jmespath python-netaddr libs3-2 jq
 pip install python-otcclient
+pip install ansible==2.2.0.0
 ```
 
 Follow instruction as normal user. You need always username, password, domain data.

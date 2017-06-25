@@ -100,20 +100,19 @@ Requirements
 * curl
 * openssl
 * base64
-* ansible >=2.2.0.0
+* ansible==2.2.0.0
 * python-jmespath
 * python-netaddr
 
 
-  *Ubuntu 12.04/14.04/16.04:*
+  *Ubuntu 14.04/16.04:*
   
   ```
      apt-get install software-properties-common
-     apt-add-repository ppa:ansible/ansible
      apt-get update
      apt-cache policy ansible
-     # should have version >2.1.0
-     apt-get install curl ansible python-jmespath python-netaddr
+     apt-get install curl python-pip python-jmespath python-netaddr
+     pip install ansible==2.2.0.0
   ```
   
   *OpenSuSE 13.2:*
@@ -124,7 +123,7 @@ Requirements
      zypper install curl ansible python-jmespath python-netaddr
   ```    
       
-(should work on all other *nix systems)
+(should work on all other *nix systems, check the right version of ansible!!!)
 
 * :exclamation: credentials on OTC (username, password, domain, S3 access/secret key)
 
