@@ -66,6 +66,8 @@ Roles
 |keypair_delete         | delete a ssh keypair|
 |lookup_name            | lookup id by name (set_fact image_id, vpc_id, subnet_id, secgroup_id, flavor_id)|
 |ptrrecord_create       | create DNS PTR record for EIP|
+|ptrrecord_delete       | delete DNS PTR record for EIP|
+|ptrrecords             | show DNS PTR records for EIP|
 |rds_versions		| list provided database versions for RDS|
 |rds_flavors		| list provided flavors for selected database version in RDS|
 |services               | discover API services|
@@ -386,6 +388,14 @@ lookup id by name (listener)
 create DNS PTR record for EIP
 
      ansible-playbook -i hosts ptrrecord_create.yml -e "public_ip_address=160.44.204.87" -e "ptr_name=ansible-test01.external.otc.telekomcloud.com" -e "ttl=300"
+
+delete DNS PTR record for EIP
+
+     ansible-playbook -i hosts ptrrecord_delete.yml -e "public_ip_address=160.44.204.87"
+
+show DNS PTR records for EIP
+
+     ansible-playbook -i hosts ptrrecords.yml
 
 list provided database versions for RDS
 
