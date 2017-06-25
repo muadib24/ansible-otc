@@ -5,7 +5,7 @@
 {% if ecs_id is defined %}  
     "instance_id": "{{ ecs_id }}",
 {% endif %}  
-{% if min_disk is defined %}  
+{% if image_min_disk is defined %}  
     "min_disk": {{ image_min_disk }},
 {% endif %}  
 {% if image_os_version is defined %}  

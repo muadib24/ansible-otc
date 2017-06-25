@@ -86,6 +86,7 @@
 |listener_session_sticky|
 |listener_sticky_session_type|
 |listener_tcp_timeout|
+|ptr_name|			name of PTR record for EIP|
 |public_ip_address|
 |router|
 |router_id|
@@ -111,6 +112,7 @@
 |subnet_primary_dns|
 |subnet_secondary_dns|
 |token|
+|ttl|			TTL PTR records in sec|
 |unhealthy_threshold|
 |vpc|
 |vpc_id|			UUID of ECS instance|

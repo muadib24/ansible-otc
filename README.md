@@ -65,6 +65,7 @@ Roles
 |keypair_create         | create a ssh keypair|
 |keypair_delete         | delete a ssh keypair|
 |lookup_name            | lookup id by name (set_fact image_id, vpc_id, subnet_id, secgroup_id, flavor_id)|
+|ptrrecord_create       | create DNS PTR record for EIP|
 |rds_versions		| list provided database versions for RDS|
 |rds_flavors		| list provided flavors for selected database version in RDS|
 |services               | discover API services|
@@ -308,6 +309,10 @@ create image (from stopped ecs instance)
 
     ansible-playbook -i hosts image_create.yml -e "image_name=ansible-image01" -e "ecs_name=ansible-test01"
 
+create image (from obs image_url <bucket>:<file>)
+
+    ansible-playbook -i hosts image_create.yml -e "image_name=ansible-image02" -e "image_url=ansible1:/xenial-server-cloudimg-amd64-disk1.vmdk" -e "image_min_disk=12"
+
 delete an image (API return code is 204 when success, ansible expected 200 and may give an error)
 
      ansible-playbook -i hosts -e "image_id=af0a0bcf-7be3-4722-98ba-3350801a8cd5" image_delete.yml
@@ -377,6 +382,10 @@ lookup id by name (certificate)
 lookup id by name (listener)
 
      ansible-playbook -i hosts lookup_name.yml  -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01"
+
+create DNS PTR record for EIP
+
+     ansible-playbook -i hosts ptrrecord_create.yml -e "public_ip_address=160.44.204.87" -e "ptr_name=ansible-test01.external.otc.telekomcloud.com" -e "ttl=300"
 
 list provided database versions for RDS
 
