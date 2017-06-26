@@ -33,16 +33,37 @@ cd ansible-otc
 cp secrets.yml  _secrets.yml 
 ```
 In _secrets.yml are only S3 credentials stored. You need to adjust *env.yml* 
-with the used profile name in clouds.yml
+with the used profile name in clouds.yml. Ignore the *_secrets.yml* settings
+
+```
+# adjust account data here or in clouds.yml
+USERNAME: "<username>"
+PASSWORD: "<password>"
+DOMAIN: "OTC-EU-DE-0000000000100000XXXX"
+PROJECT_NAME: "eu-de"
+
+EC2_ACCESS_KEY: "<obs access key>"
+EC2_SECRET_KEY: "<obs secret key>"
+EC2_URL: "https://obs.otc.t-systems.com"
+
+# endpoint urls
+IAM_AUTH_URL: "https://iam.{{ PROJECT_NAME }}.otc.t-systems.com/v3"
+AUTH_URL_ELB: "https://elb.{{ PROJECT_NAME }}.otc.t-systems.com/v1.0"
+AUTH_URL_ECS_CLOUD: "https://ecs.{{ PROJECT_NAME }}.otc.t-systems.com/v1"
+AUTH_URL_RDS: "https://rds.{{ PROJECT_NAME }}.otc.t-systems.com/rds/v1"
+```
+
+Service endpoint for DNS is provided by IAM, so it's not necessary to setup.
+
 
 Imagine we have a tenant.ini with the configuration of all resources in our tenant. 
 DNS configuration are also there:
 
 ![tenant.ini](/pictures/tenant-ini-dns.png)
 
-Public zones are isolated on OTC. You can host your zones there but there 
+**Public** zones are isolated on OTC. You can host your zones there but there 
 is no registration service to catch new domains. This means you need to 
-delegate your elsewhere registered domains to
+delegate your elsewhere registered domains to the public OTC server:
 
 **ns1.open-telekom-cloud.com** and **ns2.open-telekom-cloud.com**
 
@@ -50,20 +71,21 @@ Before you need to configure your zone in OTC (see below) because the domain
 (and all sub-domain) are uniq bound to one tenant. If someone else has 
 configured the domain, you need the service desk to clarify.
 
-Private zones are only reachable in the selected VPC and with the resolver host **100.125.4.25**
+**Private zones** are only reachable in the selected VPC and with the resolver host **100.125.4.25**
 
-Reverse DNS (PTR records) are only provided for public ip (EIP). The
-ip address must assigned to your tenant to set the PTR record
+**Reverse DNS** (PTR records) are only provided for public ip (EIP). The
+ip address must assigned to your tenant to set the PTR record.
 
-Related playbooks are **zone_create.yml**, **zonerecord_create.yml** and **ptrrecord_create.yml**
+Related playbooks are *zone_create.yml*, *zonerecord_create.yml* and *ptrrecord_create.yml*
 
-Lets start e virtual machine with a fix private address and a allocated EIP:
+
+Lets start a virtual machine with a fixed private ip address and a allocated EIP:
 
 ```
 ansible-playbook -i hosts tenant_create.yml -e "ecs_name=ansible-testi101"
 ```
 
-In this play we allocate all resources to boostrap our ECS instance, set the floating ip
+In this play we allocate all resources to bootstrap our ECS instance, set the floating ip
 address and the reverse DND
 
 ```
