@@ -12,7 +12,7 @@
     body: "{{ lookup('template', 'roles/ptrrecord_create/templates/request.json.j2')|to_json }}"
   register: ptrrecord
   when: 
-    - ptr_name is defined
+    - (ptr_name is defined and ptr_name | length != 0)
     - eip_id is defined
 
 - debug:
