@@ -7,7 +7,7 @@ Install prerequisites as root on your Ubuntu 16.04 machine:
 
 ```
 apt-get update
-apt-get -y install curl git ansible python-openstackclient python-pip python-jmespath python-netaddr libs3-2 jq
+apt-get -y install curl git python-openstackclient python-pip python-jmespath python-netaddr libs3-2 jq
 pip install python-otcclient
 pip install ansible==2.2.0.0
 ```
