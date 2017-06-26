@@ -108,5 +108,5 @@ Remove DNS reverse entry:
 ansible-playbook -i hosts ptrrecord_delete.yml -e "public_ip_address=160.44.207.211"
 ```
 
-End of PoC. Look at the other plays and roles to interact with OTC API
+End of PoC. Look at the [other plays and roles](https://github.com/eumel8/ansible-otc) to interact with OTC API
 
