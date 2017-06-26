@@ -18,7 +18,7 @@ A good thing: it's simple!
 
 ![OTC API](/pictures/otc-dns-api.png)
 
-Docmentation can you found at https://docs.otc.t-systems.com/en-us/dns_dld/index.html
+Documentation can you found at https://docs.otc.t-systems.com/en-us/dns_dld/index.html
 
 Let's start to implement some DNS entries via API. We will do this with Ansible.
 
