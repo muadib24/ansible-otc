@@ -6,10 +6,10 @@
 {% if subnet_dhcp_enable is defined %}  
         "dhcp_enable": {{ subnet_dhcp_enable }},
 {% endif %}  
-{% if subnet_primary_dns is defined %}  
+{% if subnet_primary_dns is defined and subnet_primary_dns | length != 0 %}
         "primary_dns": "{{ subnet_primary_dns }}",
 {% endif %}  
-{% if subnet_secondary_dns is defined %}  
+{% if subnet_secondary_dns is defined and subnet_secondary_dns|length != 0 %}
         "secondary_dns": "{{ subnet_secondary_dns }}",
 {% endif %}  
         "availability_zone": "{{ availability_zone }}",
