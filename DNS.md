@@ -1,5 +1,4 @@
 # OTC DNS - the complete example
-==============================
 
 DNS services are provided by OTC since months. Now the complete stack
 is reworked so we can take a closer look on API service.
