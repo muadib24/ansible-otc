@@ -15,6 +15,7 @@
   ecs_ipaddress: "{{ lookup('ini', 'ecs_ipaddress section={{ ecs_name }} file=tenant.ini') }}"
   public_ip_address: "{{ lookup('ini', 'ecs_publicip section={{ ecs_name }} file=tenant.ini') }}"
   ptr_name: "{{ lookup('ini', 'ecs_publicfqdn section={{ ecs_name }} file=tenant.ini') }}"
+  ttl: "{{ lookup('ini', 'ecs_publicttl section={{ ecs_name }} file=tenant.ini') }}"
   eip_bandwidth_name: "{{ lookup('ini', 'eip_bandwidth_name section={{ ecs_name }} file=tenant.ini') }}"
   eip_bandwidth_size: "{{ lookup('ini', 'eip_bandwidth_size section={{ ecs_name }} file=tenant.ini') }}"
   image_name: "{{ lookup('ini', 'image_name section={{ ecs_name }} file=tenant.ini') }}"

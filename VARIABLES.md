@@ -22,12 +22,15 @@
 |ecs_id|				UUID of ECS instance|
 |ecs_ipaddress|			local ipaddress of ECS instance|
 |ecs_name|			name of ECS instance|
+|ecs_publicip|			EIP of ECS (0.0.0.0 to apply new address|
+|ecs_publicfqdn|		DNS PTR record FQDN|
+|ecs_publicttl|			DNS PTR record TTL|
 |ecs_user_data|			cloud-init user_data to inject in ECS|
-|ecs_volumetype|			type of ECS volume (SATA,SAS,SSD)|
-|eip|
-|eip_bandwidth_name|
-|eip_bandwidth_size|
-|eip_id|				UUID of floating ipaddress|
+|ecs_volumetype|		type of ECS volume (SATA,SAS,SSD)|
+|eip|				Value of FloatingIP (EIP)|
+|eip_bandwidth_name|		Name of EIP bandwith resource|
+|eip_bandwidth_size|		Size of EIP bandwith (1-500 MBit/sec)|
+|eip_id|			UUID of floating ipaddress|
 |elb|
 |elb_availability_zone|
 |elbbackends|
