@@ -79,14 +79,14 @@ ip address must assigned to your tenant to set the PTR record.
 Related playbooks are *zone_create.yml*, *zonerecord_create.yml* and *ptrrecord_create.yml*
 
 
-Lets start a virtual machine with a fixed private ip address and a allocated EIP:
+Lets start a virtual machine with a fixed private ip address and an allocated EIP:
 
 ```
 ansible-playbook -i hosts tenant_create.yml -e "ecs_name=ansible-testi101"
 ```
 
 In this play we allocate all resources to bootstrap our ECS instance, set the floating ip
-address and the reverse DND
+address and the reverse DNS
 
 ```
 ansible-playbook -i hosts dns_create.yml -e "vpc_name=ansible-vpc01"
