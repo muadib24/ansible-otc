@@ -1,6 +1,6 @@
 ---
 ecs_name: "buildserver"
-distro: "xenial"
+distro: "trusty"
 bucket: "buildservice"
 availability_zone: "eu-de-01"
 vpc_name: "buildserver-vpc01"
@@ -12,9 +12,22 @@ subnet_dhcp_enable: true
 subnet_primary_dns: 8.8.8.8
 subnet_secondary_dns: 8.4.4.8
 secgroup_name: "buildserver-secgroup01"
-secgroup_rule1: "ingress;IPv4;tcp;22;22;0.0.0.0/0"
-secgroup_rule2: "ingress;IPv4;icmp;;;0.0.0.0/0"
-ecs_volumetype: "SATA"
+secgroup_rules: 
+  1: 
+    secgrouprule_direction: ingress
+    secgrouprule_ethertype: IPv4
+    secgrouprule_protocol: tcp
+    secgrouprule_port_range_min: 22
+    secgrouprule_port_range_max: 22
+    secgrouprule_remote_ip_prefix: 0.0.0.0/0
+  2: 
+    secgrouprule_direction: ingress
+    secgrouprule_ethertype: IPv4
+    secgrouprule_protocol: icmp
+    secgrouprule_port_range_min: null
+    secgrouprule_port_range_max: null
+    secgrouprule_remote_ip_prefix: "0.0.0.0/0"
+ecs_volumetype: "SSD"
 ecs_ram: "2048"
 ecs_vcpus: "2"
 ecs_adminkey: "buildserver-key"

@@ -10,7 +10,8 @@
   tasks:
   - name: Download ubuntu image {{ distro }}
     get_url:
-      url: "https://cloud-images.ubuntu.com/{{ distro}}/current/{{ distro }}-server-cloudimg-amd64-disk1.vmdk"
+#      url: "https://cloud-images.ubuntu.com/{{ distro}}/current/{{ distro }}-server-cloudimg-amd64-disk1.vmdk"
+      url: "https://cloud-images.ubuntu.com/{{ distro}}/current/{{ distro }}-server-cloudimg-amd64-disk1.img"
       dest: "./{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
       force: yes
 
@@ -19,7 +20,7 @@
   connection: local
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
-    distro: "xenial"
+    distro: "trusty"
     bucket: "buildservice"
     ecs_name: "buildserver"
     object: "{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
@@ -34,7 +35,7 @@
   connection: local
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
-    distro: "xenial"
+    distro: "trusty"
     bucket: "buildservice"
     image_name: "{{ distro }}-server-cloudimg-amd64-{{ date }}"
     image_url: "{{ bucket }}:{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
@@ -97,7 +98,18 @@
   roles:
     - role: token
     - role: lookup_name
-    - role: secgrouprule_helper
+  tasks:
+    - name: secgrouprule_create role
+      include_role:
+        name: secgrouprule_create
+      vars:
+        secgrouprule_direction: "{{ item.value.secgrouprule_direction }}"
+        secgrouprule_ethertype: "{{ item.value.secgrouprule_ethertype }}"
+        secgrouprule_protocol: "{{ item.value.secgrouprule_protocol }}"
+        secgrouprule_port_range_min: "{{ item.value.secgrouprule_port_range_min }}"
+        secgrouprule_port_range_max: "{{ item.value.secgrouprule_port_range_max }}"
+        secgrouprule_remote_ip_prefix: "{{ item.value.secgrouprule_remote_ip_prefix }}"
+      with_dict: "{{ secgroup_rules }}"
 
 - name: Create Keypair
   hosts: localhost
@@ -126,7 +138,7 @@
     - buildservice_var.yml
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
-    distro: "xenial"
+    distro: "trusty"
     image_name: "{{ distro }}-server-cloudimg-amd64-{{ date }}"
   roles:
     - role: token
@@ -148,6 +160,37 @@
       delay: 60
 
   - name: Doing things on ECS
-    shell: apt-get -y install puppet-common; git clone https://github.com/dev-sec/puppet-os-hardening.git; sudo puppet apply --modulepath ./puppet-os-hardening -e "include os_hardening"
+    shell: apt-get -y install git puppet-common; rm -rf modules; mkdir modules; git clone https://github.com/dev-sec/puppet-os-hardening.git modules/os_hardening; git clone https://github.com/thias/puppet-sysctl.git modules/sysctl; git clone https://github.com/puppetlabs/puppetlabs-stdlib.git modules/stdlib; puppet apply --modulepath ./modules -e "include os_hardening"
     remote_user: ubuntu
+    become: true
+    become_user: root
     delegate_to: "{{ public_ip_address }}"
+
+  - name: Stop ECS
+    shell: halt
+    remote_user: ubuntu
+    become: true
+    become_user: root
+    delegate_to: "{{ public_ip_address }}"
+
+  - name: Wait for shutdown
+    local_action: wait_for
+    args:
+      host: "{{ public_ip_address }}"
+      port: 22
+      state: "stopped"
+      delay: 60
+
+- name: Create new image
+  hosts: localhost
+  gather_facts: no
+  vars:
+    ecs_name: "buildserver"
+    date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
+    image_name: "buildserver-{{ date }}"
+  vars_files:
+    - buildservice_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: image_create
