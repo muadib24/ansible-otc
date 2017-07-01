@@ -19,6 +19,8 @@ Requirements:
 
 ** adjust buildservice_var.yml **
 
+S3 credentials in _secrets.yml
+
 Usage:
 ======
 

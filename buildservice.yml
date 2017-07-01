@@ -8,11 +8,11 @@
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
   tasks:
-  - name: Download ubuntu image {{ distro }}
-    get_url:
-      url: "https://cloud-images.ubuntu.com/{{ distro}}/current/{{ distro }}-server-cloudimg-amd64-disk1.img"
-      dest: "./{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
-      force: yes
+#  - name: Download ubuntu image {{ distro }}
+#    get_url:
+#      url: "https://cloud-images.ubuntu.com/{{ distro}}/current/{{ distro }}-server-cloudimg-amd64-disk1.img"
+#      dest: "./{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
+#      force: yes
 
 - hosts: localhost
   gather_facts: no
@@ -26,7 +26,7 @@
     - buildservice_var.yml
   roles:
     - role: s3_bucket_create
-    - role: s3_upload
+#    - role: s3_upload
 
 - hosts: localhost
   gather_facts: no
@@ -39,7 +39,7 @@
     image_min_disk: 12
   roles:
     - role: token
-    - role: image_create
+#    - role: image_create
 
   tasks: 
     - name: Check image status
@@ -206,19 +206,44 @@
     retries: 50
     delay: 10
 
-- name: Create new image and delete ECS
+- name: Create new image
   hosts: localhost
   gather_facts: no
   vars:
     ecs_name: "buildserver"
-#    delete_volume: true
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
     image_name: "buildservice-{{ distro }}-{{ date }}"
+    image_job_id: "{{ (image_create.content|from_json)|json_query('job_id') }}"
   vars_files:
     - buildservice_var.yml
   roles:
     - role: token
     - role: lookup_name
     - role: image_create
-    - role: ecs_delete
+  tasks:
+  - name: Request job status from  API
+    uri:
+      url: "{{ AUTH_URL_ECS_CLOUD }}/{{ PROJECT_ID }}/jobs/{{ image_job_id }}"
+      method: GET
+      return_content: yes
+      validate_certs: yes
+      HEADER_Content-Type: "application/json"
+      HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+    when: image_job_id is defined
+    register: jobstatus
+    until: (jobstatus.content|from_json)|json_query('status') == 'SUCCESS'
+    retries: 50
+    delay: 10
 
+- name: Delete ECS
+  hosts: localhost
+  gather_facts: no
+  vars:
+    ecs_name: "buildserver"
+    delete_volume: true
+  vars_files:
+    - buildservice_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: ecs_delete
