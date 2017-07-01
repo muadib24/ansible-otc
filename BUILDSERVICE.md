@@ -1,4 +1,5 @@
-Build your own images with ansible (WiP)
+Build your own images with ansible
+==================================
 
 1. Download Ubuntu Cloud Image
 2. Upload to IMS (private, generic name)
@@ -7,10 +8,19 @@ Build your own images with ansible (WiP)
 5. Shutdown VM
 6. Upload VM image to IMS (private, customize name)
 
-requirements: ** adjust buildservice_var.yml **
+Supported OS:
+=============
 
+* Ubuntu 14.04
+* Ubuntu 16.04
 
-usage:
+Requirements:
+=============
+
+** adjust buildservice_var.yml **
+
+Usage:
+======
 
 ``` 
 ansible-playbook  -i hosts buildservice.yml -e "distro=trusty" --vault-password-file vaultpass.txt
@@ -18,3 +28,4 @@ ansible-playbook  -i hosts buildservice.yml -e "distro=trusty" --vault-password-
 ansible-playbook  -i hosts buildservice.yml -e "distro=xenial" --vault-password-file vaultpass.txt
 ```
 
+Easy to adapt for other operating systems
