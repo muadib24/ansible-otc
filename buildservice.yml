@@ -42,7 +42,7 @@
     - role: image_create
 
   tasks: 
-    - name: check image status
+    - name: Check image status
       uri:
         url: "{{ AUTH_URL_IMS }}/v2/cloudimages?name={{ image_name }}"
         method: GET
@@ -155,7 +155,7 @@
       host: "{{ public_ip_address }}"
       delay: 60
 
-  - name: install python2 first
+  - name: Install python2 first
     raw: apt-get -y install python-simplejson
     remote_user: ubuntu
     become: true
@@ -211,7 +211,7 @@
   gather_facts: no
   vars:
     ecs_name: "buildserver"
-    delete_volume: true
+#    delete_volume: true
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
     image_name: "buildservice-{{ distro }}-{{ date }}"
   vars_files:
