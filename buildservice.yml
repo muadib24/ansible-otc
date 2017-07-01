@@ -8,11 +8,11 @@
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
   tasks:
-#  - name: Download ubuntu image {{ distro }}
-#    get_url:
-#      url: "https://cloud-images.ubuntu.com/{{ distro}}/current/{{ distro }}-server-cloudimg-amd64-disk1.img"
-#      dest: "./{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
-#      force: yes
+  - name: Download ubuntu image {{ distro }}
+    get_url:
+      url: "https://cloud-images.ubuntu.com/{{ distro}}/current/{{ distro }}-server-cloudimg-amd64-disk1.img"
+      dest: "./{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
+      force: yes
 
 - hosts: localhost
   gather_facts: no
@@ -26,7 +26,7 @@
     - buildservice_var.yml
   roles:
     - role: s3_bucket_create
-#    - role: s3_upload
+    - role: s3_upload
 
 - hosts: localhost
   gather_facts: no
@@ -39,7 +39,7 @@
     image_min_disk: 12
   roles:
     - role: token
-#    - role: image_create
+    - role: image_create
 
   tasks: 
     - name: Check image status
