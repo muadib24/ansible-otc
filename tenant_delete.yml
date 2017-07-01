@@ -1,0 +1,93 @@
+---
+- name: Delete DNS PTR record
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: ptrrecord_delete
+      ignore_errors: yes
+
+- name: Delete ECS
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars:
+    delete_volume: true
+#    delete_publicip: true
+    ecs_job_id: "{{ (ecs.content|from_json)|json_query('job_id') }}"
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: ecs_delete
+  tasks:
+  - name: Request job status from  API
+    uri:
+      url: "{{ AUTH_URL_ECS_CLOUD }}/{{ PROJECT_ID }}/jobs/{{ ecs_job_id }}"
+      method: GET
+      return_content: yes
+      validate_certs: yes
+      HEADER_Content-Type: "application/json"
+      HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+    when: ecs_job_id is defined
+    register: jobstatus
+    until: (jobstatus.content|from_json)|json_query('status') == 'SUCCESS'
+    retries: 50
+    delay: 10
+
+
+- name: Delete keypair
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: keypair_delete
+      ignore_errors: yes
+
+- name: Delete Secgroup
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: secgroup_delete
+      ignore_errors: yes
+
+- name: Delete Subnet
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: subnet_delete
+      ignore_errors: yes
+
+- name: Delete VPC
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: lookup_name
+    - role: vpc_delete
+      ignore_errors: yes
+
