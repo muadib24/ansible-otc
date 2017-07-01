@@ -10,7 +10,6 @@
   tasks:
   - name: Download ubuntu image {{ distro }}
     get_url:
-#      url: "https://cloud-images.ubuntu.com/{{ distro}}/current/{{ distro }}-server-cloudimg-amd64-disk1.vmdk"
       url: "https://cloud-images.ubuntu.com/{{ distro}}/current/{{ distro }}-server-cloudimg-amd64-disk1.img"
       dest: "./{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
       force: yes
@@ -20,7 +19,6 @@
   connection: local
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
-    distro: "trusty"
     bucket: "buildservice"
     ecs_name: "buildserver"
     object: "{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
@@ -35,7 +33,6 @@
   connection: local
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
-    distro: "trusty"
     bucket: "buildservice"
     image_name: "{{ distro }}-server-cloudimg-amd64-{{ date }}"
     image_url: "{{ bucket }}:{{ distro }}-server-cloudimg-amd64-{{ date }}.vmdk"
@@ -138,7 +135,6 @@
     - buildservice_var.yml
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
-    distro: "trusty"
     image_name: "{{ distro }}-server-cloudimg-amd64-{{ date }}"
   roles:
     - role: token
@@ -159,38 +155,70 @@
       host: "{{ public_ip_address }}"
       delay: 60
 
-  - name: Doing things on ECS
-    shell: apt-get -y install git puppet-common; rm -rf modules; mkdir modules; git clone https://github.com/dev-sec/puppet-os-hardening.git modules/os_hardening; git clone https://github.com/thias/puppet-sysctl.git modules/sysctl; git clone https://github.com/puppetlabs/puppetlabs-stdlib.git modules/stdlib; puppet apply --modulepath ./modules -e "include os_hardening"
+  - name: install python2 first
+    raw: apt-get -y install python-simplejson
     remote_user: ubuntu
     become: true
+    become_method: sudo
+    become_user: root
+    delegate_to: "{{ public_ip_address }}"
+
+  - name: Doing things on ECS
+    shell: apt-get update; apt-get -y install git puppet; rm -rf modules; mkdir modules; git clone https://github.com/dev-sec/puppet-os-hardening.git modules/os_hardening; git clone https://github.com/thias/puppet-sysctl.git modules/sysctl; git clone https://github.com/puppetlabs/puppetlabs-stdlib.git modules/stdlib; puppet apply --modulepath ./modules -e "include os_hardening"
+    remote_user: ubuntu
+    become: true
+    become_method: sudo
     become_user: root
     delegate_to: "{{ public_ip_address }}"
 
   - name: Stop ECS
-    shell: halt
+    shell: /sbin/shutdown -H +1 &
     remote_user: ubuntu
     become: true
     become_user: root
+    become_method: sudo
+    ignore_errors: yes
     delegate_to: "{{ public_ip_address }}"
 
-  - name: Wait for shutdown
-    local_action: wait_for
-    args:
-      host: "{{ public_ip_address }}"
-      port: 22
-      state: "stopped"
-      delay: 60
-
-- name: Create new image
+- name: Check ECS Status
   hosts: localhost
   gather_facts: no
   vars:
     ecs_name: "buildserver"
+    ecs_body: "{\"server\": { \"name\": \"{{ ecs_name }}\" }}"
+  roles:
+    - role: token
+    - role: lookup_name
+  tasks:
+  - name: Check API if ECS is stopped
+    uri:
+      url: "{{ AUTH_URL_ECS }}/servers/{{ ecs_id }}"
+      method: PUT
+      body_format: raw
+      follow_redirects: all
+      return_content: yes
+      validate_certs: yes
+      HEADER_Content-Type: "application/json"
+      HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+      body: "{{ ecs_body|to_json }}"
+    register: ecs_status
+    until: (ecs_status.content|from_json)|json_query('server.status') != 'ACTIVE'
+    retries: 50
+    delay: 10
+
+- name: Create new image and delete ECS
+  hosts: localhost
+  gather_facts: no
+  vars:
+    ecs_name: "buildserver"
+    delete_volume: true
     date: "{{ lookup('pipe', 'date +%Y%m%d') }}"
-    image_name: "buildserver-{{ date }}"
+    image_name: "buildservice-{{ distro }}-{{ date }}"
   vars_files:
     - buildservice_var.yml
   roles:
     - role: token
     - role: lookup_name
     - role: image_create
+    - role: ecs_delete
+

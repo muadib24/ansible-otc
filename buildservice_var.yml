@@ -1,6 +1,6 @@
 ---
 ecs_name: "buildserver"
-distro: "trusty"
+# distro: "xenial"
 bucket: "buildservice"
 availability_zone: "eu-de-01"
 vpc_name: "buildserver-vpc01"

@@ -7,9 +7,14 @@ Build your own images with ansible (WiP)
 5. Shutdown VM
 6. Upload VM image to IMS (private, customize name)
 
-requirments: adjust buildservice_var.yml
+requirements: ** adjust buildservice_var.yml **
+
+
+usage:
 
 ``` 
-ansible-playbook  -i hosts buildservice.yml --vault-password-file vaultpass.txt
+ansible-playbook  -i hosts buildservice.yml -e "distro=trusty" --vault-password-file vaultpass.txt
+
+ansible-playbook  -i hosts buildservice.yml -e "distro=xenial" --vault-password-file vaultpass.txt
 ```
 
