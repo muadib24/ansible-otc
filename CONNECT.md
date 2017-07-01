@@ -5,12 +5,11 @@ How to connect to the Open Telekom Cloud
 
 Install prerequisites as root on your Ubuntu 16.04 machine:
 
-
 ```
-add-apt-repository -y ppa:ansible/ansible
 apt-get update
-apt-get -y install curl git ansible python-openstackclient python-pip python-jmespath python-netaddr libs3-2 jq
+apt-get -y install curl git python-openstackclient python-pip python-jmespath python-netaddr libs3-2 jq
 pip install python-otcclient
+pip install ansible==2.2.0.0
 ```
 
 Follow instruction as normal user. You need always username, password, domain data.
@@ -119,8 +118,6 @@ cd ~
 git clone https://github.com/eumel8/ansible-otc.git
 cd ansible-otc
 cp secrets.yml  _secrets.yml 
-cp ecs_secrets.yml  _ecs_secrets.yml 
-cp elb_secrets.yml _elb_secrets.yml
 ansible-vault edit _secrets.yml --vault-password-file vaultpass.txt
 ```
 

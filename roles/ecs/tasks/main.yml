@@ -1,5 +1,3 @@
-- include_vars: _secrets.yml
-
 - name: Request ecs list from AUTH API
   uri:
     url: "{{ AUTH_URL_ECS }}/servers"

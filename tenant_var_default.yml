@@ -17,4 +17,9 @@
   subnet_secondary_dns_default: "{{ lookup('ini', 'subnet_secondary_dns section=DEFAULT file=tenant.ini') }}"
   vpc_name_default: "{{ lookup('ini', 'vpc_name section=DEFAULT file=tenant.ini') }}"
   vpc_net_default: "{{ lookup('ini', 'vpc_net section=DEFAULT file=tenant.ini') }}"
+  evs_availability_zone_default: "{{ lookup('ini', 'evs_availability_zone section=DEFAULT file=tenant.ini') }}"
+  evs_volume_type_default: "{{ lookup('ini', 'evs_volume_type section=DEFAULT file=tenant.ini') }}"
+  evs_size_default: "{{ lookup('ini', 'evs_size section=DEFAULT file=tenant.ini') }}"
+  evs_multiattach_default: "{{ lookup('ini', 'evs_multiattach section=DEFAULT file=tenant.ini') }}"
+  evs_scsi_default: "{{ lookup('ini', 'evs_scsi section=DEFAULT file=tenant.ini') }}"
 

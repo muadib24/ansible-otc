@@ -1,5 +1,3 @@
-- include_vars: _secrets.yml
-
 - name: Request services list from AUTH API
   uri:
     url: "{{ IAM_AUTH_URL }}/services"

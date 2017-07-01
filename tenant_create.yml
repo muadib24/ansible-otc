@@ -70,12 +70,58 @@
   gather_facts: no
   connection: local
   vars_files:
+    - tenant_var.yml
+  roles:
+    - role: token
+    - role: ptrrecord_create
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
     - tenant_var_default.yml
     - tenant_var.yml
-#  vars:
-#    eip_id: "{{ eip_id }}"
   roles:
     - role: token
     - role: lookup_name
     - role: ecs_create
     - role: job
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: elb_create
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: elb_listener_create
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: lookup_name
+    - role: elb_healthcheck_create
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files:
+    - tenant_var_default.yml
+    - tenant_var.yml
+  roles:
+    - role: lookup_name
+    - role: backend_member_helper
+      when: backend_members is defined

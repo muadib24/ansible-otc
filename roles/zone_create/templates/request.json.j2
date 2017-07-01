@@ -6,6 +6,12 @@
 {% if zone_type is defined %}  
     "zone_type": "{{ zone_type }}",
 {% endif %}  
+{% if zone_type == "private" %}  
+    "router": {
+            "router_id": "{{ router_id }}",
+            "router_region": "{{ PROJECT_NAME }}"
+    },
+{% endif %}  
 {% if zone_email is defined %}  
     "email": "{{ zone_email }}",
 {% endif %}  

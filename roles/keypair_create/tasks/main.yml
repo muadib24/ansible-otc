@@ -1,6 +1,10 @@
+- stat: path={{ keypair_file }}
+  register: keypair_file_stat
+
 - name: grab ssh pub key
   shell: awk '$1=$1' ORS='\\n' {{ keypair_file }}
   register: keypair_file_content
+  when: keypair_file_stat.stat.exists
 
 - name: Send request to API
   uri:
@@ -13,7 +17,9 @@
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'roles/keypair_create/templates/request.json.j2')|to_json }}" 
-  when: (not ecs_adminkey_name or ecs_adminkey_name is undefined)
+  when: 
+    - keypair_file_stat.stat.exists
+    - (not ecs_adminkey_name or ecs_adminkey_name is undefined)
   register: keypair
 
 - debug:

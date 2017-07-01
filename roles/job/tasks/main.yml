@@ -6,8 +6,9 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: job_id is defined
   register: jobstatus
 
 - debug:
     msg: "{{ jobstatus.json }}"
-
+  when: jobstatus is defined and jobstatus.content|length != 0

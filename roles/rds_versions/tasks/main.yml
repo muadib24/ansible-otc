@@ -1,5 +1,3 @@
-- include_vars: _secrets.yml
-
 - name: Request rds list from API for mysql
   uri:
     url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/datastores/MySQL/versions"

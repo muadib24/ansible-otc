@@ -1,5 +1,3 @@
-- include_vars: _elb_secrets.yml
-
 - name: Send request to API
   uri:
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/healthcheck"
@@ -12,6 +10,7 @@
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'roles/elb_healthcheck_create/templates/request.json.j2')|to_json }}" 
   register: elbhealthcheck
+  when: listener_id is defined and listener_id|length != 0
 
 - debug:
     msg: "{{ elbhealthcheck }}"
