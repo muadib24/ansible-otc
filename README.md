@@ -480,13 +480,13 @@ show DNS zones
 
     ansible-playbook -i hosts  zones.yml
 
-create DNS zone (name and ttl are mandatory)
+create DNS zone (name,type and ttl are mandatory)
 
-    ansible-playbook -i hosts -e "zone_name=example.com." -e "zone_description=example zone" -e "zone_email=example@example.com" -e "zone_ttl=86400" zone_create.yml
+    ansible-playbook -i hosts zone_create.yml -e "zone_type=public" -e "zone_name=example.com." -e "zone_description=example zone" -e "zone_email=example@example.com" -e "zone_ttl=86400" 
 
 delete DNS zone
 
-    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec5ca2620234" zone_delete.yml
+    ansible-playbook -i hosts zone_delete.yml -e "zone_id=ff80808257e2bb5e0157ec5ca2620234" 
 
 show DNS zone records
 
@@ -494,23 +494,15 @@ show DNS zone records
 
 create DNS zonerecord (A-Record) possible values A,AAAA,MX,CNAME,PTR,TXT,NS
 
-    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecord_name=testserver.example.com." -e "zonerecord_type=A" -e "zonerecord_value=160.44.196.210" -e "zonerecord_ttl=86400" zonerecord_create.yml
+    ansible-playbook -i hosts zonerecord_create.yml -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecord_name=testserver.example.com." -e "zonerecord_type=A" -e "zonerecord_value=160.44.196.210" -e "zonerecord_ttl=86400"
 
 create DNS zonerecord (PTR-Record)
 
-    first create reverse zone:
-
-    ansible-playbook -i hosts -e "zone_name=210.196.44.160.in-addr.arpa." -e "zone_description=reverse  zone 160.44.196.210" -e "zone_email=test@example.com" -e "zone_ttl=300" zone_create.yml
-
-    then create PTR-Record:
-    
-    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec8911e60240" -e "zonerecord_name=210.196.44.160.in-addr.arpa." -e "zonerecord_type=PTR" -e "zonerecord_value=testserver.example.com" -e "zonerecord_ttl=300" zonerecord_create.yml
-
-    beware of "." in the end of name and name convention of the PTR zones
+    see DNS PTR record section
 
 delete DNS zonerecord 
 
-    ansible-playbook -i hosts -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e"  zonerecord_delete.yml
+    ansible-playbook -i hosts zonerecord_delete.yml -e "zone_id=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e" 
 
 
 Full Working Example
