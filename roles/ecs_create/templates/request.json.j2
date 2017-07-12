@@ -4,6 +4,9 @@
         "name": "{{ ecs_name }}",
         "imageRef": "{{ image_id }}",
         "root_volume": {
+{% if ecs_volumesize |length != 0 %}  
+            "size": "{{ ecs_volumesize }}",
+{% endif %}  
             "volumetype": "{{ ecs_volumetype }}"
         },
         "flavorRef": "{{ flavor_id }}",

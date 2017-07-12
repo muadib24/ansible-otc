@@ -26,7 +26,8 @@
 |ecs_publicfqdn|		DNS PTR record FQDN|
 |ecs_publicttl|			DNS PTR record TTL|
 |ecs_user_data|			cloud-init user_data to inject in ECS|
-|ecs_volumetype|		type of ECS volume (SATA,SAS,SSD)|
+|ecs_volumesize|		size of ECS root volume in GB|
+|ecs_volumetype|		type of ECS root volume (SATA,SAS,SSD)|
 |eip|				Value of FloatingIP (EIP)|
 |eip_bandwidth_name|		Name of EIP bandwith resource|
 |eip_bandwidth_size|		Size of EIP bandwith (1-500 MBit/sec)|
