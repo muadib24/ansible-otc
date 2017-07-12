@@ -1,6 +1,7 @@
 ---
   availability_zone_default: "{{ lookup('ini', 'availability_zone section=DEFAULT file=tenant.ini') }}"
   ecs_adminkey_default: "{{ lookup('ini', 'ecs_adminkey section=DEFAULT file=tenant.ini') }}"
+  ecs_volumesize_default: "{{ lookup('ini', 'ecs_volumesize section=DEFAULT file=tenant.ini') }}"
   ecs_volumetype_default: "{{ lookup('ini', 'ecs_volumetype section=DEFAULT file=tenant.ini') }}"
   ecs_ram_default: "{{ lookup('ini', 'ecs_ram section=DEFAULT file=tenant.ini') }}"
   ecs_vcpus_default: "{{ lookup('ini', 'ecs_vcpus section=DEFAULT file=tenant.ini') }}"
