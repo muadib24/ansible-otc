@@ -1,0 +1,30 @@
+variables:
+  BRANCH: $CI_BUILD_REF_NAME
+  DATE: `date +%s`
+
+stages:
+- check
+- package
+
+lint:
+  stage: check
+  script:
+    - apt-get -y install python-pip
+    - pip install yamllint
+    - yamllint .
+
+package:
+  stage: package
+  script:
+    - apt-get -y install ruby ruby-dev rubygems build-essential
+    - gem install --no-ri --no-rdoc fpm
+    - fpm -s dir -t deb -x ansible -v "01-${BRANCH}-${DATE}"  \
+        -n ansible-roles-otc  \
+        --iteration 1 \
+        -x .git -x .gitmdules  \
+        --description "Ansible roles for Open Telekom Cloud" \
+        --prefix /etc/ansible/roles roles
+  artifacts:
+    paths:
+    - *deb
+    expire_in: 1 week
