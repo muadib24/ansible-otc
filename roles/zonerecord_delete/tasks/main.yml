@@ -2,7 +2,7 @@
   uri:
     url: "{{ AUTH_URL_DNS }}/v2/zones/{{ zone_id }}/recordsets/{{ zonerecordid}}"
     method: DELETE
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     status_code: 200,201,202,203
     HEADER_Content-Type: "application/json"

@@ -3,7 +3,7 @@
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners?loadbalancer_id={{ elb_id}}"
     method: GET
     follow_redirects: all
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -12,4 +12,3 @@
 
 - debug:
     msg: "{{ elblistener }}"
-

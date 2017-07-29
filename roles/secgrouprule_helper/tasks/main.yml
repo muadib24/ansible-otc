@@ -1,22 +1,21 @@
-
 - name: switch ecs or elb
-  set_fact: 
+  set_fact:
     ecs_name: "{{ elb_name }}"
-  when: 
+  when:
     - elb_name is defined
 #    - listener_name is undefined
 
 - name: fetch secgroup rules from ini
-  set_fact: 
+  set_fact:
     secgrouprules: "{{ item }}"
   with_ini: secgroup_rule[1-9] section={{ ecs_name }} file=tenant.ini re=true
   register: secgrouprule_reg
-  when: 
+  when:
     - ecs_name is defined
 #    - listener_name is undefined
 
 - name: make a list from secgroup rules
-  set_fact: 
+  set_fact:
     secgrouprule_list: "{{ secgrouprule_reg.results | map(attribute='ansible_facts.secgrouprules') | list }}"
   when: secgrouprule_reg is defined
 
@@ -28,19 +27,19 @@
     method: POST
     body_format: raw
     follow_redirects: all
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     status_code: 200,201,202,203,204,409
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'roles/secgrouprule_helper/templates/request.json.j2')|to_json }}" 
+    body: "{{ lookup('template', 'roles/secgrouprule_helper/templates/request.json.j2')|to_json }}"
   register: secgrouprule
-  when: 
+  when:
     - secgroup_id is defined
     - secgrouprule_reg is defined
   with_items:
     - "{{ secgrouprule_list }}"
 
-# - debug: 
+# - debug:
 #    msg: "{{ secgrouprule }}"
 #    msg: "{{ secgrouprule_list[1] }}"

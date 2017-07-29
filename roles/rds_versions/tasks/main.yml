@@ -2,7 +2,7 @@
   uri:
     url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/datastores/MySQL/versions"
     method: GET
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_Accept: "application/json"
@@ -14,7 +14,7 @@
   uri:
     url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/datastores/PostgreSQL/versions"
     method: GET
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_Accept: "application/json"
@@ -27,4 +27,3 @@
 
 - debug:
     msg: "{{ rds_postgresql_versions.json }}"
-

@@ -23,4 +23,3 @@
   evs_size_default: "{{ lookup('ini', 'evs_size section=DEFAULT file=tenant.ini') }}"
   evs_multiattach_default: "{{ lookup('ini', 'evs_multiattach section=DEFAULT file=tenant.ini') }}"
   evs_scsi_default: "{{ lookup('ini', 'evs_scsi section=DEFAULT file=tenant.ini') }}"
-

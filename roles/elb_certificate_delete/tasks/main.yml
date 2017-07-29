@@ -3,7 +3,7 @@
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/certificate/{{ listener_certificate_id }}"
     method: DELETE
     follow_redirects: all
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     status_code: 200,201,202,203,204
     HEADER_Content-Type: "application/json"
@@ -13,6 +13,6 @@
 
 - debug:
     msg: "{{ elbcertifcate }}"
-  when: 
+  when:
     - elbcertifcate is defined
     - listener_certificate_id is defined

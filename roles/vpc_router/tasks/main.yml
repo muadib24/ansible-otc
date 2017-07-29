@@ -19,12 +19,12 @@
     router_tenant_id: "{{ (routerlist.content|from_json)|json_query('router.tenant_id') }}"
     external_network_id: "{{ (routerlist.content|from_json)|json_query('router.external_gateway_info.network_id') }}"
     external_network_snat_state: "{{ (routerlist.content|from_json)|json_query('router.external_gateway_info.enable_snat') }}"
-  when: 
+  when:
     - vpc_id is defined
     - routerlist is defined
 
 - debug:
     msg: "{{ routerlist.json }}"
-  when: 
+  when:
     - vpc_id is defined
     - routerlist is defined

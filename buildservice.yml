@@ -41,7 +41,7 @@
     - role: token
     - role: image_create
 
-  tasks: 
+  tasks:
     - name: Check image status
       uri:
         url: "{{ AUTH_URL_IMS }}/v2/cloudimages?name={{ image_name }}"

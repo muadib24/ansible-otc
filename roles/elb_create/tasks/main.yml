@@ -4,12 +4,12 @@
     method: POST
     body_format: raw
     follow_redirects: all
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'roles/elb_create/templates/request.json.j2')|to_json }}" 
-  when: 
+    body: "{{ lookup('template', 'roles/elb_create/templates/request.json.j2')|to_json }}"
+  when:
     - listener_name is undefined
     - vpc_id is defined
     - elb_name is defined
@@ -17,4 +17,3 @@
 
 - debug:
     msg: "{{ elb }}"
-

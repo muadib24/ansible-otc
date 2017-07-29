@@ -9,4 +9,4 @@ secgrouprule_port_range_min: 8081
 secgrouprule_port_range_max: 8088
 # destination target (ip net or security group id)
 secgrouprule_remote_ip_prefix: "0.0.0.0/0"
-# secgrouprule_remote_group_id: 
+# secgrouprule_remote_group_id:

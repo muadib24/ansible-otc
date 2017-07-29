@@ -2,7 +2,7 @@
   uri:
     url: "{{ AUTH_URL_DNS }}/v2/zones/{{ zone_id }}"
     method: GET
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -25,4 +25,3 @@
 
 - debug: var=zonelist.json
   when: zonelist is defined
-

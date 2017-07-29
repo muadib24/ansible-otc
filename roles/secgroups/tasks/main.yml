@@ -2,7 +2,7 @@
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups?vpc_id={{ vpc_id }}"
     method: GET
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -13,7 +13,7 @@
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
     method: GET
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -27,4 +27,3 @@
 - debug:
     msg: "{{ secgrouplist.json }}"
   when: vpc_id is not defined
-
