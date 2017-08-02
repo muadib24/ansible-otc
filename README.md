@@ -65,6 +65,7 @@ Roles
 |keypair_create         | create a ssh keypair|
 |keypair_delete         | delete a ssh keypair|
 |lookup_name            | lookup id by name (set_fact image_id, vpc_id, subnet_id, secgroup_id, flavor_id)|
+|os-client-config.yml   | create os-client-config yml file|
 |ptrrecord_create       | create DNS PTR record for EIP|
 |ptrrecord_delete       | delete DNS PTR record for EIP|
 |ptrrecords             | show DNS PTR records for EIP|
@@ -153,6 +154,13 @@ for more comfort and standardization we moved credential lookup from secrets.yml
     ansible-playbook -e "CLOUD=otc" ...
 ```
 if your profile named otc
+
+If you like to start with this feature run once os-client-config.yml and answer the question. A basic yml file with one
+profile will created for you:
+
+```
+ansible-playbook  os-client-config.yml
+```
 
 
 Starting up
