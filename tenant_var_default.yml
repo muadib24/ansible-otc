@@ -1,6 +1,7 @@
 ---
   availability_zone_default: "{{ lookup('ini', 'availability_zone section=DEFAULT file=tenant.ini') }}"
   ecs_adminkey_default: "{{ lookup('ini', 'ecs_adminkey section=DEFAULT file=tenant.ini') }}"
+  ecs_volumesize_default: "{{ lookup('ini', 'ecs_volumesize section=DEFAULT file=tenant.ini') }}"
   ecs_volumetype_default: "{{ lookup('ini', 'ecs_volumetype section=DEFAULT file=tenant.ini') }}"
   ecs_ram_default: "{{ lookup('ini', 'ecs_ram section=DEFAULT file=tenant.ini') }}"
   ecs_vcpus_default: "{{ lookup('ini', 'ecs_vcpus section=DEFAULT file=tenant.ini') }}"
@@ -22,4 +23,3 @@
   evs_size_default: "{{ lookup('ini', 'evs_size section=DEFAULT file=tenant.ini') }}"
   evs_multiattach_default: "{{ lookup('ini', 'evs_multiattach section=DEFAULT file=tenant.ini') }}"
   evs_scsi_default: "{{ lookup('ini', 'evs_scsi section=DEFAULT file=tenant.ini') }}"
-

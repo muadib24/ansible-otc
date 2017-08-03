@@ -4,13 +4,13 @@
     method: POST
     body_format: raw
     follow_redirects: all
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'roles/elb_listener_create/templates/request.json.j2')|to_json }}" 
+    body: "{{ lookup('template', 'roles/elb_listener_create/templates/request.json.j2')|to_json }}"
   register: elblistner
-  when: 
+  when:
     - elb_id is defined
     - listener_name is defined
 
@@ -19,4 +19,3 @@
 
 - debug:
     msg: "{{ elblistner }}"
-

@@ -2,7 +2,7 @@
   uri:
     url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/flavors?dbId={{ rds_version_id }}&region={{ PROJECT_NAME }}"
     method: GET
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_Accept: "application/json"
@@ -12,4 +12,3 @@
 
 - debug:
     msg: "{{ rds_flavors.json }}"
-

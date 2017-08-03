@@ -5,4 +5,3 @@
   - role: token
   - role: lookup_name
   - role: elb_delete
-

@@ -21,7 +21,7 @@
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: ecs
   when: backend_members is defined
-  with_items: 
+  with_items:
     - "{{ backend_members.split(',') }}"
 
 - name: Set fact backend_member_id
@@ -45,7 +45,7 @@
   with_together:
     - "{{ backend_member_id }}"
     - "{{ backend_member_ip }}"
- 
+
 - debug:
     msg: "{{ elbbackends }}"
   when: elbbackends is defined

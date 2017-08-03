@@ -11,9 +11,8 @@
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: '{ "ptrdname": null }'
   register: ptrrecord
-  when: 
+  when:
     - eip_id is defined
 
 - debug:
     msg: "{{ ptrrecord }}"
-

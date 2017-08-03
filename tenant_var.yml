@@ -9,6 +9,7 @@
 # ECS vars
   availability_zone: "{{ lookup('ini', 'availability_zone section={{ ecs_name }} file=tenant.ini') }}"
   ecs_adminkey: "{{ lookup('ini', 'ecs_adminkey section={{ ecs_name }} file=tenant.ini') }}"
+  ecs_volumesize: "{{ lookup('ini', 'ecs_volumesize section={{ ecs_name }} file=tenant.ini') }}"
   ecs_volumetype: "{{ lookup('ini', 'ecs_volumetype section={{ ecs_name }} file=tenant.ini') }}"
   ecs_ram: "{{ lookup('ini', 'ecs_ram section={{ ecs_name }} file=tenant.ini') }}"
   ecs_vcpus: "{{ lookup('ini', 'ecs_vcpus section={{ ecs_name }} file=tenant.ini') }}"

@@ -12,15 +12,15 @@ subnet_dhcp_enable: true
 subnet_primary_dns: 8.8.8.8
 subnet_secondary_dns: 8.4.4.8
 secgroup_name: "buildserver-secgroup01"
-secgroup_rules: 
-  1: 
+secgroup_rules:
+  1:
     secgrouprule_direction: ingress
     secgrouprule_ethertype: IPv4
     secgrouprule_protocol: tcp
     secgrouprule_port_range_min: 22
     secgrouprule_port_range_max: 22
     secgrouprule_remote_ip_prefix: 0.0.0.0/0
-  2: 
+  2:
     secgrouprule_direction: ingress
     secgrouprule_ethertype: IPv4
     secgrouprule_protocol: icmp

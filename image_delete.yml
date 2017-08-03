@@ -4,5 +4,3 @@
   roles:
   - role: token
   - role: image_delete
-
-# http://support.hwclouds.com/en-us/api-ims/en-us_topic_0020092109.html

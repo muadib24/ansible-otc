@@ -26,7 +26,8 @@
 |ecs_publicfqdn|		DNS PTR record FQDN|
 |ecs_publicttl|			DNS PTR record TTL|
 |ecs_user_data|			cloud-init user_data to inject in ECS|
-|ecs_volumetype|		type of ECS volume (SATA,SAS,SSD)|
+|ecs_volumesize|		size of ECS root volume in GB|
+|ecs_volumetype|		type of ECS root volume (SATA,SAS,SSD)|
 |eip|				Value of FloatingIP (EIP)|
 |eip_bandwidth_name|		Name of EIP bandwith resource|
 |eip_bandwidth_size|		Size of EIP bandwith (1-500 MBit/sec)|
@@ -89,6 +90,14 @@
 |listener_session_sticky|
 |listener_sticky_session_type|
 |listener_tcp_timeout|
+|occ_profile_name|		os-client-config profile name|
+|occ_auth_url|		os-client-config auth_url|
+|occ_project_name|		os-client-config project_name|
+|occ_region_name|		os-client-config region_name|
+|occ_project_domain_name|		os-client-config project_domain_name|
+|occ_user_domain_name|		os-client-config user_domain_name|
+|occ_username|		os-client-config username|
+|occ_password|		os-client-config password|
 |ptr_name|			name of PTR record for EIP|
 |public_ip_address|
 |router|

@@ -4,13 +4,12 @@
     method: PUT
     body_format: raw
     follow_redirects: all
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'roles/ecs_show/templates/request.json.j2')|to_json }}" 
+    body: "{{ lookup('template', 'roles/ecs_show/templates/request.json.j2')|to_json }}"
   register: ecs
 
 - debug:
     msg: "{{ ecs }}"
-

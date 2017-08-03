@@ -8,7 +8,7 @@
   set_fact:
     user_home: "{{ lookup('env','HOME') }}"
 
-- stat: 
+- stat:
     path: "{{ user_home }}/.config/openstack/clouds.yml"
   register: osclientconfigfile
 
@@ -18,7 +18,7 @@
   when: osclientconfigfile.stat.exists
 
 - name: Set facts from os-client-config
-  set_fact: 
+  set_fact:
     USERNAME: "{{ os_client_config['clouds'][CLOUD]['auth']['username'] }}"
     PASSWORD: "{{ os_client_config['clouds'][CLOUD]['auth']['password'] }}"
     PROJECT_NAME: "{{ os_client_config['clouds'][CLOUD]['auth']['project_name'] }}"
@@ -39,14 +39,14 @@
     body_format: raw
     follow_redirects: all
     status_code: 201
-    return_content: yes 
+    return_content: yes
     validate_certs: yes
     HEADER_Content-Type: "application/json"
-    body: "{{ lookup('template', 'roles/token/templates/request.json.j2',convert_data=True)|to_json }}" 
+    body: "{{ lookup('template', 'roles/token/templates/request.json.j2',convert_data=True)|to_json }}"
   register: token
 
 - name: Set facts dynamic endpoints
-  set_fact: 
+  set_fact:
 #    OS_USER_DOMAIN_ID: "{{ (token.content|from_json)['token']['user']['domain']['id'] }}"
     OS_USER_DOMAIN_ID: "{{ (token.content|from_json)|json_query('token.user.domain.id') }}"
     PROJECT_ID: "{{ (token.content|from_json)|json_query('token.project.id') }}"

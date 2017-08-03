@@ -1,22 +1,21 @@
-
 - name: fetch zonerecords from ini
-  set_fact: 
+  set_fact:
     zonerecords: "{{ item }}"
   with_ini: zonerecord[1-9] section=dnszonerecords file=tenant.ini re=true
   register: zonerecord_reg
 
 - name: make a list from zonerecords
-  set_fact: 
+  set_fact:
     zonerecord_list: "{{ zonerecord_reg.results | map(attribute='ansible_facts.zonerecords') | list }}"
 
 - name: fetch zones from ini
-  set_fact: 
+  set_fact:
     zones: "{{ item }}"
   with_ini: zone[1-9] section=dnszones file=tenant.ini re=true
   register: zone_reg
 
 - name: make a list from zones
-  set_fact: 
+  set_fact:
     zone_list: "{{ zone_reg.results | map(attribute='ansible_facts.zones') | list }}"
 
 - name: Send zone request to API
@@ -47,7 +46,7 @@
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: zonelist_result
 
-- name: send zonerecord request to API 
+- name: send zonerecord request to API
   vars:
     zonerecord_part: "{{ item.split(';') }}"
     zone_id: "{{ (zonelist_result.content|from_json)|json_query(\"zones[?name=='\" + zonerecord_part[0] + \"'].id|[0]\") }}"
@@ -65,4 +64,3 @@
   register: zonerecord
   with_items:
     - "{{ zonerecord_list }}"
-

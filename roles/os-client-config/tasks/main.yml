@@ -1,0 +1,20 @@
+- name: create conf directory
+  file:
+    path: ~/.config/openstack
+    state: directory
+    mode: 0755
+
+- name: Create os-client-config file
+  template:
+    src: roles/os-client-config/templates/cloud.yml.j2
+    dest: ~/.config/openstack/clouds.yml
+    mode: 0600
+    force: yes
+    backup: yes
+
+- name: Create env.yml file
+  template:
+    src: roles/os-client-config/templates/env.yml.j2
+    dest: ./env2.yml
+    mode: 0600
+    force: yes
