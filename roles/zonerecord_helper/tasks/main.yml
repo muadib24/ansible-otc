@@ -1,7 +1,7 @@
 - name: fetch zonerecords from ini
   set_fact:
     zonerecords: "{{ item }}"
-  with_ini: zonerecord[1-9] section=dnszonerecords file=tenant.ini re=true
+  with_ini: zonerecord[1-99] section=dnszonerecords file=tenant.ini re=true
   register: zonerecord_reg
 
 - name: make a list from zonerecords
@@ -11,7 +11,7 @@
 - name: fetch zones from ini
   set_fact:
     zones: "{{ item }}"
-  with_ini: zone[1-9] section=dnszones file=tenant.ini re=true
+  with_ini: zone[1-99] section=dnszones file=tenant.ini re=true
   register: zone_reg
 
 - name: make a list from zones
