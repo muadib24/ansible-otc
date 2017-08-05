@@ -534,10 +534,11 @@ transfer your private dns zones to OTC using zone transfer (data stored in data.
 
     ansible-playbook -i hosts dns_create.yml -e "vpc_name=ansible-vpc01"
 
-transfer your private dns zones to OTC using zone transfer
+transfer your public dns zones to OTC using zone transfer
 
     ansible-playbook dns_transfer.yml  -e "dns_server=127.0.0.1" -e "zone_name=external.example.com" -e "zone_type=public" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
 
+    ansible-playbook -i hosts dns_create.yml
 
 Contributing
 ------------
