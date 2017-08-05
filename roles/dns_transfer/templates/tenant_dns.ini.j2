@@ -1,0 +1,22 @@
+# usage dns (public zones):
+#   ansible-playbook -i hosts dns_create.yml
+# usage dns (private usage, only in selected vpc):
+#   ansible-playbook -i hosts dns_create.yml -e "vpc_name=ansible-vpc01"
+[dnszones]
+# name; description; type (public/private); email-address; ttl (in sec)
+zone1={{ zone_name }}.;Ansible generated DNS Zone;{{ zone_type }};{{ zone_email }};{{ zone_ttl }}
+[dnszonerecords]
+# domain; description; name; type; ttl; value
+{% set zcount = 1  %}
+{% for record in zone_data.stdout_lines %}
+{% set record_clean = record | regex_replace('(\\s+)', ';')  %}
+{% set pattern = "^(.*);(.*);(.*);(.*);(.*)$" %}
+{% set fqdn = record_clean | regex_replace(pattern, "\\1" ) %}
+{% set ttl = record_clean | regex_replace(pattern, "\\2" ) %}
+{% set rtyp = record_clean | regex_replace(pattern, "\\4" ) %}
+{% set value = record_clean | regex_replace(pattern, "\\5" ) %}
+{% if rtyp in ['A','CNAME','MX'] -%}  
+zonerecord{{ zcount }}={{ zone_name }}.;;{{ fqdn }};{{ rtyp }};{{ ttl }};{{ value }}
+{% set zcount = zcount + 1  %}
+{% endif %}
+{% endfor %}
