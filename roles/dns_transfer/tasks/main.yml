@@ -5,7 +5,7 @@
 
 - name: Create tenant_dns.ini file
   template:
-    src: roles/dns_transfer/templates/tenant_dns.ini.j2
+    src: tenant_dns.ini.j2
     dest: ./dns.ini
     force: yes
     backup: yes

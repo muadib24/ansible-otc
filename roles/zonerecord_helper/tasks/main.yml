@@ -31,7 +31,7 @@
     status_code: 200,201,202,203,400
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'roles/zonerecord_helper/templates/zone.json.j2')|to_json }}"
+    body: "{{ lookup('template', 'zone.json.j2')|to_json }}"
   register: zone
   with_items:
     - "{{ zone_list }}"
@@ -60,7 +60,7 @@
     status_code: 200,201,202,203,400
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'roles/zonerecord_helper/templates/zonerecord.json.j2')|to_json }}"
+    body: "{{ lookup('template', 'zonerecord.json.j2')|to_json }}"
   register: zonerecord
   with_items:
     - "{{ zonerecord_list }}"
