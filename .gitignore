@@ -1,3 +1,4 @@
 _secrets.yml
 _user_data*.txt
+tenant.ini.*
 *.retry
