@@ -15,6 +15,6 @@
 - name: Create env.yml file
   template:
     src: env.yml.j2
-    dest: ./env2.yml
+    dest: ./env.yml
     mode: 0600
     force: yes
