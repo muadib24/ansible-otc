@@ -6,9 +6,10 @@
     follow_redirects: all
     return_content: yes
     validate_certs: yes
-    HEADER_Content-Type: "application/json"
-    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'request.json.j2')|to_json }}"
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
+    body: "{{ lookup('template', 'ecscreate.json.j2')|to_json }}"
   register: ecs
   when:
     - ecs_name is defined

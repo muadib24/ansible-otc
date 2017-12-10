@@ -11,3 +11,24 @@
     - localaction is defined and localaction == "list"
   tags: 
     - ecslist
+
+- name: Lookup ecs_id
+  include: lookup.yml
+  when:
+    - ecs_name is defined
+  tags: 
+    - ecslookup
+
+- name: Get ECS detail
+  include: show.yml
+  when:
+    - localaction is defined and localaction == "show"
+  tags: 
+    - ecsshow
+
+- name: Delete ECS 
+  include: delete.yml
+  when:
+    - localaction is defined and localaction == "delete"
+  tags: 
+    - ecsdelete
