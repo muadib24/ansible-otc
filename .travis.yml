@@ -23,7 +23,7 @@ before_install:
 install:
   # Install Ansible.
   - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
-  - pip install ansible-lint
+  - pip install ansible-lint jmespath
 
 script:
   # Check the role/playbook's syntax.
