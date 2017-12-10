@@ -1,6 +1,9 @@
 Ansible for Open Telekom Cloud
 ==============================
 
+[![Documentation Status](https://readthedocs.org/projects/ansible-otc/badge/?version=latest)](http://ansible-otc.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/eumel8/ansible-otc.svg?branch=doc)](https://travis-ci.org/eumel8/ansible-otc)
+
 Intro
 =====
 
@@ -27,6 +30,7 @@ Roles
 =====
 |role         | description|
 |-------------|------------|
+|dns_transfer		| transfer a DNS zone |
 |ecs                    | list virtual machines|
 |ecs_create             | create and start virtual machine|
 |ecs_delete             | delete a specific virtual machine|
@@ -143,7 +147,8 @@ Files
 |secrets.yml     | var file for S3 credentials and endpoints (ansible-vault)|
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
 |hosts           | host file for ansible (we use only localhost)|
-|tenant.ini      | configuration file for complete tenant|
+|tenant.ini      | configuration file for tenant|
+|dns.ini         | configuration file for dns|
 
 
 os-client config
@@ -518,14 +523,25 @@ Full Working Example
 
 configure your VM in tenant.ini and run all necessary roles to bootstrap a VM
 
-    ansible-playbook -i hosts tenant_create.yml -e "ecs_name=ansible-test01" --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts tenant_create.yml -e "ecs_name=ansible-test01"
 
 This playbook will create VPC,Subnet, SecurityGroup, SSH-Keypair, allocate Floating-IP and boostrap the VM.
 
-configure your DNS in tenant.ini and deploy all zones and zonerecords
+configure your DNS in dns.ini and deploy all zones and zonerecords
 
-    ansible-playbook -i hosts dns_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts dns_create.yml
 
+transfer your private dns zones to OTC using zone transfer (data stored in data.ini, needs zone transfer rights on dns_server)
+
+    ansible-playbook dns_transfer.yml -e "dns_server=127.0.0.1" -e "zone_name=internal.example.com" -e "zone_type=private" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
+
+    ansible-playbook -i hosts dns_create.yml -e "vpc_name=ansible-vpc01"
+
+transfer your public dns zones to OTC using zone transfer
+
+    ansible-playbook dns_transfer.yml -e "dns_server=127.0.0.1" -e "zone_name=external.example.com" -e "zone_type=public" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
+
+    ansible-playbook -i hosts dns_create.yml
 
 Contributing
 ------------

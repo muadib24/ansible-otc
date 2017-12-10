@@ -8,7 +8,7 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'roles/ecs_create/templates/request.json.j2')|to_json }}"
+    body: "{{ lookup('template', 'request.json.j2')|to_json }}"
   register: ecs
   when:
     - ecs_name is defined

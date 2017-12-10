@@ -56,10 +56,11 @@ AUTH_URL_RDS: "https://rds.{{ PROJECT_NAME }}.otc.t-systems.com/rds/v1"
 Service endpoint for DNS is provided by IAM, so it's not necessary to setup.
 
 
-Imagine we have a tenant.ini with the configuration of all resources in our tenant. 
-DNS configuration are also there:
+Imagine we have a dns.ini with the configuration of all resources of DNS:
 
-![tenant.ini](/pictures/tenant-ini-dns.png)
+![dns.ini](/pictures/tenant-ini-dns.png)
+
+Formely the sections dnszones snd dnszonerecords were in tenant.ini file
 
 **Public** zones are isolated on OTC. You can host your zones there but there 
 is no registration service to catch new domains. This means you need to 
@@ -82,7 +83,7 @@ Related playbooks are *zone_create.yml*, *zonerecord_create.yml* and *ptrrecord_
 Lets start a virtual machine with a fixed private ip address and an allocated EIP:
 
 ```
-ansible-playbook -i hosts tenant_create.yml -e "ecs_name=ansible-testi101"
+ansible-playbook -i hosts tenant_create.yml -e "ecs_name=ansible-test101"
 ```
 
 In this play we allocate all resources to bootstrap our ECS instance, set the floating ip
@@ -128,6 +129,23 @@ Remove DNS reverse entry:
 ```
 ansible-playbook -i hosts ptrrecord_delete.yml -e "public_ip_address=160.44.207.211"
 ```
+
+Migrate your complete zones automatically
+
+Private zone:
+
+```
+ansible-playbook dns_transfer.yml -e "dns_server=127.0.0.1" -e "zone_name=internal.example.com" -e "zone_type=private" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
+ansible-playbook -i hosts dns_create.yml -e "vpc_name=ansible-vpc01"
+```
+
+Public zone:
+
+```
+ansible-playbook dns_transfer.yml  -e "dns_server=127.0.0.1" -e "zone_name=external.example.com" -e "zone_type=public" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
+ansible-playbook -i hosts dns_create.yml
+```
+
 
 End of PoC. Look at the [other plays and roles](https://github.com/eumel8/ansible-otc) to interact with OTC API
 

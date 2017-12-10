@@ -2,6 +2,7 @@
   set_fact:
     availability_zone_id: "bf84aba586ce4e948da0b97d9a7d62fb"
   when:
+    - elb_name is defined
     - listener_name is undefined
     - elb_availability_zone is defined and elb_availability_zone == "eu_de-01"
 
@@ -9,6 +10,7 @@
   set_fact:
     availability_zone_id: "bf84aba586ce4e948da0b97d9a7d62fc"
   when:
+    - elb_name is defined
     - listener_name is undefined
     - elb_availability_zone is defined and elb_availability_zone == "eu_de-02"
 
@@ -20,13 +22,17 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: image_name is defined
   register: ims_result
+  when:
+    - ecs_name is defined
+    - image_name is defined
 
 - name: Set fact image_id if image_name is defined
   set_fact:
     image_id: "{{ (ims_result.content|from_json)|json_query('images[].id|[0]') }}"
-  when: image_name is defined
+  when:
+    - ecs_name is defined
+    - image_name is defined
 
 - name: Request vpc list from API
   uri:
@@ -36,13 +42,17 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: vpc_name is defined
   register: vpc_result
+  when:
+    - ecs_name is defined
+    - vpc_name is defined
 
 - name: Set fact vpc_id if vpc_name is defined
   set_fact:
     vpc_id: "{{ (vpc_result.content|from_json)|json_query(\"vpcs[?name=='\" + vpc_name + \"'].id|[0]\") }}"
-  when: vpc_name is defined
+  when:
+    - ecs_name is defined
+    - vpc_name is defined
 
 - name: Request subnet list from API for elb
   uri:
@@ -53,6 +63,7 @@
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
   when:
+    - elb_name is defined
     - listener_name is undefined
     - elb_subnet_name is defined
   register: subnet_result
@@ -61,6 +72,7 @@
   set_fact:
     subnet_name: "{{ elb_subnet_name }}"
   when:
+    - elb_name is defined
     - listener_name is undefined
     - elb_subnet_name is defined and elb_subnet_name|length != 0
 
@@ -72,13 +84,17 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: subnet_name is defined
+  when:
+    - ecs_name is defined
+    - subnet_name is defined
   register: subnet_result
 
 - name: Set fact for subnet_id if subnet_name is defined
   set_fact:
     subnet_id: "{{ (subnet_result.content|from_json)|json_query(\"subnets[?name=='\" + subnet_name + \"'].id|[0]\") }}"
-  when: subnet_name is defined and subnet_name|length != 0
+  when:
+    - ecs_name is defined
+    - subnet_name is defined and subnet_name|length != 0
 
 - name: Request secgroup list from API for elb
   uri:
@@ -89,6 +105,7 @@
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
   when:
+    - elb_name is defined
     - listener_name is undefined
     - elb_secgroup_name is defined
   register: secgroup_result
@@ -97,6 +114,7 @@
   set_fact:
     secgroup_name: "{{ elb_secgroup_name }}"
   when:
+    - elb_name is defined
     - listener_name is undefined
     - elb_secgroup_name is defined
 
@@ -108,13 +126,16 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: secgroup_name is defined
+  when:
+    - ecs_name is defined
+    - secgroup_name is defined
   register: secgroup_result
 
 - name: Set fact for secgroup_id if secgroup_name is defined
   set_fact:
     secgroup_id: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id|[0]\") }}"
   when:
+    - ecs_name is defined
     - secgroup_name is defined and secgroup_name| length != 0
 
 - name: Request flavor list from API
@@ -125,13 +146,17 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: (ecs_ram is defined and ecs_ram|length != 0) and (ecs_vcpus is defined and ecs_vcpus|length != 0)
   register: flavor_result
+  when:
+    - ecs_name is defined
+    - (ecs_ram is defined and ecs_ram|length != 0) and (ecs_vcpus is defined and ecs_vcpus|length != 0)
 
 - name: Set fact flavor_id if ecs_ram or ecs_vcpus is defined
   set_fact:
     flavor_id: "{{ (flavor_result.content|from_json)|json_query('sort_by(flavors, &ram)|[?ram>=`' + ecs_ram + '` && vcpus>=`' + ecs_vcpus + '`].id|[0]') }}"
-  when: (ecs_ram is defined and ecs_ram |length != 0) or (ecs_vcpus is defined and ecs_vcpus|length != 0)
+  when:
+    - ecs_name is defined
+    - (ecs_ram is defined and ecs_ram |length != 0) or (ecs_vcpus is defined and ecs_vcpus|length != 0)
 
 - name: Request keypair list from  API
   uri:
@@ -141,13 +166,17 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: ecs_adminkey is defined
   register: keypairlist_result
+  when:
+    - ecs_name is defined
+    - ecs_adminkey is defined
 
 - name: Set fact ecs_adminkey_name if ecs_adminkey is defined
   set_fact:
     ecs_adminkey_name: "{{ (keypairlist_result.content|from_json)|json_query(\"keypairs[?keypair.name=='\" + ecs_adminkey + \"'].keypair.name\") }}"
-  when: ecs_adminkey is defined and ecs_adminkey|length != 0
+  when:
+    - ecs_name is defined
+    - ecs_adminkey is defined and ecs_adminkey|length != 0
 
 - name: Request floatingip list from API
   uri:
@@ -162,7 +191,9 @@
 - name: Set fact eip_id for eip if public_ip_address is defined
   set_fact:
     eip_id: "{{ (floatingiplist_result.content|from_json)|json_query(\"publicips[?public_ip_address=='\" + public_ip_address + \"'].id|[0]\") }}"
-  when: (public_ip_address is defined and public_ip_address | ipaddr)
+  when:
+    - ecs_name is defined
+    - (public_ip_address is defined and public_ip_address | ipaddr)
 
 - name: Request zone list from API
   uri:
@@ -239,12 +270,16 @@
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: listener_certificate_result
-  when: listener_certificate_name is defined and listener_certificate_name|length != 0
+  when:
+    - elb_name is defined
+    - listener_certificate_name is defined and listener_certificate_name|length != 0
 
 - name: Set fact listener_certificate_id for elb if listener_certificate_name is defined
   set_fact:
     listener_certificate_id: "{{ (listener_certificate_result.content|from_json)|json_query(\"certificates[?name=='\" + listener_certificate_name + \"'].id|[0]\") }}"
-  when: listener_certificate_name is defined and listener_certificate_name|length != 0
+  when:
+    - elb_name is defined
+    - listener_certificate_name is defined and listener_certificate_name|length != 0
 
 - name: Request elb listener from  API
   uri:

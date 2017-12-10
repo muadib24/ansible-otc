@@ -16,7 +16,7 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'roles/keypair_create/templates/request.json.j2')|to_json }}"
+    body: "{{ lookup('template', 'request.json.j2')|to_json }}"
   when:
     - keypair_file_stat.stat.exists
     - (not ecs_adminkey_name or ecs_adminkey_name is undefined)

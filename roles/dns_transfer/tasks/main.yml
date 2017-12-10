@@ -1,0 +1,11 @@
+---
+- name: Call dig to catch zone information
+  shell: dig {{ zone_name }} @{{ dns_server }} axfr
+  register: zone_data
+
+- name: Create tenant_dns.ini file
+  template:
+    src: tenant_dns.ini.j2
+    dest: ./dns.ini
+    force: yes
+    backup: yes

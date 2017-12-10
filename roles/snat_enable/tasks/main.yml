@@ -31,7 +31,7 @@
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'roles/snat_enable/templates/request.json.j2')|to_json }}"
+    body: "{{ lookup('template', 'request.json.j2')|to_json }}"
   when:
     - vpc_id is defined
     - enable_snat is defined
