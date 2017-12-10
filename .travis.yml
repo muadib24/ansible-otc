@@ -14,7 +14,8 @@ env:
 
 branches:
   only:
-    - doc
+    - master
+    - dev
 
 before_install:
   - sudo apt-get update -qq
