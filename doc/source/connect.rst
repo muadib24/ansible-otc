@@ -1,3 +1,5 @@
+.. _Connect_Cheat_Sheet:
+
 OTC Connect Cheat Sheet
 =======================
 

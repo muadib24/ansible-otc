@@ -2,7 +2,7 @@ Ansible for Open Telekom Cloud
 ==============================
 
 Intro
-=====
+-----
 
 Deutsche Telekom offers since March 2016 an IaaS Service named
 Open Telekom Cloud (OTC). The service includes
@@ -20,13 +20,13 @@ and other useful things. The portfolio will rapidly developed.
 
 
 Content
-=======
+-------
 Here are some roles to demonstrate how to interact with OTC-API.
 ECS-API is origin developed by Huawei and described `here
 <http://support.hwclouds.com/en-us/api/ecs/en-us_topic_0020805967.html>`__
 
-Roles
-=====
+Roles for lab
+-------------
 
 
 +------------------------+-------------------------------------------------+
@@ -172,7 +172,7 @@ Roles
 +------------------------+-------------------------------------------------+
 
 Requirements
-============
+------------
 
 * curl
 * openssl
@@ -202,7 +202,7 @@ credentials on OTC (username, password, domain, S3 access/secret key)
 
 
 Files outside the repo
-======================
+----------------------
 
 
 +--------------------------------+-----------------------------------------------------------------+
@@ -212,7 +212,7 @@ Files outside the repo
 +--------------------------------+-----------------------------------------------------------------+
 
 Files
-=====
+-----
 
 +-----------------+--------------------------------------------------------------------+
 | filename        | description                                                        |
@@ -234,7 +234,7 @@ Files
 
 
 os-client config
-================
+----------------
 
 for more comfort and standardization we moved credential lookup from secrets.yml to clouds.yml (part of https://docs.openstack.org/developer/os-client-config/). If you already configured your OTC credentials there put your profile name in env.yml or use
 
@@ -253,7 +253,7 @@ profile will created for you::
 
 
 Starting up
-===========
+-----------
 
 ::
 

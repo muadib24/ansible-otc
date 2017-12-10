@@ -23,7 +23,7 @@ Documentation can you found at https://docs.otc.t-systems.com/en-us/dns_dld/inde
 
 Let's start to implement some DNS entries via API. We will do this with Ansible.
 
-First of all we need connection to OTC. Use the `[Connect Cheat Sheet] <https://github.com/eumel8/ansible-otc/blob/poc_dns_v2/CONNECT.md>`__
+First of all we need connection to OTC. Use the :ref:`Connect_Cheat_Sheet`
 
 It's a good idea to install openstack-client because ansible will use
 the same os-client-config::

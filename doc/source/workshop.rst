@@ -1,6 +1,7 @@
-# Ansible OTC Workshop
+Ansible OTC Workshop
+====================
 
-You need  a valid connetion to OTC with ansible. See CONNECT.md section 4.
+You need  a valid connetion to OTC with ansible. See :ref:`Connect_Cheat_Sheet` section 4.
 
 ## 1. List all running ECS instances (VMs)::
 
