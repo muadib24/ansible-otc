@@ -1,6 +1,9 @@
 Ansible for Open Telekom Cloud
 ==============================
 
+[![Documentation Status](https://readthedocs.org/projects/ansible-otc/badge/?version=latest)](http://ansible-otc.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/eumel8/ansible-otc.svg?branch=doc)](https://travis-ci.org/eumel8/ansible-otc)
+
 Intro
 =====
 
