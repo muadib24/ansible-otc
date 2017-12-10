@@ -30,7 +30,7 @@ script:
   - ansible-lint .
 
   # Run the role/playbook with ansible-playbook.
-  - ansible-playbook playbooks/auth.yml
+  - test/tests.sh
 
   # check is the user is created or not
   # - id -u testusername | grep -q "no" && (echo "user not found" && exit 1) || (echo "user found" && exit 0)

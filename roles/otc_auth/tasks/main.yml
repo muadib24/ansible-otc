@@ -3,6 +3,8 @@
   with_first_found:
     - "vars/env.yml"
     - "vars/_secrets.yml"
+  tags:
+    - always
 
 - name: Check if os-client config exists
   vars:
@@ -10,6 +12,8 @@
   stat:
     path: "{{ user_home }}/.config/openstack/clouds.yml"
   register: osclientconfigfile
+  tags:
+    - always
 
 - name: Get token with env variables
   include: token.yml
@@ -19,6 +23,8 @@
     PROJECT_NAME: "{{ lookup('env','OS_PROJECT_NAME') }}"
     DOMAIN: "{{ lookup('env','OS_USER_DOMAIN_NAME') }}"
   when: not osclientconfigfile.stat.exists
+  tags:
+    - always
 
 - name: Get token with os-client config
   include: token.yml
@@ -29,4 +35,6 @@
     PROJECT_NAME: "{{ os_client_config['clouds'][CLOUD]['auth']['project_name'] }}"
     DOMAIN: "{{ os_client_config['clouds'][CLOUD]['auth']['user_domain_name'] }}"
   when: osclientconfigfile.stat.exists
+  tags:
+    - always
 

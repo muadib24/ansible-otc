@@ -1,0 +1,24 @@
+- name: Request flavor list from API
+  uri:
+    url: "{{ AUTH_URL_ECS_CLOUD }}/{{ PROJECT_ID }}/cloudservers/flavors"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
+  register: flavorlist
+  tags:
+    - flavors
+
+- name: Debug output flavor long list
+  debug: 
+    msg: "{{ flavorlist.content }}"
+  when:
+    - output is defined and output == "long"
+
+- name: Debug output flavors short list
+  debug: 
+    msg: "[<id> <name> <vcpu> <ram>] {% for flavor in flavorlist.json.flavors %}[{{ flavor.id }} {{ flavor.name }} {{ flavor.vcpus }} {{ flavor.ram }}]{% endfor %}"
+  when:
+    - output is undefined
