@@ -9,20 +9,20 @@ Build your own images with ansible
 6. Upload VM image to IMS (private, customize name)
 
 Supported OS:
-=============
+-------------
 
 * Ubuntu 14.04
 * Ubuntu 16.04
 
 Requirements:
-=============
+-------------
 
 ** adjust buildservice_var.yml **
 
 S3 credentials in _secrets.yml
 
 Usage:
-======
+------
 
     ansible-playbook  -i hosts buildservice.yml -e "distro=trusty" --vault-password-file vaultpass.txt
 

@@ -1,4 +1,4 @@
 Roles
 =====
 
-.. include:: ../..//roles/ecs/README.rst
+.. include:: ../../roles/otc_auth/README.rst
