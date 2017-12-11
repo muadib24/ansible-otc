@@ -1,5 +1,6 @@
 #!/bin/sh
 
+cd tests
 # test flavor list
 ansible-playbook test.yml -e "localaction=flavor"
 
