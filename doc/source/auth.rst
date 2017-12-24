@@ -42,7 +42,7 @@ Call the playbooks with vault param to encrypt the secret store::
     ansible-playbook ecs.yml --vault-password-file vaultpass.txt
 
 
-*vaultpass.txt* containts in this case the ansible-vault password.
+*vaultpass.txt* contains in this case the ansible-vault password.
 The default password on our repo is: linux :-)
 
 os-client config
