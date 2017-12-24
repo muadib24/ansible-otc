@@ -41,18 +41,19 @@ YAML file variables
 -------------------
 
 YAML are also human readable. The format is key:value, but the value can
-also include another key, so you can group your items like
+also include another key, so you can group your items like::
 
-default-default_of_whatever
-vms-vm1
-   -vm2
-   -vm3
-evs-evs1
-   -evs2
-   -evs3
-elb-elb1
-   -elb2
-   -elb3
+    default-default_of_whatever
+
+    vms-vm1
+       -vm2
+       -vm3
+    evs-evs1
+       -evs2
+       -evs3
+    elb-elb1
+       -elb2
+       -elb3
 
 Example is on playbooks/vars/tenant.yml
 
