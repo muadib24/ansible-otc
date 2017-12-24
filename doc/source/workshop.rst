@@ -113,4 +113,4 @@ You need  a valid connetion to OTC with ansible. See :ref:`Connect_Cheat_Sheet` 
 
 10. Delete ECS instance::
 
-    ansible-playbook  -e "ecs_id=c814e303-7e66-4f08-ac70-18c8e27ca623" -e "ecs_name=myecs" -e "delete_publicip=1" -e  "delete_volume=1" ecs_delete.yml --vault-password-file vaultpass.txt
+     ansible-playbook  -e "ecs_id=c814e303-7e66-4f08-ac70-18c8e27ca623" -e "ecs_name=myecs" -e "delete_publicip=1" -e  "delete_volume=1" ecs_delete.yml --vault-password-file vaultpass.txt
