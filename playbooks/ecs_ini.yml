@@ -1,0 +1,67 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    tenant_ini: "vars/tenant.ini"
+# ECS vars
+    availability_zone: "{{ lookup('ini', 'availability_zone section={{ ecs_name }} file={{ {{ tenant_ini }} }}') | default(lookup('ini', 'availability_zone section=DEFAULT file={{ tenant_ini }}') )}}"
+    ecs_adminkey: "{{ lookup('ini', 'ecs_adminkey section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_adminkey section=DEFAULT file={{ tenant_ini }}') ) }}"
+    ecs_volumesize: "{{ lookup('ini', 'ecs_volumesize section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_volumesize section=DEFAULT file={{ tenant_ini }}') ) }}"
+    ecs_volumetype: "{{ lookup('ini', 'ecs_volumetype section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_volumetype section=DEFAULT file={{ tenant_ini }}') ) }}"
+    ecs_ram: "{{ lookup('ini', 'ecs_ram section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_ram section=DEFAULT file={{ tenant_ini }}') ) }}"
+    ecs_vcpus: "{{ lookup('ini', 'ecs_vcpus section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_vcpus section=DEFAULT file={{ tenant_ini }}') ) }}"
+    ecs_ipaddress: "{{ lookup('ini', 'ecs_ipaddress section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_ipaddress section=DEFAULT file={{ tenant_ini }}') ) }}"
+    public_ip_address: "{{ lookup('ini', 'ecs_publicip section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_publicip section=DEFAULT file={{ tenant_ini }}') ) }}"
+    ptr_name: "{{ lookup('ini', 'ecs_publicfqdn section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_publicfqdn section=DEFAULT file={{ tenant_ini }}') ) }}"
+    ttl: "{{ lookup('ini', 'ecs_publicttl section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_publicttl section=DEFAULT file={{ tenant_ini }}') ) }}"
+    eip_bandwidth_name: "{{ lookup('ini', 'eip_bandwidth_name section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'eip_bandwidth_name section=DEFAULT file={{ tenant_ini }}') ) }}"
+    eip_bandwidth_size: "{{ lookup('ini', 'eip_bandwidth_size section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'eip_bandwidth_size section=DEFAULT file={{ tenant_ini }}') ) }}"
+    image_name: "{{ lookup('ini', 'image_name section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'image_name section=DEFAULT file={{ tenant_ini }}') ) }}"
+    keypair_file: "{{ lookup('ini', 'keypair_file section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'keypair_file section=DEFAULT file={{ tenant_ini }}') ) }}"
+    secgroup_name: "{{ lookup('ini', 'secgroup_name section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'secgroup_name section=DEFAULT file={{ tenant_ini }}') ) }}"
+    subnet_name: "{{ lookup('ini', 'subnet_name section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_name section=DEFAULT file={{ tenant_ini }}') ) }}"
+    subnet_net: "{{ lookup('ini', 'subnet_net section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_net section=DEFAULT file={{ tenant_ini }}') ) }}"
+    subnet_gateway: "{{ lookup('ini', 'subnet_gateway section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_gateway section=DEFAULT file={{ tenant_ini }}') ) }}"
+    subnet_dhcp_enable: "{{ lookup('ini', 'subnet_dhcp_enable section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_dhcp_enable section=DEFAULT file={{ tenant_ini }}') ) }}"
+    subnet_primary_dns: "{{ lookup('ini', 'subnet_primary_dns section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_primary_dns section=DEFAULT file={{ tenant_ini }}') ) }}"
+    subnet_secondary_dns: "{{ lookup('ini', 'subnet_secondary_dns section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_secondary_dns section=DEFAULT file={{ tenant_ini }}') ) }}"
+    vpc_name: "{{ lookup('ini', 'vpc_name section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'vpc_name section=DEFAULT file={{ tenant_ini }}') ) }}"
+    vpc_net: "{{ lookup('ini', 'vpc_net section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'vpc_net section=DEFAULT file={{ tenant_ini }}') ) }}"
+# EVS vars
+    evs_availability_zone: "{{ lookup('ini', 'evs_availability_zone section={{ evs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'evs_availability_zone section=DEFAULT file={{ tenant_ini }}') ) }}"
+    evs_volume_type: "{{ lookup('ini', 'evs_volume_type section={{ evs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'evs_volume_type section=DEFAULT file={{ tenant_ini }}') ) }}"
+    evs_size: "{{ lookup('ini', 'evs_size section={{ evs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'evs_size section=DEFAULT file={{ tenant_ini }}') ) }}"
+    evs_multiattach: "{{ lookup('ini', 'evs_multiattach section={{ evs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'evs_multiattach section=DEFAULT file={{ tenant_ini }}') ) }}"
+    evs_scsi: "{{ lookup('ini', 'evs_scsi section={{ evs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'evs_scsi section=DEFAULT file={{ tenant_ini }}') ) }}"
+# ELB vars
+    admin_state_up: "{{ lookup('ini', 'admin_state_up section={{ elb_name }} file={{ tenant_ini }}') | default(lookup('ini', 'admin_state_up section=DEFAULT file={{ tenant_ini }}') ) }}"
+    elb_availability_zone: "{{ lookup('ini', 'elb_availability_zone section={{ elb_name }} file={{ tenant_ini }}') | default(lookup('ini', 'elb_availability_zone section=DEFAULT file={{ tenant_ini }}') ) }}"
+    elb_bandwidth: "{{ lookup('ini', 'elb_bandwidth section={{ elb_name }} file={{ tenant_ini }}') | default(lookup('ini', 'elb_bandwidth section=DEFAULT file={{ tenant_ini }}') ) }}"
+    elb_type: "{{ lookup('ini', 'elb_type section={{ elb_name }} file={{ tenant_ini }}') | default(lookup('ini', 'elb_type section=DEFAULT file={{ tenant_ini }}') ) }}"
+    elb_secgroup_name: "{{ lookup('ini', 'elb_secgroup_name section={{ elb_name }} file={{ tenant_ini }}') | default(lookup('ini', 'elb_secgroup_name section=DEFAULT file={{ tenant_ini }}') ) }}"
+    elb_subnet_name: "{{ lookup('ini', 'elb_subnet_name section={{ elb_name }} file={{ tenant_ini }}') | default(lookup('ini', 'elb_subnet_name section=DEFAULT file={{ tenant_ini }}') ) }}"
+# ELB listener vars
+    listener_protocol: "{{ lookup('ini', 'listener_protocol section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_protocol section=DEFAULT file={{ tenant_ini }}') ) }}"
+    listener_port: "{{ lookup('ini', 'listener_port section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_port section=DEFAULT file={{ tenant_ini }}') ) }}"
+    listener_backend_protocol: "{{ lookup('ini', 'listener_backend_protocol section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_backend_protocol section=DEFAULT file={{ tenant_ini }}') ) }}"
+    listener_backend_port: "{{ lookup('ini', 'listener_backend_port section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_backend_port section=DEFAULT file={{ tenant_ini }}') ) }}"
+    listener_lb_algorithm: "{{ lookup('ini', 'listener_lb_algorithm section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_lb_algorithm section=DEFAULT file={{ tenant_ini }}') ) }}"
+    listener_certificate_name: "{{ lookup('ini', 'listener_certificate_name section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_certificate_name section=DEFAULT file={{ tenant_ini }}') ) }}"
+    listener_tcp_timeout: "{{ lookup('ini', 'listener_tcp_timeout section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_tcp_timeout section=DEFAULT file={{ tenant_ini }}') ) }}"
+    listener_cookie_timeout: "{{ lookup('ini', 'listener_cookie_timeout section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_cookie_timeout section=DEFAULT file={{ tenant_ini }}') ) }}"
+    listener_sticky_session_type: "{{ lookup('ini', 'listener_sticky_session_type section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_sticky_session_type section=DEFAULT file={{ tenant_ini }}') ) }}"
+    listener_session_sticky: "{{ lookup('ini', 'listener_session_sticky section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'listener_session_sticky section=DEFAULT file={{ tenant_ini }}') ) }}"
+# ELB healthcheck vars
+    healthcheck_connect_port: "{{ lookup('ini', 'healthcheck_connect_port section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'healthcheck_connect_port section=DEFAULT file={{ tenant_ini }}') ) }}"
+    healthcheck_interval: "{{ lookup('ini', 'healthcheck_interval section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'healthcheck_interval section=DEFAULT file={{ tenant_ini }}') ) }}"
+    healthcheck_protocol: "{{ lookup('ini', 'healthcheck_protocol section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'healthcheck_protocol section=DEFAULT file={{ tenant_ini }}') ) }}"
+    healthcheck_timeout: "{{ lookup('ini', 'healthcheck_timeout section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'healthcheck_timeout section=DEFAULT file={{ tenant_ini }}') ) }}"
+    healthcheck_uri: "{{ lookup('ini', 'healthcheck_uri section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'healthcheck_uri section=DEFAULT file={{ tenant_ini }}') ) }}"
+    unhealthy_threshold: "{{ lookup('ini', 'unhealthy_threshold section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'unhealthy_threshold section=DEFAULT file={{ tenant_ini }}') ) }}"
+# ELB backend member
+    backend_members: "{{ lookup('ini', 'backend_members section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'backend_members section=DEFAULT file={{ tenant_ini }}') ) }}"
+
+  tasks:
+
+  - debug:
+      msg: "{{ image_name }}"

@@ -1,0 +1,54 @@
+{
+  "default": {
+    "image_name" : "Community_Ubuntu_16.04_TSI_latest",
+    "availability_zone" : "eu-de-01",
+    "evs_availability_zone" : "eu-de-01",
+    "vpc_name" : "ansible-vpc01",
+    "vpc_net" : "192.168.0.0/16",
+    "subnet_name" : "ansible-subnet01",
+    "subnet_net" : "192.168.0.0/24",
+    "subnet_gateway" : "192.168.0.1",
+    "subnet_dhcp_enable" : "true",
+    "subnet_primary_dns" : "8.8.8.8",
+    "subnet_secondary_dns" : "8.4.4.8",
+    "secgroup_name" : "ansible-secgroup01",
+    "secgroup_rule1" : "ingress;IPv4;tcp;22;22;0.0.0.0/0",
+    "ecs_volumetype" : "SATA",
+    "ecs_ram" : "2048",
+    "ecs_vcpus" : "2",
+    "ecs_adminkey" : "ansible-key",
+    "keypair_file" : "~/.ssh/id_rsa.pub"
+    },
+   "vms": {
+     "ansible-test01" : {
+       "vpc_name" : "ansible-vpc01",
+       "availability_zone" : "eu-de-01",
+       "subnet_name" : "ansible-subnet02",
+       "secgroups" : [ "default-ansible", "ansible-test-01" ],
+       "ecs_ipaddress" : "192.168.0.101",
+       "ecs_publicip" : "0.0.0.0",
+       "ecs_publicfqdn" : "ansible-test01.ansible.otc.telekomcloud2.com.",
+       "ecs_publicttl" : "300",
+       "eip_bandwidth_name" : "ansible-eip01",
+       "eip_bandwidth_size" : "500"
+     },
+     "ansible-test02" : {
+       "image_name" : "Community_Ubuntu_14.04_TSI_latest",
+       "vpc_name" : "ansible-vpc01",
+       "availability_zone" : "eu-de-01",
+       "ecs_volumetype" : "SATA",
+       "ecs_ram" : "2048",
+       "ecs_vcpus" : "4",
+       "ecs_ipaddress" : "192.168.0.102"
+     }
+   },
+  "security-groups" : {
+    "default-ansible" : {
+      "ingress" : [ "tcp;22;0.0.0.0", "icmp;any;0.0.0.0" ],
+      "egress" : [ "tcp;any;any" ]
+    },
+    "ansible-test-01" : {
+      "ingress" : [ "tcp;22022;0.0.0.0" ]
+    }
+  }
+}
