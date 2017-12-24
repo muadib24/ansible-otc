@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ansible-otc documentation!
+Welcome to Ansible-OTC documentation!
 =====================================
 
 .. toctree::
@@ -11,6 +11,10 @@ Welcome to ansible-otc documentation!
    :caption: Contents:
 
    intro
+   install
+   auth
+   config
+   labroles
    connect
    workshop
    buildservice

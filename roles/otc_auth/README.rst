@@ -1,3 +1,4 @@
+.. _otc_auth_role:
 otc_auth
 --------
 
