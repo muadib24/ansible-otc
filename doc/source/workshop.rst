@@ -74,9 +74,9 @@ To distinguish the resources, use your own namespace::
 
 Pitfalls: 
 
-* ecs_ipaddress must be in subnet_net
-* subnet_net must be in vpc_net
-* names are often not unique. multiple ecs, security groups can have the same name
+    * ecs_ipaddress must be in subnet_net
+    * subnet_net must be in vpc_net
+    * names are often not unique. multiple ecs, security groups can have the same name
 
 #. Start and check your ECS instance::
 
