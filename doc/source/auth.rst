@@ -8,7 +8,7 @@ connect to the cloud. Ansible-OTC provides three ways:
 Using Ansible Vault
 -------------------
 
-The feature to store secrets is `Ansible Vault <https://docs.ansible.com/ansible/2.4/vault.html`__.
+The feature to store secrets is `Ansible Vault <https://docs.ansible.com/ansible/2.4/vault.html>`__.
 In Ansible-OTC is a files named *secrets.yml* which contains auth
 credentials for OTC services::
 
