@@ -3,33 +3,33 @@ Ansible OTC Workshop
 
 You need  a valid connetion to OTC with ansible. See :ref:`Connect_Cheat_Sheet` section 4.
 
-#. List all running ECS instances (VMs)::
+1. List all running ECS instances (VMs)::
 
     ansible-playbook  ecs.yml --vault-password-file vaultpass.txt
 
-#. List all available images (IMS)::
+2. List all available images (IMS)::
 
     ansible-playbook  images.yml --vault-password-file vaultpass.txt
 
-#. List all available VPC (Network)::
+3. List all available VPC (Network)::
 
     ansible-playbook  vpc.yml --vault-password-file vaultpass.txt
 
-#. List all available Floating IP (EIP)::
+4. List all available Floating IP (EIP)::
 
     ansible-playbook  eip.yml --vault-password-file vaultpass.txt
 
-#. List all available security groups (Network)::
+5. List all available security groups (Network)::
 
     ansible-playbook  secgroups.yml --vault-password-file vaultpass.txt
 
-#. Generate local ssh-key::
+6. Generate local ssh-key::
 
     ssh-keygen
 
-#. Configure your ECS instance in tenant.ini
+7. Configure your ECS instance in tenant.ini
 
-To distinguish the resources, use your own namespace::
+    To distinguish the resources, use your own namespace::
 
     # section name is instance name of the VM
     [myecs]
@@ -72,45 +72,45 @@ To distinguish the resources, use your own namespace::
     # SSH-key to inject the ecs instance
     keypair_file=~/.ssh/id_rsa.pub
 
-Pitfalls: 
+  Pitfalls: 
 
-    #. ecs_ipaddress must be in subnet_net
-    #. subnet_net must be in vpc_net
-    #. names are often not unique. multiple ecs, security groups can have the same name
+    * ecs_ipaddress must be in subnet_net
+    * subnet_net must be in vpc_net
+    * names are often not unique. multiple ecs, security groups can have the same name
 
-#. Start and check your ECS instance::
+8. Start and check your ECS instance::
 
     ansible-playbook  tenant_create.yml -e "ecs_name=myecs" --vault-password-file vaultpass.txt
 
-ansible should work through the playbooks. Last task should output the JobID. 
-You can check the job status (use your own JobID) ::
+  ansible should work through the playbooks. Last task should output the JobID. 
+  You can check the job status (use your own JobID) ::
 
     ./ajob "2c9eb2c55c913859015c9636c3a5151f"
 
-When the status is SUCCESS ECS instance is running.
-In ansible output below you find in eip_apply the new floating ip. 
-Test connectivity (use your own address)::
+  When the status is SUCCESS ECS instance is running.
+  In ansible output below you find in eip_apply the new floating ip. 
+  Test connectivity (use your own address)::
 
     ping 160.44.xxx.xxx
 
-Alternate way to catch the floating ip:
+  Alternate way to catch the floating ip:
 
-* grab the list of ecs instances
-* copy the ecs_id of your ecs instance
-* in detail view of your ecs instance search for internal ipaddress
-* grab the list of eip and compare association of internal and floating ipaddresses
+  * grab the list of ecs instances
+  * copy the ecs_id of your ecs instance
+  * in detail view of your ecs instance search for internal ipaddress
+  * grab the list of eip and compare association of internal and floating ipaddresses
 
-cmd::
+  cmd::
 
     ansible-playbook  -e ecs.yml --vault-password-file vaultpass.txt
     ansible-playbook  -e "ecs_id="c814e303-7e66-4f08-ac70-18c8e27ca623"" -e "ecs_name=myecs" ecs_show.yml --vault-password-file vaultpass.txt
     ansible-playbook  -e eip.yml --vault-password-file vaultpass.txt
 
-#. SSH Login in your ECS instance::
+9. SSH Login in your ECS instance::
 
     ssh -i .ssh/id_rsa ubuntu@160.44.xxx.xxx
     exit
 
-#. Delete ECS instance::
+10. Delete ECS instance::
 
     ansible-playbook  -e "ecs_id=c814e303-7e66-4f08-ac70-18c8e27ca623" -e "ecs_name=myecs" -e "delete_publicip=1" -e  "delete_volume=1" ecs_delete.yml --vault-password-file vaultpass.txt
