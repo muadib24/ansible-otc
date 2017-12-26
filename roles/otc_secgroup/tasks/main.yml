@@ -1,0 +1,27 @@
+- name: Get Secgroup list
+  include: list.yml
+  when:
+    - localaction is defined and localaction == "list"
+  tags: 
+    - subnetlist
+
+- name: Get Secgroup detail
+  include: show.yml
+  when:
+    - localaction is defined and localaction == "show"
+  tags: 
+    - subnetshow
+
+- name: Create Secgroup
+  include: create.yml
+  when:
+    - localaction is defined and localaction == "create"
+  tags: 
+    - subnetcreate
+
+- name: Delete Secgroup
+  include: delete.yml
+  when:
+    - localaction is defined and localaction == "delete"
+  tags: 
+    - subnetdelete
