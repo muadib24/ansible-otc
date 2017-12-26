@@ -1,6 +1,6 @@
 .. _otc_auth_role:
 otc_auth
---------
+========
 
 OTC role for authentification.
 
@@ -37,14 +37,12 @@ Create::
 
 Read::
 
-n/a
+    n/a
 
 Update::
 
-n/a
+    n/a
 
 Delete::
 
-n/a
-
-
+    n/a

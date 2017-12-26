@@ -1,7 +1,7 @@
-otc_subnet
-==========
+otc_secgroup
+============
 
-OTC role for Subnet.
+OTC role for Secgroup.
 
 Variables:
 ^^^^^^^^^^
@@ -9,9 +9,9 @@ Variables:
 +-------------------------+---------------------------------------------+
 | Name                    | Description                                 |
 +=========================+=============================================+
-| subnet_name             | name of Subnet                              |
+| secgroup_name           | name of Secgroup                            |
 +-------------------------+---------------------------------------------+
-| subnet_id               | id of Subnet                                |
+| secgroup_id             | id of Secgroup                              |
 +-------------------------+---------------------------------------------+
 
 Functions:

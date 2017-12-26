@@ -1,5 +1,5 @@
 otc_vpc
---------
+=======
 
 OTC role for VPC.
 
@@ -13,7 +13,7 @@ Variables:
 +-------------------------+---------------------------------------------+
 | localaction=snat        | Configure SNAT on VPC                       |
 +-------------------------+---------------------------------------------+
-| enable_snat=true|false  | Enable or disable SNAT                   |
+| enable_snat=true|false  | Enable or disable SNAT                      |
 +-------------------------+---------------------------------------------+
 | vpc_name                | name of VPC                                 |
 +-------------------------+---------------------------------------------+
@@ -25,18 +25,16 @@ Functions:
 
 Create::
 
-
+    ++
 
 Show::
 
-
+    ++
 
 List::
 
-
+    ++
 
 Delete::
 
-
-
-
+    ++
