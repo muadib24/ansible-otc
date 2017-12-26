@@ -1,8 +1,8 @@
 Roles
-=====
+*****
 
 Variables:
-^^^^^^^^^^
+==========
 
 +----------------------------------------------+----------------------------------------------+
 | Name                                         | Description                                  |
@@ -13,8 +13,9 @@ Variables:
 +----------------------------------------------+----------------------------------------------+
 
 Functions:
-^^^^^^^^^^
+==========
 
 .. include:: ../../roles/otc_auth/README.rst
 .. include:: ../../roles/otc_vpc/README.rst
+.. include:: ../../roles/otc_subnet/README.rst
 .. include:: ../../roles/otc_ecs/README.rst
