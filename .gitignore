@@ -5,3 +5,4 @@ tenant.ini.*
 .eggs/
 .tox/
 ansible_otc.egg-info/
+doc/build/
