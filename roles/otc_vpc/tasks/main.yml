@@ -5,19 +5,19 @@
   tags: 
     - vpclist
 
+- name: Configure SNAT on VPC
+  include: snat.yml
+  when:
+    - localaction is defined and localaction == "snat"
+  tags: 
+    - vpcsnat
+
 - name: Get VPC Router Info
   include: router.yml
   when:
     - localaction is defined and localaction == "router"
   tags: 
     - vpcrouter
-
-- name: Lookup vpc_id
-  include: lookup.yml
-  when:
-    - vpc_name is defined
-  tags: 
-    - vpclookup
 
 - name: Get VPC detail
   include: show.yml

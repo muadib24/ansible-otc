@@ -25,18 +25,18 @@ Functions:
 
 Create::
 
-    role otc_auth
+
 
 Show::
 
-n/a
+
 
 List::
 
-n/a
+
 
 Delete::
 
-n/a
+
 
 
