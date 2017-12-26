@@ -66,12 +66,6 @@ Roles for lab (on migration)
 +------------------------+-------------------------------------------------+
 | flavors                | show flavors                                    |
 +------------------------+-------------------------------------------------+
-| images                 | show images                                     |
-+------------------------+-------------------------------------------------+
-| image_create           | create an image                                 |
-+------------------------+-------------------------------------------------+
-| image_delete           | delete an image                                 |
-+------------------------+-------------------------------------------------+
 | job                    | show job status                                 |
 +------------------------+-------------------------------------------------+
 | keypairs               | show ssh keypairs                               |
@@ -268,22 +262,6 @@ apply a new elastic ip-address (bandwidth between 1-300 MBit/s)::
 delete elastic ip-address::
 
     ansible-playbook  eip_delete.yml -e "public_ip_address=160.44.195.18"
-
-show images::
-
-    ansible-playbook  images.yml
-
-create image (from stopped ecs instance)::
-
-    ansible-playbook  image_create.yml -e "image_name=ansible-image01" -e "ecs_name=ansible-test01"
-
-create image (from obs image_url <bucket>:<file>)::
-
-    ansible-playbook  image_create.yml -e "image_name=ansible-image02" -e "image_url=ansible1:/xenial-server-cloudimg-amd64-disk1.vmdk" -e "image_min_disk=12"
-
-delete an image (API return code is 204 when success, ansible expected 200 and may give an error)::
-
-     ansible-playbook  -e "image_id=af0a0bcf-7be3-4722-98ba-3350801a8cd5" image_delete.yml
 
 show job status::
 
