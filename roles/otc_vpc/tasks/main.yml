@@ -19,6 +19,13 @@
   tags: 
     - vpcrouter
 
+- name: Get vpc_id
+  include: lookup.yml
+  when:
+    - vpc_name is defined
+  tags: 
+    - vpclookup
+
 - name: Get VPC detail
   include: show.yml
   when:
