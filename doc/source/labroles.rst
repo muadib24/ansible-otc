@@ -64,8 +64,6 @@ Roles for lab (on migration)
 +------------------------+-------------------------------------------------+
 | evs_show               | information about a specific volume             |
 +------------------------+-------------------------------------------------+
-| flavors                | show flavors                                    |
-+------------------------+-------------------------------------------------+
 | job                    | show job status                                 |
 +------------------------+-------------------------------------------------+
 | keypairs               | show ssh keypairs                               |
@@ -246,10 +244,6 @@ delete a volume ::
 show information about a single volume::
 
     ansible-playbook  evs_show.yml -e "evs_name=ansible-evs01"
-
-show flavors::
-
-    ansible-playbook  flavors.yml
 
 show elastic ip-addresses::
 
