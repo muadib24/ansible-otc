@@ -37,4 +37,3 @@
   when: osclientconfigfile.stat.exists
   tags:
     - always
-
