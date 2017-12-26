@@ -114,21 +114,7 @@ Roles for lab (on migration)
 +------------------------+-------------------------------------------------+
 | secgrouprule_delete    | delete security group rule                      |
 +------------------------+-------------------------------------------------+
-| subnet                 | show subnet                                     |
-+------------------------+-------------------------------------------------+
-| subnet_create          | create subnet                                   |
-+------------------------+-------------------------------------------------+
-| subnet_delete          | delete subnet                                   |
-+------------------------+-------------------------------------------------+
 | token                  | get auth token                                  |
-+------------------------+-------------------------------------------------+
-| vpc                    | show vpc                                        |
-+------------------------+-------------------------------------------------+
-| vpc_router             | show vpc router info and set facts              |
-+------------------------+-------------------------------------------------+
-| vpc_create             | create vpc                                      |
-+------------------------+-------------------------------------------------+
-| vpc_delete             | delete vpc                                      |
 +------------------------+-------------------------------------------------+
 | zones                  | show DNS zones                                  |
 +------------------------+-------------------------------------------------+
@@ -246,14 +232,6 @@ create backends for elastic loadbalancer::
 delete backends for elastic loadbalancer::
 
     ansible-playbook  elb_backends_delete.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" -e "elb_backends_id=d15e2f8dd7d64d95a6b5c2a791cac408"
-
-enable SNAT on specific VPC::
-
-    ansible-playbook  snat_enable.yml -e "vpc_name=ansible-vpc1" -e "enable_snat=true"
-
-disable SNAT on specific VPC::
-
-    ansible-playbook  snat_enable.yml -e "vpc_name=ansible-vpc1" -e "enable_snat=false"
 
 discover API endpoints::
 
@@ -436,34 +414,6 @@ create security group rule (subtask in tenant_create ecs section)::
 delete security group rule::
 
     ansible-playbook  secgrouprule_delete.yml -e "secgrouprule_id=3c329359-fef5-402f-b29a-caac734065a1"
-
-show subnets::
-
-    ansible-playbook  subnet.yml
-
-create subnet (subtask in tenant_create ecs section)::
-
-    ...
-
-delete subnet::
-
-    ansible-playbook  subnet_delete.yml -e "vpc_name=ansible-vpc01" -e "subnet_name=ansible-subnet01"
-
-show vpc::
-
-    ansible-playbook  vpc.yml
-
-show vpc router info and set facts::
-
-    ansible-playbook  vpc_router.yml -e "vpc_name=ansible-vpc01"
-
-create vpc::
-
-    ansible-playbook  vpc_create.yml -e "vpc_name=ansible-vpc1" -e "vpc_net=192.168.0.0/16"
-
-delete vpc::
-
-    ansible-playbook  vpc_delete.yml -e "vpc_name=ansible-vpc01"
 
 show DNS zones::
 
