@@ -23,3 +23,4 @@ Functions:
 .. include:: ../../roles/otc_keypair/README.rst
 .. include:: ../../roles/otc_eip/README.rst
 .. include:: ../../roles/otc_ecs/README.rst
+.. include:: ../../roles/otc_evs/README.rst
