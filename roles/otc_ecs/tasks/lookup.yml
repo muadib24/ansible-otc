@@ -1,4 +1,4 @@
-- name: Request ecs list from API
+- name: Send request to API (list ECS for lookup)
   uri:
     url: "{{ AUTH_URL_ECS }}/servers"
     method: GET
@@ -14,10 +14,3 @@
   set_fact:
     ecs_id: "{{ (ecs_result.content|from_json)|json_query(\"servers[?name=='\" + ecs_name + \"'].id|[0]\") }}"
   when: ecs_name is defined
-
-- name: Read Tenant configuration
-  set_fact:
-    otc_tenant: "{{ lookup('file', 'vars/tenant.json')}}"
-
-- debug:
-    msg: "{{ otc_tenant }}"

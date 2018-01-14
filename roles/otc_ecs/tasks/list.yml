@@ -1,4 +1,4 @@
-- name: Request ecs list from AUTH API
+- name: Send request to API (list ECS)
   uri:
     url: "{{ AUTH_URL_ECS }}/servers"
     method: GET

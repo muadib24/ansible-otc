@@ -1,4 +1,4 @@
-- name: Request flavor list from API
+- name: Send request to API (list flavors)
   uri:
     url: "{{ AUTH_URL_ECS_CLOUD }}/{{ PROJECT_ID }}/cloudservers/flavors"
     method: GET

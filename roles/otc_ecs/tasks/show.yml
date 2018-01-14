@@ -1,4 +1,7 @@
-- name: Send request to API
+- name: Lookup ecs_id
+  include: lookup.yml
+
+- name: Send request to API (show ECS)
   uri:
     url: "{{ AUTH_URL_ECS }}/servers/{{ ecs_id }}"
     method: PUT
@@ -9,7 +12,7 @@
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'ecsshow.json.j2')|to_json }}"
+    body: "{{ lookup('template', 'show.json.j2')|to_json }}"
   register: ecs
 
 - debug:

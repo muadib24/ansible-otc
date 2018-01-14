@@ -26,6 +26,13 @@
   tags: 
     - ecsshow
 
+- name: Create ECS
+  include: create.yml
+  when:
+    - localaction is defined and localaction == "create"
+  tags: 
+    - ecscreate
+
 - name: Delete ECS 
   include: delete.yml
   when:
