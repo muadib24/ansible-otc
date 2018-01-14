@@ -4,7 +4,7 @@
         "name": "{{ ecs_name }}",
         "imageRef": "{{ image_id }}",
         "root_volume": {
-{% if ecs_volumesize |length != 0 %}  
+{% if ecs_volumesize is defined and ecs_volumesize|length != 0 %}  
             "size": "{{ ecs_volumesize }}",
 {% endif %}  
             "volumetype": "{{ ecs_volumetype }}"
@@ -12,13 +12,15 @@
         "flavorRef": "{{ flavor_id }}",
         "vpcid": "{{ vpc_id }}",
         "security_groups": [
+{% for secgroup_id in secgroup_ids %}  
             {
                 "id": "{{ secgroup_id }}"
-            }
+            },
+{% endfor %}  
         ],
         "nics": [
             {
-{% if ecs_ipaddress |length != 0 %}  
+{% if ecs_ipaddress is defined and ecs_ipaddress|length != 0 %}  
                 "ip_address": "{{ ecs_ipaddress }}",
 {% endif %}  
                 "subnet_id": "{{ subnet_id }}"

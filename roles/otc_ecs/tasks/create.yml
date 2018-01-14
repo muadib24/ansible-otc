@@ -1,3 +1,22 @@
+- name: Lookup flavor_id
+  include: lookup.yml
+
+- name: Lookup vpc_id
+  include: ../../otc_vpc/tasks/lookup.yml
+
+- name: Lookup image_id
+  include: ../../otc_ims/tasks/lookup.yml
+
+- name: Lookup subnet_id
+  include: ../../otc_subnet/tasks/lookup.yml
+
+- name: Lookup secgroup_id
+  include: ../../otc_secgroup/tasks/lookup.yml
+  with_items:
+    - "{{ secgroups }}"
+  loop_control:
+    loop_var: secgroup_name
+
 - name: Send request to API (create ECS)
   uri:
     url: "{{ AUTH_URL_ECS_CLOUD }}/{{ PROJECT_ID }}/cloudservers"
@@ -15,12 +34,13 @@
     - ecs_name is defined
     - image_id is defined
     - flavor_id is defined
-    - listener_name is undefined
 
-- set_fact:
+- name: Set fact job_id
+  set_fact:
     job_id: "{{ (ecs.content|from_json)|json_query('job_id') }}"
   when: ecs is defined and ecs.content|length != 0
 
-- debug:
+- name: Output of job_id
+  debug:
     msg: "{{ job_id }}"
   when: job_id is defined
