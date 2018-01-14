@@ -15,6 +15,8 @@ Variables:
 +-------------------------+---------------------------------------------+
 | secgroup_id             | id of Secgroup                              |
 +-------------------------+---------------------------------------------+
+| secgroup_ids            | list of secgroup_ids (to bind on ECS        |
++-------------------------+---------------------------------------------+
 | secgroups               | list of secgroups in ecs section            |
 +-------------------------+---------------------------------------------+
 | secgrouprules           | list of rules for a security group          |
