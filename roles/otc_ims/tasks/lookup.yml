@@ -1,4 +1,4 @@
-- name: Request images list from  API
+- name: Send request to API (list images for lookup)
   uri:
     url: "{{ AUTH_URL_IMS }}/v2/cloudimages?name={{ image_name }}"
     method: GET

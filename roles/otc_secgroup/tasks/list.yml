@@ -1,4 +1,4 @@
-- name: Request secgroup list with search criteria from API
+- name: Send request to API (list security groups for search vpc_id)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups?vpc_id={{ vpc_id }}"
     method: GET
@@ -10,7 +10,7 @@
   register: secgrouplistvpc
   when: vpc_id is defined
 
-- name: Request secgroup list from API
+- name: Send request to API (list security groups)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
     method: GET

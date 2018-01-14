@@ -1,7 +1,7 @@
 - name: Lookup image_id
   include: lookup.yml
 
-- name: Send request to API
+- name: Send request to API (delete image)
   uri:
     url: "{{ AUTH_URL_IMS }}/v2/images/{{ image_id }}"
     method: DELETE

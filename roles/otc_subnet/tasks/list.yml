@@ -1,4 +1,4 @@
-- name: Request subnet list from API
+- name: Request subnet list from API (list subnet)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
     method: GET

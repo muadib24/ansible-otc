@@ -1,4 +1,4 @@
-- name: Request subnet list from API for ecs
+- name: Send request to API (list subnet for lookup)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
     method: GET

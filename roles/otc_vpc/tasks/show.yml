@@ -1,7 +1,7 @@
 - name: Lookup vpc_id
   include: lookup.yml
 
-- name: Request vpc detail from API
+- name: Send request to API (show VPC)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/vpcs/{{ vpc_id }}"
     method: GET

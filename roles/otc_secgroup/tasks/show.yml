@@ -1,7 +1,7 @@
 - name: Lookup secgroup_id
   include: lookup.yml
 
-- name: Request secgroup detail from API
+- name: Send request to API (show security group)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups/{{ secgroup_id }}"
     method: GET

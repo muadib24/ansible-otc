@@ -1,7 +1,7 @@
 - name: Lookup subnet_id
   include: lookup.yml
 
-- name: Send request to API
+- name: Send request to API (show subnet)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/vpcs/{{ vpc_id }}/subnets/{{ subnet_id }}"
     method: DELETE

@@ -1,4 +1,4 @@
-- name: Request secgroup list from API
+- name: Send request to API (list security groups)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
     method: GET
@@ -17,7 +17,7 @@
   when:
     - secgroup_name is defined and secgroup_name| length != 0
 
-- name: Send request to API
+- name: Send request to API (delete security group)
   uri:
     url: "{{ AUTH_URL_VPC }}/v2.0/security-groups/{{ secgroup_id }}"
     method: DELETE

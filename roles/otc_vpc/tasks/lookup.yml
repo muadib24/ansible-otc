@@ -1,4 +1,4 @@
-- name: Request vpc list from API
+- name: Send request to API (list VPC for lookup)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/vpcs"
     method: GET

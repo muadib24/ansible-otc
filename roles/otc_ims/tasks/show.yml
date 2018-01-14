@@ -1,7 +1,7 @@
 - name: Lookup image_id
   include: lookup.yml
 
-- name: Request image detail from API
+- name: Send request to API (show image)
   uri:
     url: "{{ AUTH_URL_IMS }}/v2/images/{{ image_id }}"
     method: GET

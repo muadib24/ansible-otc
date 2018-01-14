@@ -1,7 +1,7 @@
 - name: Lookup subnet_id
   include: lookup.yml
 
-- name: Request subnet detail from API
+- name: Send request to API (show subnet)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets/{{ subnet_id }}"
     method: GET

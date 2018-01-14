@@ -1,7 +1,7 @@
 - name: Lookup vpc_id
   include: lookup.yml
 
-- name: Request router from API
+- name: Send request to API (list router for SNAT)
   uri:
     url: "{{ AUTH_URL_VPC }}/v2.0/routers/{{ vpc_id }}"
     method: GET
@@ -18,7 +18,7 @@
     external_network_id: "{{ (routerlist.content|from_json)|json_query('router.external_gateway_info.network_id') }}"
   when: routerlist is defined
 
-- name: Send request to API
+- name: Send request to API (set SNAT)
   uri:
     url: "{{ AUTH_URL_VPC }}/v2.0/routers/{{ vpc_id }}"
     method: PUT

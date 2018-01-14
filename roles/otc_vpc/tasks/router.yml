@@ -1,7 +1,7 @@
 - name: Lookup vpc_id
   include: lookup.yml
 
-- name: Request router from API
+- name: Send request to API (list routers)
   uri:
     url: "{{ AUTH_URL_VPC }}/v2.0/routers/{{ vpc_id }}"
     method: GET
