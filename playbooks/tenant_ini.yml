@@ -18,7 +18,8 @@
     eip_bandwidth_size: "{{ lookup('ini', 'eip_bandwidth_size section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'eip_bandwidth_size section=DEFAULT file={{ tenant_ini }}') ) }}"
     image_name: "{{ lookup('ini', 'image_name section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'image_name section=DEFAULT file={{ tenant_ini }}') ) }}"
     keypair_file: "{{ lookup('ini', 'keypair_file section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'keypair_file section=DEFAULT file={{ tenant_ini }}') ) }}"
-    secgroup_name: "{{ lookup('ini', 'secgroup_name section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'secgroup_name section=DEFAULT file={{ tenant_ini }}') ) }}"
+    secgroups: "{{ lookup('ini', 'secgroups section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'secgroups section=DEFAULT file={{ tenant_ini }}') ) }}"
+    secgrouprules: "{{ lookup('ini','{{ secgroup_name }} section=securitygroups file={{ tenant_ini }}') }}"
     subnet_name: "{{ lookup('ini', 'subnet_name section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_name section=DEFAULT file={{ tenant_ini }}') ) }}"
     subnet_net: "{{ lookup('ini', 'subnet_net section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_net section=DEFAULT file={{ tenant_ini }}') ) }}"
     subnet_gateway: "{{ lookup('ini', 'subnet_gateway section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_gateway section=DEFAULT file={{ tenant_ini }}') ) }}"
@@ -61,7 +62,12 @@
 # ELB backend member
     backend_members: "{{ lookup('ini', 'backend_members section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'backend_members section=DEFAULT file={{ tenant_ini }}') ) }}"
 
-  tasks:
+  roles:
+    - role: "../roles/otc_auth"
+    - role: "../roles/otc_vpc"
+    - role: "../roles/otc_secgroup"
+      localaction: "create"
 
-  - debug:
-      msg: "{{ image_name }}"
+#  tasks:
+#  - debug:
+#      msg: "{{ secgroups }}"

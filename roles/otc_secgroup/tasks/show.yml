@@ -3,7 +3,7 @@
 
 - name: Request secgroup detail from API
   uri:
-    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/secruity-groups/{{ secgroup_id }}"
+    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups/{{ secgroup_id }}"
     method: GET
     return_content: yes
     validate_certs: yes
@@ -16,3 +16,5 @@
 
 - debug:
     msg: "{{ secgroupdetail.json }}"
+  when:
+    - secgroup_id is defined

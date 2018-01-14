@@ -14,14 +14,22 @@
     subnet_dhcp_enable: "{{ tenant_cf['vms'][ecs_name]['subnet_dhcp_enable'] | default(tenant_cf['default']['subnet_dhcp_enable']) }}"
     subnet_primary_dns: "{{ tenant_cf['vms'][ecs_name]['subnet_primary_dns'] | default(tenant_cf['default']['subnet_primary_dns']) }}"
     subnet_secondary_dns: "{{ tenant_cf['vms'][ecs_name]['subnet_secondary_dns'] | default(tenant_cf['default']['subnet_secondary_dns']) }}"
-    secgroup_name: "{{ tenant_cf['vms'][ecs_name]['secgroup_name'] | default(tenant_cf['default']['secgroup_name']) }}"
-    secgroup_rule1: "{{ tenant_cf['vms'][ecs_name]['secgroup_rule1'] | default(tenant_cf['default']['secgroup_rule1']) }}"
+    secgroups: "{{ tenant_cf['vms'][ecs_name]['secgroups'] | default(tenant_cf['default']['secgroups']) }}"
+    secgrouprules: "{{ tenant_cf['securitygroups'][secgroup_name] }}"
     ecs_volumetype: "{{ tenant_cf['vms'][ecs_name]['ecs_volumetype'] | default(tenant_cf['default']['ecs_volumetype']) }}"
     ecs_ram: "{{ tenant_cf['vms'][ecs_name]['ecs_ram'] | default(tenant_cf['default']['ecs_ram']) }}"
     ecs_vcpus: "{{ tenant_cf['vms'][ecs_name]['ecs_vcpus'] | default(tenant_cf['default']['ecs_vcpus']) }}"
     ecs_adminkey: "{{ tenant_cf['vms'][ecs_name]['ecs_adminkey'] | default(tenant_cf['default']['ecs_adminkey']) }}"
     keypair_file: "{{ tenant_cf['vms'][ecs_name]['keypair_file'] | default(tenant_cf['default']['keypair_file']) }}"
 
-  tasks:
-  - debug:
-      msg: "{{ image_name }}"
+  roles:
+    - role: "../roles/otc_auth"
+    - role: "../roles/otc_vpc"
+    - role: "../roles/otc_secgroup"
+      localaction: "delete"
+    - role: "../roles/otc_secgroup"
+      localaction: "create"
+
+#  tasks:
+#  - debug:
+#      msg: "{{ secgroups }}"

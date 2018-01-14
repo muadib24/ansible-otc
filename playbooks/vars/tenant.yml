@@ -11,8 +11,7 @@ default:
   subnet_dhcp_enable: "true"
   subnet_primary_dns: "8.8.8.8"
   subnet_secondary_dns: "8.4.4.8"
-  secgroup_name: "ansible-secgroup01"
-  secgroup_rule1: "ingress;IPv4;tcp;22;22;0.0.0.0/0"
+  secgroups: "ansible-secgroup01"
   ecs_volumetype: "SATA"
   ecs_ram: "2048"
   ecs_vcpus: "2"
@@ -24,7 +23,9 @@ vms:
     vpc_net: "192.168.0.0/16"
     availability_zone: "eu-de-01"
     subnet_name: "ansible-subnet02"
-    secgroups: "default-ansible"
+    secgroups: 
+      - "default-ansible"
+      - "ansible-test01"
     ecs_ipaddress: "192.168.0.101"
     ecs_publicip: "0.0.0.0"
     ecs_publicfqdn: "ansible-test01.ansible.otc.telekomcloud2.com."
@@ -39,9 +40,11 @@ vms:
     ecs_ram: "2048"
     ecs_vcpus: "4"
     ecs_ipaddress: "192.168.0.102"
-security-groups:
+securitygroups:
   default-ansible:
-    ingress: "tcp;22;0.0.0.0"
-    egress: "tcp;any;any"
-  ansible-test-01:
-    ingress: "tcp;22022;0.0.0.0"
+    - "ingress;IPv4;tcp;22;22;0.0.0.0"
+    - "ingress;IPv4;tcp;80;80;0.0.0.0"
+    - "egress;IPv4;tcp;80;80;0.0.0.0"
+    - "egress;IPv4;tcp;443;443;0.0.0.0"
+  ansible-test01:
+    - "ingress;IPv4;tcp;22022;22022;0.0.0.0"

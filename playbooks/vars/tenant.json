@@ -11,8 +11,7 @@
     "subnet_dhcp_enable" : "true",
     "subnet_primary_dns" : "8.8.8.8",
     "subnet_secondary_dns" : "8.4.4.8",
-    "secgroup_name" : "ansible-secgroup01",
-    "secgroup_rule1" : "ingress;IPv4;tcp;22;22;0.0.0.0/0",
+    "secgroups" : "ansible-secgroup01",
     "ecs_volumetype" : "SATA",
     "ecs_ram" : "2048",
     "ecs_vcpus" : "2",
@@ -42,13 +41,8 @@
        "ecs_ipaddress" : "192.168.0.102"
      }
    },
-  "security-groups" : {
-    "default-ansible" : {
-      "ingress" : [ "tcp;22;0.0.0.0", "icmp;any;0.0.0.0" ],
-      "egress" : [ "tcp;any;any" ]
-    },
-    "ansible-test-01" : {
-      "ingress" : [ "tcp;22022;0.0.0.0" ]
-    }
+  "securitygroups" : {
+    "default-ansible" : [ "ingress;IPv4;tcp;22;22;0.0.0.0", "ingress;IPv4;tcp;80;80;0.0.0.0" ],
+    "ansible-test-01" : [ "ingress;IPv4;tcp;22022;22022;0.0.0.0" ]
   }
 }
