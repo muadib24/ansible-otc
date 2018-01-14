@@ -10,6 +10,9 @@
 - name: Lookup subnet_id
   include: ../../otc_subnet/tasks/lookup.yml
 
+- name: Lookup eip_id
+  include: ../../otc_eip/tasks/lookup.yml
+
 - name: Lookup secgroup_id
   include: ../../otc_secgroup/tasks/lookup.yml
   with_items:
