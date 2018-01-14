@@ -4,5 +4,6 @@
   roles:
   - role: ../roles/otc_auth
   - role: ../roles/otc_ecs
+  - role: ../roles/otc_ims
 #  tasks:
 #  - include: ../roles/otc_ecs/tasks/flavors.yml
