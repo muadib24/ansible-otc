@@ -1,0 +1,34 @@
+- name: Get Zone list
+  include: list.yml
+  when:
+    - localaction is defined and localaction == "list"
+  tags: 
+    - zonelist
+
+- name: Get Zone detail
+  include: show.yml
+  when:
+    - localaction is defined and localaction == "show"
+  tags: 
+    - zoneshow
+
+- name: Create Zone
+  include: create.yml
+  when:
+    - localaction is defined and localaction == "create"
+  tags: 
+    - zonecreate
+
+- name: Create Zonerecords
+  include: rule_create.yml
+  when:
+    - localaction is defined and localaction == "zonerecordcreate"
+  tags: 
+    - zonerecordscreate
+
+- name: Delete Zone
+  include: delete.yml
+  when:
+    - localaction is defined and localaction == "delete"
+  tags: 
+    - zonedelete
