@@ -1,7 +1,0 @@
----
-- hosts: localhost
-  gather_facts: no
-  roles:
-  - role: token
-  - role: lookup_name
-  - role: ecs_show
