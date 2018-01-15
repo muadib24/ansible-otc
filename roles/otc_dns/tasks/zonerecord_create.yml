@@ -1,73 +1,21 @@
-- name: Send request to API (security group list)
-  uri:
-    url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
-    method: GET
-    return_content: yes
-    validate_certs: yes
-    headers:
-      Content-Type: "application/json"
-      X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when:
-    - secgroup_name is defined
-  register: secgroup_result
+- name: Lookup zone_id
+  include: lookup.yml
 
-- name: Set fact for secgroup_id if secgroup_name is defined
-  set_fact:
-    secgroup_id: "{{ (secgroup_result.content|from_json)|json_query(\"security_groups[?name=='\" + secgroup_name + \"'].id|[0]\") }}"
-  when:
-    - secgroup_name is defined and secgroup_name| length != 0
-
-- name: Send request to API (securiy group rule list)
-  uri:
-    url: "{{ AUTH_URL_VPC }}/v2.0/security-group-rules?security_group_id={{ secgroup_id }}"
-    method: GET
-    return_content: yes
-    validate_certs: yes
-    headers:
-      Content-Type: "application/json"
-      X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when:
-    - secgroup_id is defined
-  register: secgrouprule_result
-
-- name: Send request to API (remove security group default rules)
+- name: send request to API (create zonerecords)
   vars:
-    secgrouprule_id: "{{ item }}"
+    zonerecord_part: "{{ item.split(';') }}"
   uri:
-    url: "{{ AUTH_URL_VPC }}/v2.0/security-group-rules/{{ secgrouprule_id }}"
-    method: DELETE
-    body_format: raw
-    follow_redirects: all
-    return_content: yes
-    validate_certs: yes
-    status_code: 200,201,202,203,204
-    headers:
-      Content-Type: "application/json"
-      X-Auth-Token: "{{ token['x_subject_token'] }}"
-  register: secgroup_rule
-  when:
-    - secgrouprule_result is defined
-  with_items:
-    - "{{ secgrouprule_result.json|json_query('security_group_rules[].id') }}"
-
-- name: Send request to API (create security group rule)
-  vars:
-    secgrouprule_part: "{{ item.split(';') }}"
-  uri:
-    url: "{{ AUTH_URL_VPC }}/v2.0/security-group-rules"
+    url: "{{ AUTH_URL_DNS }}/v2/zones/{{ zone_id }}/recordsets"
     method: POST
     body_format: raw
     follow_redirects: all
     return_content: yes
     validate_certs: yes
-    status_code: 200,201,202,203,204,409
+    status_code: 200,201,202,203,400
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
-    body: "{{ lookup('template', 'rule_create.json.j2')|to_json }}"
-  register: secgrouprule
-  when:
-    - secgroup_id is defined
-    - secgrouprules is defined
+    body: "{{ lookup('template', 'zonerecord_create.json.j2')|to_json }}"
+  register: zonerecord
   with_items:
-    - "{{ secgrouprules }}"
+    - "{{ zone_records }}"
