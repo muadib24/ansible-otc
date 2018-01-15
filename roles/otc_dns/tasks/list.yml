@@ -1,0 +1,14 @@
+- name: Send request to API (list zone)
+  uri:
+    url: "{{ AUTH_URL_DNS }}/v2/zones"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
+  when: zone_id is undefined
+  register: zonelist
+
+- debug: var=zonelist.json
+  when: zonelist is defined
