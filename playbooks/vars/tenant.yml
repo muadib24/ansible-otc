@@ -17,6 +17,12 @@ default:
   ecs_vcpus: "2"
   ecs_adminkey: "ansible-key"
   keypair_file: "~/.ssh/id_rsa.pub"
+  evs_scsi: false
+  evs_multiattach: false
+volumes:
+  ansible-evs01:
+    evs_volume_type: "SATA"
+    evs_size: "20"
 vms:
   ansible-test01:
     vpc_name: "ansible-vpc01"
@@ -27,8 +33,8 @@ vms:
       - "default-ansible"
       - "ansible-test01"
     ecs_ipaddress: "192.168.0.101"
-    ecs_publicip: "0.0.0.0"
-    ecs_publicfqdn: "ansible-test01.ansible.otc.telekomcloud2.com."
+    ecs_publicip: "80.158.23.253"
+    ecs_publicfqdn: "ansible-test01.ansible.otc.telekomcloud99.com"
     ecs_publicttl: "300"
     eip_bandwidth_name: "ansible-eip01"
     eip_bandwidth_size: "500"
@@ -48,3 +54,20 @@ securitygroups:
     - "egress;IPv4;tcp;443;443;0.0.0.0"
   ansible-test01:
     - "ingress;IPv4;tcp;22022;22022;0.0.0.0"
+dnszones:
+  ansible.internal.corp:
+    zone_description: "Core Zone internal services"
+    zone_type: "private"
+    zone_email: "nobody@example.com"
+    zone_ttl: 86400
+  ansible.otc.telekomcloud99.com:
+    zone_description: "Core Zone public OTC services"
+    zone_type: "public"
+    zone_email: "nobody@example.com"
+    zone_ttl: 3600
+dnszonerecords:
+  ansible.internal.corp:
+    - "ansible-test01.ansible.internal.corp;description;A;300;192.168.0.101"
+    - "ansible-test02.ansible.internal.corp;description;A;300;192.168.0.102"
+  ansible.otc.telekomcloud99.com:
+    - "ansible-test01.ansible.otc.telekomcloud99.com;;A;300;160.44.0.101"

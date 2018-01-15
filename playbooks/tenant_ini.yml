@@ -4,7 +4,7 @@
   vars:
     tenant_ini: "vars/tenant.ini"
 # ECS vars
-    availability_zone: "{{ lookup('ini', 'availability_zone section={{ ecs_name }} file={{ {{ tenant_ini }} }}') | default(lookup('ini', 'availability_zone section=DEFAULT file={{ tenant_ini }}') )}}"
+    availability_zone: "{{ lookup('ini', 'availability_zone section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'availability_zone section=DEFAULT file={{ tenant_ini }}') )}}"
     ecs_adminkey: "{{ lookup('ini', 'ecs_adminkey section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_adminkey section=DEFAULT file={{ tenant_ini }}') ) }}"
     ecs_volumesize: "{{ lookup('ini', 'ecs_volumesize section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_volumesize section=DEFAULT file={{ tenant_ini }}') ) }}"
     ecs_volumetype: "{{ lookup('ini', 'ecs_volumetype section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'ecs_volumetype section=DEFAULT file={{ tenant_ini }}') ) }}"
@@ -61,11 +61,30 @@
     unhealthy_threshold: "{{ lookup('ini', 'unhealthy_threshold section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'unhealthy_threshold section=DEFAULT file={{ tenant_ini }}') ) }}"
 # ELB backend member
     backend_members: "{{ lookup('ini', 'backend_members section={{ listener_name }} file={{ tenant_ini }}') | default(lookup('ini', 'backend_members section=DEFAULT file={{ tenant_ini }}') ) }}"
+    # DNS
+    zone_description: "{{ lookup('ini','zone_description section={{ zone_name }} file={{ tenant_ini }}') | default(lookup('ini', 'zone_ttl section=DEFAULT file={{ tenant_ini }}') ) }}"
+    zone_type: "{{ lookup('ini','zone_type section={{ zone_name }} file={{ tenant_ini }}') | default(lookup('ini', 'zone_type section=DEFAULT file={{ tenant_ini }}') ) }}"
+    zone_email: "{{ lookup('ini','zone_email section={{ zone_name }} file={{ tenant_ini }}') | default(lookup('ini', 'zone_email section=DEFAULT file={{ tenant_ini }}') ) }}"
+    zone_ttl: "{{ lookup('ini','zone_ttl section={{ zone_name }} file={{ tenant_ini }}') | default(lookup('ini', 'zone_ttl section=DEFAULT file={{ tenant_ini }}') ) }}"
+    zone_records: "{{ lookup('ini','{{ zone_name }} section=dnszonerecords file={{ tenant_ini }}') }}"
+    # playbook action
+    localaction: "create"
 
   roles:
+    # create VM
     - role: "../roles/otc_auth"
     - role: "../roles/otc_vpc"
+    - role: "../roles/otc_subnet"
     - role: "../roles/otc_secgroup"
+    - role: "../roles/otc_keypair"
+    - role: "../roles/otc_eip"
+    - role: "../roles/otc_ecs"
+    - role: "../roles/otc_dns"
+      localaction: "ptrcreate"
+    # create internal DNS zone
+    - role: "../roles/otc_vpc"
+      localaction: "router"
+    - role: "../roles/otc_dns"
       localaction: "create"
 
 #  tasks:
