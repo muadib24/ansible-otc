@@ -1,8 +1,10 @@
 - name: Load auth variable file from os-client config or ansible-vault secret
   include_vars: "{{ item }}"
   with_first_found:
-    - "vars/env.yml"
-    - "vars/_secrets.yml"
+    - files:
+        - "vars/env.yml"
+        - "vars/_secrets.yml"
+      skip: true
   tags:
     - always
 
