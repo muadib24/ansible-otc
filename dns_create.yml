@@ -1,9 +1,0 @@
----
-- hosts: localhost
-  gather_facts: no
-  connection: local
-  roles:
-    - role: token
-    - role: lookup_name
-    - role: vpc_router
-    - role: zonerecord_helper
