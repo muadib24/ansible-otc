@@ -6,6 +6,7 @@ language: python
 python: "2.7"
 
 # Doc: https://docs.travis-ci.com/user/customizing-the-build#Build-Matrix
+# https://docs.travis-ci.com/user/common-build-problems/
 env:
   - ANSIBLE_VERSION=latest
   - ANSIBLE_VERSION=2.2.2.0
@@ -31,7 +32,4 @@ script:
 
   # Run the role/playbook with ansible-playbook.
   - tests/tests.sh
-
-  # check is the user is created or not
-  # - id -u testusername | grep -q "no" && (echo "user not found" && exit 1) || (echo "user found" && exit 0)
 
