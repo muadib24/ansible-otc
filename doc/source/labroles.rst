@@ -38,8 +38,6 @@ Roles for lab (on migration)
 +------------------------+-------------------------------------------------+
 | elb_backends_delete    | delete backends for elastic loadbalancer        |
 +------------------------+-------------------------------------------------+
-| job                    | show job status                                 |
-+------------------------+-------------------------------------------------+
 | lookup_name            | lookup id by name                               |
 +------------------------+-------------------------------------------------+
 | os-client-config.yml   | create os-client-config yml file                |
@@ -124,12 +122,6 @@ create backends for elastic loadbalancer::
 delete backends for elastic loadbalancer::
 
     ansible-playbook  elb_backends_delete.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" -e "elb_backends_id=d15e2f8dd7d64d95a6b5c2a791cac408"
-
-show job status::
-
-    ansible-playbook -e "job_id=2c9eb2c15693b00901571e32ad5e1755"  job.yml
-
-    ./ajob 2c9eb2c15693b00901571e32ad5e1755
 
 lookup id by name (image)::
 
