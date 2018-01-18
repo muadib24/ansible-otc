@@ -48,14 +48,6 @@ Roles for lab (on migration)
 +------------------------+-------------------------------------------------+
 | rds_flavors		 | list provid flavor for selected version in RDS  |
 +------------------------+-------------------------------------------------+
-| s3                     | show s3 buckets                                 |
-+------------------------+-------------------------------------------------+
-| s3_bucket_create       | create s3 bucket                                |
-+------------------------+-------------------------------------------------+
-| s3_bucket_delete       | delete s3 bucket                                |
-+------------------------+-------------------------------------------------+
-| s3_upload              | upload files in s3 object store                 |
-+------------------------+-------------------------------------------------+
 | token                  | get auth token                                  |
 +------------------------+-------------------------------------------------+
 
@@ -195,22 +187,6 @@ list provided flavors for selected database version in RDS::
 
      ansible-playbook  rds_flavors.yml -e "rds_version_id=286a34fc-a605-11e6-88fd-286ed488c9cb"
 
-show s3 buckets::
-
-    ansible-playbook  s3.yml --vault-password-file vaultpass.txt
-
-create s3 bucket::
-
-    ansible-playbook  -e "bucket=mybucket"  s3_bucket_create.yml  --vault-password-file vaultpass.txt
-
-delete s3 bucket::
-
-    ansible-playbook  -e "bucket=mybucket"  s3_bucket_delete.yml  --vault-password-file vaultpass.txt
-
-upload files in s3 object store (VHD, ZVHD, VMDK, QCOW2 are supported for otc image service)::
-
-    ansible-playbook  -e "bucket=mybucket" -e "object=xenial-server-cloudimg-amd64-disk1.vmdk"  s3_upload.yml  --vault-password-file vaultpass.txt
-
 Full Working Example
 --------------------
 
@@ -220,19 +196,10 @@ configure your VM in tenant.ini and run all necessary roles to bootstrap a VM::
 
 This playbook will create VPC,Subnet, SecurityGroup, SSH-Keypair, allocate Floating-IP and boostrap the VM.
 
-configure your DNS in dns.ini and deploy all zones and zonerecords::
-
-    ansible-playbook  dns_create.yml
-
 transfer your private dns zones to OTC using zone transfer (data stored in data.ini, needs zone transfer rights on dns_server)::
 
     ansible-playbook dns_transfer.yml -e "dns_server=127.0.0.1" -e "zone_name=internal.example.com" -e "zone_type=private" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
 
-    ansible-playbook  dns_create.yml -e "vpc_name=ansible-vpc01"
-
 transfer your public dns zones to OTC using zone transfer::
 
     ansible-playbook dns_transfer.yml -e "dns_server=127.0.0.1" -e "zone_name=external.example.com" -e "zone_type=public" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
-
-    ansible-playbook  dns_create.yml
-
