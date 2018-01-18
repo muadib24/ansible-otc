@@ -1,0 +1,27 @@
+- name: Get Bucket lists
+  include: list.yml
+  when:
+    - localaction is defined and localaction == "list"
+  tags: 
+    - obslist
+
+- name: Uplpad data OBS
+  include: upload.yml
+  when:
+    - localaction is defined and localaction == "upload"
+  tags: 
+    - obsupload
+
+- name: Create OBS bucket
+  include: create.yml
+  when:
+    - localaction is defined and localaction == "create"
+  tags: 
+    - obscreate
+
+- name: Delete OBS bucket
+  include: delete.yml
+  when:
+    - localaction is defined and localaction == "delete"
+  tags: 
+    - obsdelete
