@@ -4,8 +4,9 @@
     method: GET
     return_content: yes
     validate_certs: yes
-    HEADER_Content-Type: "application/json"
-    HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
   when: job_id is defined
   register: jobstatus
 

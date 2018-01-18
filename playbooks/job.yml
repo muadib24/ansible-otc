@@ -2,5 +2,5 @@
 - hosts: localhost
   gather_facts: no
   roles:
-  - role: token
-  - role: job
+    - role: "otc_auth"
+    - role: "otc_job"
