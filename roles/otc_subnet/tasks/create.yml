@@ -1,4 +1,4 @@
-- name: Send request to API (list subnet)
+- name: Send request to API (create subnet)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
     method: POST
