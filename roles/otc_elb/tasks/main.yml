@@ -1,0 +1,91 @@
+- name: Get ELB list
+  include: list.yml
+  when:
+    - localaction is defined and localaction == "list"
+  tags: 
+    - elblist
+
+- name: Lookup elb_id
+  include: lookup.yml
+  when:
+    - elb_name is defined
+  tags: 
+    - elblookup
+
+- name: Get ELB detail
+  include: show.yml
+  when:
+    - localaction is defined and localaction == "show"
+  tags: 
+    - elbshow
+
+- name: Create ELB
+  include: create.yml
+  when:
+    - localaction is defined and localaction == "create"
+  tags: 
+    - elbcreate
+
+- name: Create ELB Listener
+  include: listener_create.yml
+  when:
+    - localaction is defined and localaction == "elblistenercreate"
+  tags: 
+    - elblistenercreate
+
+- name: Create ELB Healthcheck
+  include: healthcheck_create.yml
+  when:
+    - localaction is defined and localaction == "elbhealthcheckcreate"
+  tags: 
+    - elbhealthcheckcreate
+
+- name: Create ELB Certificate
+  include: certificate_create.yml
+  when:
+    - localaction is defined and localaction == "elbcertificatecreate"
+  tags: 
+    - elbcertificatecreate
+
+- name: Create ELB Backends
+  include: backends_create.yml
+  when:
+    - localaction is defined and localaction == "elbbackendcreate"
+  tags: 
+    - elbbackendcreate
+
+- name: Delete ELB 
+  include: delete.yml
+  when:
+    - localaction is defined and localaction == "delete"
+  tags: 
+    - elbdelete
+
+- name: Delete ELB Listener
+  include: listener_delete.yml
+  when:
+    - localaction is defined and localaction == "elblistenerdelete"
+  tags:
+    - elblistenerdelete
+
+- name: Delete ELB Healthcheck
+  include: healthcheck_delete.yml
+  when:
+    - localaction is defined and localaction == "elbhealthcheckdelete"
+  tags:
+    - elbhealthcheckdelete
+
+- name: Delete ELB Certificate
+  include: certificate_delete.yml
+  when:
+    - localaction is defined and localaction == "elbcertificatedelete"
+  tags:
+    - elbcertificatedelete
+
+- name: Delete ELB Backends
+  include: backends_delete.yml
+  when:
+    - localaction is defined and localaction == "elbbackenddelete"
+  tags:
+    - elbbackenddelete
+
