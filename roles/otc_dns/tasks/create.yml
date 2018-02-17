@@ -32,4 +32,4 @@
   with_items:
     - "{{ zone_records }}"
   loop_control:
-    loop_var: zone_name
+    loop_var: zone_record

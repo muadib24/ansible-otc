@@ -25,6 +25,11 @@
 - name: Set fact zonelist_result
   set_fact:
     zonelist_result: "{{ zonelist_public.json.zones }} + {{ zonelist_private.json.zones }}"
+  when: zone_name is defined
+
+- name: Debug zone_name
+  debug: 
+    msg: "{{ zone_name }}"
 
 - name: Set fact zone_id for dns if zone_name is defined
   vars:
@@ -36,3 +41,4 @@
 - name: Debug zone_id
   debug: 
     msg: "{{ zone_id }}"
+  when: zone_id is defined

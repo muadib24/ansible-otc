@@ -14,7 +14,7 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: vpc
-  when: vpc_id is defined
+  when: vpc_id is defined and vpc_id|length != 0
 
 - debug:
     msg: "{{ vpc }}"

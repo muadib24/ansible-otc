@@ -5,6 +5,13 @@
   tags: 
     - keypairlist
 
+- name: Keypair lookup
+  include: lookup.yml
+#  when:
+#    - localaction is defined and localaction == "lookup"
+  tags: 
+    - keypairlookup
+
 - name: Get Keypair detail
   include: show.yml
   when:
