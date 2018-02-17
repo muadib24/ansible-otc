@@ -1,4 +1,4 @@
-otc_ecs
+otc_elb
 =======
 
 OTC role for Elastic Load Balancer (ELB).
