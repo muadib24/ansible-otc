@@ -19,6 +19,12 @@ default:
   keypair_file: "~/.ssh/id_rsa.pub"
   evs_scsi: false
   evs_multiattach: false
+  listener_certificate_name: "Ansible"
+  listener_sticky_session_type: "insert"
+  listener_tcp_timeout: 30
+  listener_session_sticky: false
+  listener_port: 1
+  listener_cookie_timeout: 60
 volumes:
   ansible-evs01:
     evs_volume_type: "SATA"
@@ -28,7 +34,7 @@ vms:
     vpc_name: "ansible-vpc01"
     vpc_net: "192.168.0.0/16"
     availability_zone: "eu-de-01"
-    subnet_name: "ansible-subnet02"
+    subnet_name: "ansible-subnet01"
     secgroups: 
       - "default-ansible"
       - "ansible-test01"
@@ -54,6 +60,28 @@ securitygroups:
     - "egress;IPv4;tcp;443;443;0.0.0.0"
   ansible-test01:
     - "ingress;IPv4;tcp;22022;22022;0.0.0.0"
+elb:
+  ansible-elb01:
+    elb_type: "External"
+    elb_bandwidth: 100
+    admin_state_up: true
+    elb_availability_zone: eu_de-01
+    elb_secgroup_name: "ansible-secgroup01"
+    elb_subnet_name: "ansible-subnet01"
+    elb_vpc_name: "ansible-vpc01"
+elblistener:
+  ansible-listener01:
+    listener_protocol: "TCP"
+    listener_porto: 22
+    listener_backend_protocol: "TCP"
+    listener_backend_port: 22
+    listener_lb_algorithm: "source"
+    healthcheck_connect_port: 22
+    healthcheck_interval: 5
+    healthcheck_protocol: "TCP"
+    healthcheck_timeout: 10
+    unhealthy_threshold: 3
+    backend_members: "ansible-test01,ansible-test02"
 dnszones:
   ansible.internal.corp:
     zone_description: "Core Zone internal services"

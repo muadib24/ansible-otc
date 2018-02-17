@@ -33,7 +33,35 @@
     evs_size: "{{ volumes[evs_name].evs_size | default(default.evs_size) }}"
     evs_multiattach: "{{ volumes[evs_name].evs_multiattach | default(default.evs_multiattach) }}"
     evs_scsi: "{{ volumes[evs_name].evs_scsi | default(default.evs_scsi) }}"
-    # DNS
+    # ELB vars
+    admin_state_up: "{{ elb[elb_name].admin_state_up | default(default.admin_state_up) }}"
+    elb_availability_zone: "{{ elb[elb_name].elb_availability_zone | default(default.elb_availability_zone) }}"
+    elb_bandwidth: "{{ elb[elb_name].elb_bandwidth | default(default.elb_bandwith) }}"
+    elb_type: "{{ elb[elb_name].elb_type | default(default.elb_type) }}"
+    elb_secgroup_name: "{{ elb[elb_name].elb_secgroup_name | default(default.elb_secgroup_name) }}"
+    elb_subnet_name: "{{ elb[elb_name].elb_subnet_name | default(default.elb_subnet_name) }}"
+    elb_vpc_name: "{{ elb[elb_name].elb_vpc_name | default(default.elb_vpc_name) }}"
+    # ELB listener vars
+    listener_protocol: "{{ elblistener[listener_name].listener_protocol | default(default.listener_protocol) }}"
+    listener_port: "{{ elblistener[listener_name].listener_port | default(default.listener_port) }}"
+    listener_backend_protocol: "{{ elblistener[listener_name].listener_backend_protocol | default(default.listener_backend_protocol) }}"
+    listener_backend_port: "{{ elblistener[listener_name].listener_backend_port | default(default.listener_backend_port) }}"
+    listener_lb_algorithm: "{{ elblistener[listener_name].listener_lb_algorithm | default(default.listener_lb_algorithm) }}"
+    listener_certificate_name: "{{ elblistener[listener_name].listener_certificate_name | default('') }}"
+    listener_tcp_timeout: "{{ elblistener[listener_name].listener_tcp_timeout | default('') }}"
+    listener_cookie_timeout: "{{ elblistener[listener_name].listener_cookie_timeout | default('') }}"
+    listener_sticky_session_type: "{{ elblistener[listener_name].listener_sticky_session_type | default('') }}"
+    listener_session_sticky: "{{ elblistener[listener_name].listener_session_sticky | default('') }}"
+    # ELB healthcheck vars
+    healthcheck_connect_port: "{{ elblistener[listener_name].healthcheck_connect_port | default(default.healthcheck_connect_port) }}"
+    healthcheck_interval: "{{ elblistener[listener_name].healthcheck_interval | default(0) }}"
+    healthcheck_protocol: "{{ elblistener[listener_name].healthcheck_protocol | default('') }}"
+    healthcheck_timeout: "{{ elblistener[listener_name].healthcheck_timeout | default(0) }}"
+    healthcheck_uri: "{{ elblistener[listener_name].healthcheck_uri | default('') }}"
+    unhealthy_threshold: "{{ elblistener[listener_name].unhealthy_threshold | default(0) }}"
+    # ELB backend member vars
+    backend_members: "{{ elblistener[listener_name].backend_members | default('') }}"
+    # DNS vars
     zone_description: "{{ dnszones[zone_name].zone_description | default(default.zone_description) }}"
     zone_type: "{{ dnszones[zone_name].zone_type | default(default.zone_type) }}"
     zone_email: "{{ dnszones[zone_name].zone_email | default(default.zone_email) }}"
@@ -58,9 +86,3 @@
       localaction: "router"
     - role: "otc_dns"
       localaction: "create"
-
-#  tasks:
-#  - name: debug secgroup
-#    debug:
-#      msg: "{{ secgroups }}"
-

@@ -53,6 +53,32 @@
     "default-ansible" : [ "ingress;IPv4;tcp;22;22;0.0.0.0", "ingress;IPv4;tcp;80;80;0.0.0.0" ],
     "ansible-test01" : [ "ingress;IPv4;tcp;22022;22022;0.0.0.0" ]
   },
+  "elb": {
+    {"ansible-elb01": {
+      "elb_type" : "External",
+      "elb_bandwidth" : "100",
+      "admin_state_up" : "true",
+      "elb_availability_zone" : "eu_de-01",
+      "elb_secgroup_name" : "ansible-secgroup02",
+      "elb_subnet_name" : "ansible-subnet01",
+      "elb_vpc_name" : "ansible-vpc01"
+    }
+  },
+  "elblistener": {
+    { "ansible-listener01": {
+      "listener_protocol" : "TCP",
+      "listener_port" : "22",
+      "listener_backend_protocol" : "TCP",
+      "listener_backend_port" : "22",
+      "listener_lb_algorithm" : "source",
+      "healthcheck_connect_port" : "22",
+      "healthcheck_interval" : "5",
+      "healthcheck_protocol" : "TCP",
+      "healthcheck_timeout" : "10",
+      "unhealthy_threshold" : "3",
+      "backend_members" : "ansible-test01,ansible-test02"
+    }
+  },
   "dnszones": {
     "ansible.internal.corp": {
       "zone_description": "Core Zone internal services",
