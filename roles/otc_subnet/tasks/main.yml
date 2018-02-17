@@ -12,6 +12,13 @@
   tags: 
     - subnetshow
 
+- name: Get subnet_id
+  include: lookup.yml
+  when:
+    - subnet_name is defined
+  tags:
+    - subnetlookup
+
 - name: Create Subnet
   include: create.yml
   when:
