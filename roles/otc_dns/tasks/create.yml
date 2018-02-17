@@ -24,6 +24,9 @@
 - debug:
     msg: "{{ zone }}"
 
+- pause:
+    minutes: 1
+
 - name: Create zonerecords
   include: zonerecord_create.yml
   with_items:
