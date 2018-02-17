@@ -51,13 +51,14 @@
     - role: "otc_keypair"
     - role: "otc_eip"
     - role: "otc_ecs"
-#    - role: "otc_dns"
-#      localaction: "ptrcreate"
+    - role: "otc_dns"
+      localaction: "ptrcreate"
     # create internal DNS zone
     - role: "otc_vpc"
       localaction: "router"
     - role: "otc_dns"
       localaction: "create"
+      zone_name: "travis.otc.telekomcloud99.com"
 
   tasks:
     - name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"

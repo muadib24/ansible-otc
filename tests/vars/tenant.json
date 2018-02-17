@@ -30,10 +30,10 @@
     "travis-test01" : {
       "vpc_name" : "travis-vpc01",
       "availability_zone" : "eu-de-01",
-      "subnet_name" : "travis-subnet02",
+      "subnet_name" : "travis-subnet01",
       "secgroups" : [ "default-travis", "travis-test01" ],
       "ecs_ipaddress" : "192.168.0.101",
-      "ecs_publicip" : "80.158.23.253",
+      "ecs_publicip" : "80.158.17.98",
       "ecs_publicfqdn" : "travis-test01.travis.otc.telekomcloud99.com",
       "ecs_publicttl" : "300",
       "eip_bandwidth_name" : "travis-eip01",
@@ -70,6 +70,6 @@
   "dnszonerecords" : {
     "travis.internal.corp": [ "travis-test01.travis.internal.corp;description;A;300;192.168.0.101",
                                "travis-test02.travis.internal.corp;description;A;300;192.168.0.102" ],
-    "travis.otc.telekomcloud99.com": [ "travis-test01.example.com;;A;300;80.158.23.253" ]
+    "travis.otc.telekomcloud99.com": [ "travis-test01.travis.otc.telekomcloud99.com;;A;300;80.158.17.98" ]
   }
 }

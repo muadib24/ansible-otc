@@ -52,6 +52,9 @@
     - role: "otc_vpc"
     # create internal DNS zone
     - role: "otc_dns"
+      localaction: "ptrlist"
+    - role: "otc_dns"
+      zone_name: "travis.otc.telekomcloud99.com"
       localaction: "delete"
     - role: "otc_dns"
       localaction: "ptrdelete"
