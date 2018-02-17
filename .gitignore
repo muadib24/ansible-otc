@@ -6,3 +6,4 @@ tenant.ini.*
 .tox/
 ansible_otc.egg-info/
 doc/build/
+playbooks/test.*
