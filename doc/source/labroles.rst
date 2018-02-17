@@ -6,38 +6,6 @@ Roles for lab (on migration)
 +========================+=================================================+
 | dns_transfer		 | transfer a DNS zone                             |
 +------------------------+-------------------------------------------------+
-| elb                    | list elastic loadbalancers                      |
-+------------------------+-------------------------------------------------+
-| elb_create             | create elastic loadbalancer                     |
-+------------------------+-------------------------------------------------+
-| elb_delete             | delete elastic loadbalancer                     |
-+------------------------+-------------------------------------------------+
-| elb_show               | show elastic loadbalancer                       |
-+------------------------+-------------------------------------------------+
-| elb_certificate        | show elastic loadbalancer certificates          |
-+------------------------+-------------------------------------------------+
-| elb_certificate_create | create elastic loadbalancer certificate         |
-+------------------------+-------------------------------------------------+
-| elb_certificate_delete | delete elastic loadbalancer certificate         |
-+------------------------+-------------------------------------------------+
-| elb_healthcheck_create | create elastic loadbalancer healthcheck         |
-+------------------------+-------------------------------------------------+
-| elb_healthcheck_delete | delete elastic loadbalancer healthcheck         |
-+------------------------+-------------------------------------------------+
-| elb_healthcheck_show   | show elastic loadbalancer healthcheck           |
-+------------------------+-------------------------------------------------+
-| elb_listener           | list listener for elastic loadbalancer          |
-+------------------------+-------------------------------------------------+
-| elb_listener_create    | create listener for elastic loadbalancer        |
-+------------------------+-------------------------------------------------+
-| elb_listener_delete    | delete listener from elastic loadbalancer       |
-+------------------------+-------------------------------------------------+
-| elb_backends           | list backends for elastic loadbalancer          |
-+------------------------+-------------------------------------------------+
-| elb_backends_create    | create backends for elastic loadbalancer        |
-+------------------------+-------------------------------------------------+
-| elb_backends_delete    | delete backends for elastic loadbalancer        |
-+------------------------+-------------------------------------------------+
 | lookup_name            | lookup id by name                               |
 +------------------------+-------------------------------------------------+
 | os-client-config.yml   | create os-client-config yml file                |
@@ -58,70 +26,6 @@ Starting up
 
   
 **adjust your own data in this file before you using the examples:**
-
-list elastic loadbalancers::
-
-    ansible-playbook  elb.yml
-
-create elastic loadbalancer (tenant.ini)::
-
-    ansible-playbook  elb_create.yml -e "elb_name=ansible-elb01"
-
-delete elastic loadbalancer::
-
-    ansible-playbook  elb_delete.yml -e "elb_name=ansible-elb01"
-
-show elastic loadbalancer::
-
-    ansible-playbook  elb_show.yml -e "elb_name=ansible-elb01"
-
-list elastic loadbalancer certificates::
-
-    ansible-playbook  elb_certificate.yml 
-
-create elastic loadbalancer certificate (we hate comments in cert file)::
-
-    ansible-playbook  elb_certificate_create.yml -e "elb_certificate_name=ansible-cert elb_certificate_key_file=cert.key elb_certificate_certificate_file=cert.crt" 
-
-delete elastic loadbalancer certificates::
-
-    ansible-playbook  elb_certificate_delete.yml -e "listener_certificate_name=ansible-cert"
-
-create elastic loadbalancer healthcheck (tenant.ini)::
-
-    ansible-playbook  elb_healthcheck_create.yml -e "elb_name=ansible-elb01" -e "listener_name=ansible-listener01"
-
-delete elastic loadbalancer healthcheck::
-
-    ansible-playbook  elb_healthcheck_delete.yml -e "elb_healthcheck_id=e12454b93f304b759be699cb0270648c"
-
-show elastic loadbalancer healthcheck::
-
-    ansible-playbook  elb_healthcheck_show.yml -e "elb_healthcheck_id=e12454b93f304b759be699cb0270648c"
-
-list listener for elastic loadbalancer::
-
-    ansible-playbook  elb_listener.yml -e "elb_name=ansible-elb01"
-
-create listener for elastic loadbalancer (tenant.ini)::
-
-    ansible-playbook  elb_listener_create.yml -e "elb_name=ansible-elb01" -e "listener_name=ansible-listener01"
-
-delete listener for elastic loadbalancer::
-
-    ansible-playbook  elb_listener_delete.yml -e "elb_name=ansible-elb01"  -e "listener_name=ansible-listener03"
-
-list backends for elastic loadbalancer (tenant.ini)::
-
-    ansible-playbook  elb_backends.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" 
-
-create backends for elastic loadbalancer::
-
-    ansible-playbook  elb_backends_create.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" -e "ecs_name=ansible-test01" -e "ecs_address=192.168.0.10"
-
-delete backends for elastic loadbalancer::
-
-    ansible-playbook  elb_backends_delete.yml -e "listener_name=ansible-listener01" -e "elb_name=ansible-elb01" -e "elb_backends_id=d15e2f8dd7d64d95a6b5c2a791cac408"
 
 lookup id by name (image)::
 
