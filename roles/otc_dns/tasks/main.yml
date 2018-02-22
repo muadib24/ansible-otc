@@ -12,6 +12,13 @@
   tags: 
     - ptrlist
 
+- name: Transfer Zone to OTC
+  include: transfer.yml
+  when:
+    - localaction is defined and localaction == "transfer"
+  tags: 
+    - transfer
+
 - name: Get Zone detail
   include: show.yml
   when:

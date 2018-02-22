@@ -3,6 +3,9 @@ otc_dns
 
 OTC role for DNS. This role creates zones, zone records and reverse
 entries (PTR records).
+With as transfer option it's possible to fetch zone information from
+existing DNS and write an OTC DNS config file in ini, yml, or json
+format. This action required xfer rights on the source DNS server.
 
 Variables:
 ^^^^^^^^^^
@@ -25,6 +28,8 @@ Variables:
 | zone_records            | List of zone records                        |
 +-------------------------+---------------------------------------------+
 | ptr_name                | FQDN for PTR record                         |
++-------------------------+---------------------------------------------+
+| config                  | Format for Zonetransfer (ini,yml,json)      |
 +-------------------------+---------------------------------------------+
 
 
@@ -63,3 +68,10 @@ delete::
 
     ansible-playbook tenant_ini.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=delete"
 
+transfer::
+
+    ansible-playbook dns_ini.yml -e "config=ini" -e "localaction=transfer" -e "dns_server=192.168.0.1" -e "zone_name=example.com" -e "zone_type=public" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
+
+    ansible-playbook dns_yml.yml -e "config=yml" -e "localaction=transfer" -e "dns_server=192.168.0.1" -e "zone_name=example.com" -e "zone_type=public" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
+
+    ansible-playbook dns_json.yml -e "config=json" -e "localaction=transfer" -e "dns_server=192.168.0.1" -e "zone_name=example.com" -e "zone_type=public" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
