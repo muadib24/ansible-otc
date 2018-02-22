@@ -28,3 +28,4 @@ Functions:
 .. include:: ../../roles/otc_obs/README.rst
 .. include:: ../../roles/otc_job/README.rst
 .. include:: ../../roles/otc_elb/README.rst
+.. include:: ../../roles/otc_rds/README.rst

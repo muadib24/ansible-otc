@@ -1,0 +1,13 @@
+- name: Get RDS flavor list
+  include: flavor.yml
+  when:
+    - localaction is defined and localaction == "flavor"
+  tags: 
+    - rdsflavor
+
+- name: Get RDS version list
+  include: version.yml
+  when:
+    - localaction is defined and localaction == "version"
+  tags: 
+    - rdsversion

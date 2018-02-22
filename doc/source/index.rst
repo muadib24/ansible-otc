@@ -14,7 +14,6 @@ Welcome to Ansible-OTC documentation!
    install
    auth
    config
-   labroles
    connect
    workshop
    buildservice
