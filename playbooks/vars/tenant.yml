@@ -54,12 +54,12 @@ vms:
     ecs_ipaddress: "192.168.0.102"
 securitygroups:
   default-ansible:
-    - "ingress;IPv4;tcp;22;22;0.0.0.0"
-    - "ingress;IPv4;tcp;80;80;0.0.0.0"
-    - "egress;IPv4;tcp;80;80;0.0.0.0"
-    - "egress;IPv4;tcp;443;443;0.0.0.0"
+    - "ingress;IPv4;tcp;22;22;0.0.0.0/0"
+    - "ingress;IPv4;tcp;80;80;0.0.0.0/0"
+    - "egress;IPv4;tcp;80;80;0.0.0.0/0"
+    - "egress;IPv4;tcp;443;443;0.0.0.0/0"
   ansible-test01:
-    - "ingress;IPv4;tcp;22022;22022;0.0.0.0"
+    - "ingress;IPv4;tcp;22022;22022;0.0.0.0/0"
 elb:
   ansible-elb01:
     elb_type: "External"
