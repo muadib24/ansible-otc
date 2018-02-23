@@ -3,31 +3,35 @@ Ansible OTC Workshop
 
 You need  a valid connetion to OTC with ansible. See :ref:`Connect_Cheat_Sheet` section 4.
 
+All commands are working from::
+
+    cd playbooks
+
 1. List all running ECS instances (VMs)::
 
-    ansible-playbook  ecs.yml --vault-password-file vaultpass.txt
+    ./grole otc_ecs; ansible-playbook roles.yml -e "localaction=list"
 
 2. List all available images (IMS)::
 
-    ansible-playbook  images.yml --vault-password-file vaultpass.txt
+    ./grole otc_ims; ansible-playbook roles.yml -e "localaction=list"
 
 3. List all available VPC (Network)::
 
-    ansible-playbook  vpc.yml --vault-password-file vaultpass.txt
+    ./grole otc_vpc; ansible-playbook roles.yml -e "localaction=list"
 
 4. List all available Floating IP (EIP)::
 
-    ansible-playbook  eip.yml --vault-password-file vaultpass.txt
+    ./grole otc_eip; ansible-playbook roles.yml -e "localaction=list"
 
 5. List all available security groups (Network)::
 
-    ansible-playbook  secgroups.yml --vault-password-file vaultpass.txt
+    ./grole otc_secgroups; ansible-playbook roles.yml -e "localaction=list"
 
 6. Generate local ssh-key::
 
     ssh-keygen
 
-7. Configure your ECS instance in tenant.ini
+7. Configure your ECS instance in vars/tenant.ini
 
     To distinguish the resources, use your own namespace::
 
@@ -44,9 +48,7 @@ You need  a valid connetion to OTC with ansible. See :ref:`Connect_Cheat_Sheet` 
         # VPC name grapped by list. Or a new Virtual Private Cloud (VPC)
         vpc_name=cloudcamp-vpc01
         # Setup a security group for the ECS instance and a set of rules
-        secgroup_name=cloudcamp-secgroup01
-        secgroup_rule1=ingress;IPv4;icmp;;;0.0.0.0/0
-        secgroup_rule2=ingress;IPv4;tcp;22;22;0.0.0.0/0
+        secgroups=["cloudcamp-secgroup01"]
         # Network of the whole VPC
         vpc_net=192.168.0.0/16
         # Name of the subnet inside the VPC where the ECS instance is running
@@ -71,6 +73,8 @@ You need  a valid connetion to OTC with ansible. See :ref:`Connect_Cheat_Sheet` 
         ecs_adminkey=my-key
         # SSH-key to inject the ecs instance
         keypair_file=~/.ssh/id_rsa.pub
+        [securitygroups]
+        cloudcamp-secgroup01=["ingress;IPv4;tcp;22;22;0.0.0.0/0", "ingress;IPv4;tcp;80;80;0.0.0.0/0"]
 
   Pitfalls: 
 
@@ -80,7 +84,7 @@ You need  a valid connetion to OTC with ansible. See :ref:`Connect_Cheat_Sheet` 
 
 8. Start and check your ECS instance::
 
-    ansible-playbook  tenant_create.yml -e "ecs_name=myecs" --vault-password-file vaultpass.txt
+    ansible-playbook tenant_ini.yml -e "ecs_name=myecs" -e "localaction=create"
 
   ansible should work through the playbooks. Last task should output the JobID. 
   You can check the job status (use your own JobID) ::
@@ -95,16 +99,13 @@ You need  a valid connetion to OTC with ansible. See :ref:`Connect_Cheat_Sheet` 
 
   Alternate way to catch the floating ip:
 
-  * grab the list of ecs instances
-  * copy the ecs_id of your ecs instance
   * in detail view of your ecs instance search for internal ipaddress
-  * grab the list of eip and compare association of internal and floating ipaddresses
+  * grab the list of eip and compare association of internal and floating ip-addresses
 
   cmd::
 
-    ansible-playbook  -e ecs.yml --vault-password-file vaultpass.txt
-    ansible-playbook  -e "ecs_id="c814e303-7e66-4f08-ac70-18c8e27ca623"" -e "ecs_name=myecs" ecs_show.yml --vault-password-file vaultpass.txt
-    ansible-playbook  -e eip.yml --vault-password-file vaultpass.txt
+    ./grole otc_ecs; ansible-playbook roles.yml -e "ecs_name=myecs" -e "localaction=list"
+    ./grole otc_eip; ansible-playbook roles.yml -e "localaction=list"
 
 9. SSH Login in your ECS instance::
 
@@ -113,4 +114,4 @@ You need  a valid connetion to OTC with ansible. See :ref:`Connect_Cheat_Sheet` 
 
 10. Delete ECS instance::
 
-     ansible-playbook  -e "ecs_id=c814e303-7e66-4f08-ac70-18c8e27ca623" -e "ecs_name=myecs" -e "delete_publicip=1" -e  "delete_volume=1" ecs_delete.yml --vault-password-file vaultpass.txt
+    ./grole otc_ecs; ansible-playbook roles.yml -e "ecs_name=myecs" -e "localaction=delete"
