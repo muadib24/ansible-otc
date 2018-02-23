@@ -29,16 +29,26 @@ Functions:
 
 Create::
 
-    ++
+    ansible-playbook tenant_yml.yml -e "ecs_name=ansible-test01" -e "localaction=create"
+
+    ansible-playbook tenant_ini.yml -e "ecs_name=ansible-test01" -e "localaction=create"
+
+    ansible-playbook tenant_json.yml -e "ecs_name=ansible-test01" -e "localaction=create"
+
+note: subnet will create during ECS creating workflow
 
 Show::
 
-    ++
+    ./grole otc_secgroup; ansible-playbook roles.yml -e "secgroup_name=ansible-secgroup01" -e "localaction=show"
 
 List::
 
-    ++
+    ./grole otc_secgroup; ansible-playbook roles.yml -e "localaction=list"
+
+    ./grole otc_secgroup; ansible-playbook roles.yml -e "vpc_id=1234567891234567890" -e "localaction=list"
+
+    ./grole otc_vpc otc_secgroup; ansible-playbook roles.yml -e "vpc_name=ansible-vpc01" -e "localaction=list"
 
 Delete::
 
-    ++
+    ./grole otc_secgroup; ansible-playbook roles.yml -e "secgroup_name=ansible-secgroup01" -e "localaction=delete"

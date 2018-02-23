@@ -30,16 +30,18 @@ Functions:
 
 Create::
 
-    ++
+    ansible-playbook tenant_yml.yml -e "image_name=ansible-image01" -e "image_url=ansible1:/xenial-server-cloudimg-amd64-disk1.vmdk" -e "image_min_disk=12" "localaction=create"
+
+    ansible-playbook tenant_yml.yml -e "image_name=ansible-image01" -e "ecs_id=12345678901234567890" -e "image_min_disk=12" "localaction=create"
 
 Show::
 
-    ++
+    ./grole otc_evs; ansible-playbook roles.yml -e "image_name=Community_Ubuntu_16.04_TSI_latest" -e "localaction=show"
 
 List::
 
-    ++
+    ./grole otc_evs; ansible-playbook roles.yml -e "localaction=list"
 
 Delete::
 
-    ++
+    ./grole otc_evs; ansible-playbook roles.yml -e "image_name=ansible-image01" -e "localaction=delete"

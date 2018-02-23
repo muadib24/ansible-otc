@@ -22,16 +22,20 @@ Functions:
 
 Create::
 
-    ++
+    ./grole otc_keypair; ansible-playbook roles.yml -e "ecs_adminkey=ansible-key01" -e "keypair_file=.ssh/authorized_keys" -e "localaction=create"
+
+    ansible-playbook tenant_yml.yml -e "ecs_adminkey=ansible-key01" -e "keypair_file=.ssh/authorized_keys" -e "localaction=create"
+
+note: keypair will be created during ECS creating worklflow
 
 Show::
 
-    ++
+    ./grole otc_keypair; ansible-playbook roles.yml -e "ecs_adminkey=ansible-key01" -e "localaction=show"
 
 List::
 
-    ++
+    ./grole otc_keypair; ansible-playbook roles.yml -e "localaction=list"
 
 Delete::
 
-    ++
+    ./grole otc_keypair; ansible-playbook roles.yml -e "ecs_adminkey=ansible-key01" -e "localaction=delete"

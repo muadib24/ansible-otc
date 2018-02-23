@@ -99,15 +99,19 @@ Create::
     ansible-playbook tenant_yml.yml -e "elb_name=ansible-elb01" -e "listener_name=ansible-listener01" -e "localaction=elbbackendcreate"
 
 
+note: similar with ini, and json conf
+
 Show::
 
-    ansible-playbook tenant_yml.yml -e "elb_name=ansible-elb01" -e "localaction=show"
+    ./grole otc_elb; ansible-playbook roles.yml -e "elb_name=ansible-elb01" -e "localaction=show"
 
 List::
 
-    ansible-playbook tenant_yml.yml -e "localaction=delete"
+    ./grole otc_elb; ansible-playbook roles.yml -e "localaction=list"
 
 Delete::
+
+    ./grole otc_elb; ansible-playbook roles.yml -e "elb_name=ansible-elb01" -e "localaction=delete"
 
     ansible-playbook tenant_yml.yml -e "elb_name=ansible-elb01" -e "localaction=delete"
 

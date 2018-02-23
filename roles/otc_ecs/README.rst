@@ -45,16 +45,20 @@ Functions:
 
 Create::
 
-    ++   
+    ansible-playbook tenant_yml.yml -e "ecs_name=ansible-test01" -e "localaction=create"
+
+    ansible-playbook tenant_ini.yml -e "ecs_name=ansible-test01" -e "localaction=create"
+
+    ansible-playbook tenant_json.yml -e "ecs_name=ansible-test01" -e "localaction=create"
 
 Show::
 
-    ++
+    ./grole otc_ecs; ansible-playbook roles.yml -e "ecs_name=ansible-test01" -e "localaction=show"
 
 List::
 
-    ++
+    ./grole otc_ecs; ansible-playbook roles.yml -e "localaction=list"
 
 Delete::
 
-    ++
+    ./grole otc_ecs; ansible-playbook roles.yml -e "ecs_name=ansible-test01" -e "localaction=delete"

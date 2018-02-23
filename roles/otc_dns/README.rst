@@ -1,5 +1,5 @@
 otc_dns
-============
+=======
 
 OTC role for DNS. This role creates zones, zone records and reverse
 entries (PTR records).
@@ -47,26 +47,25 @@ ptrcreate::
 
     ansible-playbook tenant_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "ecs_name=ansible-test01" -e "localaction=ptr_create"
 
-
 show::
 
-    ansible-playbook tenant_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=show"
+    ./grole otc_dns; ansible-playbook roles.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=show"
 
-    ansible-playbook tenant_ini.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=show"
+    ./grole otc_vpc otc_dns; ansible-playbook roles.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "vpc_name=ansible-vpc01" -e "localaction=show"
 
 
 list::
 
-    ansible-playbook tenant_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=list"
+    ./grole otc_dns; ansible-playbook roles.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=list"
 
-    ansible-playbook tenant_ini.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=list"
+    ./grole otc_vpc otc_dns; ansible-playbook roles.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=list"
 
 
 delete::
 
-    ansible-playbook tenant_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=delete"
+    ./grole otc_dns; ansible-playbook roles.yml ansible-playbook tenant_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=delete"
 
-    ansible-playbook tenant_ini.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=delete"
+    ./grole otc_vpc otc_dns; ansible-playbook roles.yml  -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=delete"
 
 transfer::
 

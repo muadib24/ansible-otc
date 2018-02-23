@@ -34,16 +34,16 @@ Functions:
 
 Create::
 
-    ++
+    ansible-playbook tenant_yml.yml -e "evs_name=ansible-evs01" -e "localaction=create"
 
 Show::
 
-    ++
+    ./grole otc_evs; ansible-playbook roles.yml -e "evs_name=ansible-evs01" -e "localaction=show"
 
 List::
 
-    ++
+    ./grole otc_evs; ansible-playbook roles.yml -e "localaction=list"
 
 Delete::
 
-    ++
+    ./grole otc_evs; ansible-playbook roles.yml -e "evs_name=ansible-evs01" -e "localaction=delete"
