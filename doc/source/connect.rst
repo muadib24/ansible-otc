@@ -8,8 +8,18 @@ How to connect to the Open Telekom Cloud
 
 Install prerequisites as root on your Ubuntu 16.04 machine::
 
+Using requirements file in ansible-otc repo::
+
+    apt-get update
+    apt-get -y install curl git python-pip libs3-2 jq
+    pip install pip -U
+    pip install -r https://raw.githubusercontent.com/eumel8/ansible-otc/dev/requirements.txt
+
+Alternate way::
+
     apt-get update
     apt-get -y install curl git python-openstackclient python-pip python-jmespath python-netaddr libs3-2 jq
+    pip install pip -U
     pip install python-otcclient
     pip install ansible==2.2.0.0
 
@@ -38,6 +48,7 @@ clouds.yml::
                 project_domain_name: Default
                 user_domain_name: OTC-EU-DE-00000000001000010000
             region_name: eu-de
+            identity_api_version: "3"
         otc.19720:
             auth:
                 auth_url: https://iam.eu-de.otc.t-systems.com:443/v3
@@ -47,6 +58,7 @@ clouds.yml::
                 project_domain_name: Default
                 user_domain_name: OTC-EU-DE-00000000001000019720
             region_name: eu-de
+            identity_api_version: "3"
 
 
 
@@ -122,9 +134,9 @@ Test connection::
 source::
 
     git clone https://github.com/eumel8/ansible-otc.git
-    cd ansible-otc
-    cp secrets.yml  _secrets.yml 
-    ansible-vault edit _secrets.yml --vault-password-file vaultpass.txt
+    cd ansible-otc/playbooks
+    cp vars/secrets.yml  vars/_secrets.yml 
+    ansible-vault edit vars/_secrets.yml --vault-password-file vars/vaultpass.txt
 
 Adjust these lines::
 
@@ -134,5 +146,4 @@ Adjust these lines::
 
 Test connection::
 
-    ansible-playbook -i hosts ecs.yml --vault-password-file vaultpass.txt
-
+    ./grole otc_ecs; ansible-playbook roles.yml -e "localaction=list" --vault-password-file vaultpass.txt
