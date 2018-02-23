@@ -17,16 +17,25 @@ Supported OS:
 Requirements:
 -------------
 
-** adjust buildservice_var.yml **
+** adjust vars/buildservice_var.yml::
 
-S3 credentials in _secrets.yml
+    vi vars/buildservice_var.yml
+
+** copy secret file to your own::
+
+    cp vars/secrets.yml vars/_secrets.yml
+
+** adjust S3 credentials::
+
+     ansible-vault edit vars/_secrets.yml --vault-password-file vars/vaultpass.txt **
 
 Usage:
 ------
 
-    ansible-playbook  -i hosts buildservice.yml -e "distro=trusty" --vault-password-file vaultpass.txt
+::
+    ansible-playbook buildservice.yml -e "distro=trusty" --vault-password-file vaultpass.txt
 
-    ansible-playbook  -i hosts buildservice.yml -e "distro=xenial" --vault-password-file vaultpass.txt
+    ansible-playbook buildservice.yml -e "distro=xenial" --vault-password-file vaultpass.txt
 
 
 Easy to adapt for other operating systems
