@@ -35,4 +35,3 @@ script:
 
   # Run the role/playbook with ansible-playbook.
   - tests/tests.sh
-
