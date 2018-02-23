@@ -36,16 +36,31 @@ Variables:
 Functions:
 ^^^^^^^^^^
 
-create::
+create (public)::
 
-    ansible-playbook tenant_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=create"
+    ansible-playbook dns_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=create"
 
-    ansible-playbook tenant_ini.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=create"
+    ansible-playbook dns_ini.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=create"
+
+    ansible-playbook dns_json.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=create"
+
+create (internal)::
+
+    ansible-playbook dns_yml.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=create"
+
+    ansible-playbook dns_ini.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=create"
+
+    ansible-playbook dns_json.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=create"
 
 
 ptrcreate::
 
-    ansible-playbook tenant_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "ecs_name=ansible-test01" -e "localaction=ptr_create"
+    ansible-playbook tenant_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "ecs_name=ansible-test01" -e "localaction=ptrcreate"
+
+ptrdelete::
+
+    ansible-playbook tenant_yml.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "ecs_name=ansible-test01" -e "localaction=ptrdelete"
+
 
 show::
 

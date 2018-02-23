@@ -28,9 +28,9 @@ First of all we need connection to OTC. Use the :ref:`Connect_Cheat_Sheet`
 It's a good idea to install openstack-client because ansible will use
 the same os-client-config::
 
-    git clone -b poc_dns_v2 https://github.com/eumel8/ansible-otc.git
-    cd ansible-otc
-    cp secrets.yml  _secrets.yml 
+    git clone https://github.com/eumel8/ansible-otc.git
+    cd ansible-otc/playbooks
+    cp vars/secrets.yml  vars/_secrets.yml 
 
 In _secrets.yml are only S3 credentials stored. You need to adjust *env.yml* 
 with the used profile name in clouds.yml. Ignore the *_secrets.yml* settings
@@ -77,20 +77,25 @@ configured the domain, you need the service desk to clarify.
 **Reverse DNS** (PTR records) are only provided for public ip (EIP). The
 ip address must assigned to your tenant to set the PTR record.
 
-Related playbooks are *zone_create.yml*, *zonerecord_create.yml* and *ptrrecord_create.yml*
+Related playbooks are *dns_ini.yml*, *dns_yml.yml* and *dns_json.yml*
+All of them control the otc_dns role.
 
 
 Lets start a virtual machine with a fixed private ip address and an allocated EIP::
 
-    ansible-playbook -i hosts tenant_create.yml -e "ecs_name=ansible-test101"
+    ansible-playbook tenant_ini.yml -e "ecs_name=ansible-test01"
 
-In this play we allocate all resources to bootstrap our ECS instance, set the floating ip
-address and the reverse DNS::
+In this play we setup a new DNS zone, make an A-Record for ECS, and
+set PTR-Record (Reverse DNS)::
 
-    ansible-playbook -i hosts dns_create.yml -e "vpc_name=ansible-vpc01"
+    ansible-playbook dns_ini.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "localaction=create"
 
-Here we create zones and zonerecords. API works asynchron so if job processing is slow
-you need to repeat the step if the zone is not ready when zonerecords are added.
+    ansible-playbook dns_ini.yml -e "zone_name=ansible.otc.telekomcloud99.com" -e "ecs_name=ansible-test01" -e "localaction=ptrcreate"
+
+
+Here we create zones and zonerecords. API works asynchron so if job
+processing is slow you need to repeat the step if the zone is not
+ready when zonerecords are added.
 
 Tests::
 
@@ -118,24 +123,23 @@ Tests::
 
     ansible-test101.ansible.internal.corp has address 192.168.0.101
 
-
 Remove DNS reverse entry::
 
-    ansible-playbook -i hosts ptrrecord_delete.yml -e "public_ip_address=160.44.207.211"
+    ./grole otc_dns; ansible-playbook roles.yml -e "public_ip_address=160.44.207.211" -e "localaction=ptrdelete"
 
-
-Migrate your complete zones automatically
+Migrate your complete zones automatically (required xfer permissions)
 
 Private zone::
 
-    ansible-playbook dns_transfer.yml -e "dns_server=127.0.0.1" -e "zone_name=internal.example.com" -e "zone_type=private" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
-    ansible-playbook -i hosts dns_create.yml -e "vpc_name=ansible-vpc01"
+    ansible-playbook dns_ini.yml -e "config=ini" -e "localaction=transfer" -e "dns_server=192.168.0.1" -e "zone_name=ansible.internal.corp"" -e "zone_type=private" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
 
+    ansible-playbook dns_ini.yml -e "zone_name=ansible.internal.corp" -e "vpc_name=ansible-vpc01" -e "localaction=create"
 
 Public zone::
 
-    ansible-playbook dns_transfer.yml  -e "dns_server=127.0.0.1" -e "zone_name=external.example.com" -e "zone_type=public" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
-    ansible-playbook -i hosts dns_create.yml
+    ansible-playbook dns_ini.yml -e "config=ini" -e "localaction=transfer" -e "dns_server=192.168.0.1" -e "zone_name=example.com" -e "zone_type=public" -e "zone_email=nobody@localhost" -e "zone_ttl=86400"
+
+    ansible-playbook dns_ini.yml -e "zone_name=example.com" -e "localaction=create"
 
 
 End of PoC. Look at the `[other plays and roles]<https://github.com/eumel8/ansible-otc>`__ to interact with OTC API
