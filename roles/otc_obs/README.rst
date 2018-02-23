@@ -4,7 +4,7 @@ otc_obs
 OTC role for Object Storage Service (OBS).
 This role requires curl, libxml2-utils, and openssl installed.
 
-Authentification will be done with environment variables (e.g. EC2_...)
+Authentification will be done with environment variables (e.g. EC2...)
 or ansible-vault file in 'vars/_secrets.yml' or 'vars/secrets.yml'.
 Dependly on that ansible-playbook must be called with vault param.
 

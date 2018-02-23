@@ -35,7 +35,7 @@ credentials::
     cp secrets.yml _secrets.yml 
     ansible-vault edit _secrets.yml
 
-We will looking for *_secrets.yml* file in the :ref:`otc_auth_role`
+We will looking for *_secrets.yml* file in the :ref:`otc_auth`
 
 Call the playbooks with vault param to encrypt the secret store::
 

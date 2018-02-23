@@ -28,7 +28,7 @@ Variables:
 | ecs_fileinject_[1-5]      | Personal data (file injection)                                |
 |                           | up to 5 files                                                 |
 |                           | example: ansible-playbook -e "ecs_fileinject_1=/etc/hosts \   |
-|                           |          ecs_fileinject_data_1=$(base64 -w 0 hosts.txt)"      |
+|                           | ecs_fileinject_data_1=$(base64 -w 0 hosts.txt)"               |
 +---------------------------+---------------------------------------------------------------+
 | ecs_fileinject_data_[1-5] |  Personal data (file injection)                               |
 +---------------------------+---------------------------------------------------------------+
