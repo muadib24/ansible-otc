@@ -7,3 +7,4 @@ tenant.ini.*
 ansible_otc.egg-info/
 doc/build/
 playbooks/test.*
+playbooks/roles.yml
