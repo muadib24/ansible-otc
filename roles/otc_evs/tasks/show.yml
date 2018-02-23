@@ -1,0 +1,16 @@
+- name: Lookup evs_id
+  include: lookup.yml
+
+- name: Send request to API (show EVS)
+  uri:
+    url: "{{ AUTH_URL_EVS }}/volumes/{{ evs_id }}"
+    method: GET
+    return_content: yes
+    validate_certs: yes
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
+  register: volume
+
+- debug:
+    msg: "{{ volume.json }}"

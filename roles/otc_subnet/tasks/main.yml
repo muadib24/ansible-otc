@@ -1,0 +1,34 @@
+- name: Get Subnet list
+  include: list.yml
+  when:
+    - localaction is defined and localaction == "list"
+  tags: 
+    - subnetlist
+
+- name: Get Subnet detail
+  include: show.yml
+  when:
+    - localaction is defined and localaction == "show"
+  tags: 
+    - subnetshow
+
+- name: Get subnet_id
+  include: lookup.yml
+  when:
+    - subnet_name is defined
+  tags:
+    - subnetlookup
+
+- name: Create Subnet
+  include: create.yml
+  when:
+    - localaction is defined and localaction == "create"
+  tags: 
+    - subnetcreate
+
+- name: Delete Subnet
+  include: delete.yml
+  when:
+    - localaction is defined and localaction == "delete"
+  tags: 
+    - subnetdelete

@@ -1,9 +1,0 @@
-{
-    "name": "{{ zonerecord_part[2] }}",
-{% if zonerecord_part[1]|length != 0 %}  
-    "description": "{{ zonerecord_part[1] }}",
-{% endif %}  
-    "type": "{{ zonerecord_part[3] }}",
-    "ttl": {{ zonerecord_part[4] }},
-    "records": [ "{{ zonerecord_part[5] }}" ]
-}

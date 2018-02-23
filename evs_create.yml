@@ -1,9 +1,0 @@
----
-- hosts: localhost
-  gather_facts: no
-  vars_files:
-    - tenant_var_default.yml
-    - tenant_var.yml
-  roles:
-  - role: token
-  - role: evs_create

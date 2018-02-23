@@ -1,0 +1,34 @@
+- name: Get Keypair list
+  include: list.yml
+  when:
+    - localaction is defined and localaction == "list"
+  tags: 
+    - keypairlist
+
+- name: Keypair lookup
+  include: lookup.yml
+#  when:
+#    - localaction is defined and localaction == "lookup"
+  tags: 
+    - keypairlookup
+
+- name: Get Keypair detail
+  include: show.yml
+  when:
+    - localaction is defined and localaction == "show"
+  tags: 
+    - keypairshow
+
+- name: Create Keypair
+  include: create.yml
+  when:
+    - localaction is defined and localaction == "create"
+  tags: 
+    - keypaircreate
+
+- name: Delete Keypair
+  include: delete.yml
+  when:
+    - localaction is defined and localaction == "delete"
+  tags: 
+    - keypairdelete

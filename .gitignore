@@ -2,3 +2,9 @@ _secrets.yml
 _user_data*.txt
 tenant.ini.*
 *.retry
+.eggs/
+.tox/
+ansible_otc.egg-info/
+doc/build/
+playbooks/test.*
+playbooks/roles.yml

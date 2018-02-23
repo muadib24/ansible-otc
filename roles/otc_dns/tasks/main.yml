@@ -1,0 +1,62 @@
+- name: Get Zone list
+  include: list.yml
+  when:
+    - localaction is defined and localaction == "list"
+  tags: 
+    - zonelist
+
+- name: Get PTR list
+  include: ptr_list.yml
+  when:
+    - localaction is defined and localaction == "ptrlist"
+  tags: 
+    - ptrlist
+
+- name: Transfer Zone to OTC
+  include: transfer.yml
+  when:
+    - localaction is defined and localaction == "transfer"
+  tags: 
+    - transfer
+
+- name: Get Zone detail
+  include: show.yml
+  when:
+    - localaction is defined and localaction == "show"
+  tags: 
+    - zoneshow
+
+- name: Create Zone
+  include: create.yml
+  when:
+    - localaction is defined and localaction == "create"
+  tags: 
+    - zonecreate
+
+- name: Create PTR
+  include: ptr_create.yml
+  when:
+    - localaction is defined and localaction == "ptrcreate"
+  tags: 
+    - ptrcreate
+
+- name: Create Zonerecords
+  include: zonerecord_create.yml
+  when:
+    - localaction is defined and localaction == "zonerecordcreate"
+  tags: 
+    - zonerecordscreate
+
+- name: Delete Zone
+  include: delete.yml
+  when:
+    - localaction is defined and localaction == "delete"
+  tags: 
+    - zonedelete
+
+- name: Delete PTR
+  include: ptr_delete.yml
+  when:
+    - localaction is defined and localaction == "ptrdelete"
+  tags: 
+    - ptrdelete

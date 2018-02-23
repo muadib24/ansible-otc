@@ -3,18 +3,23 @@ sudo: required
 dist: xenial
 
 language: python
-python: "2.7"
+python: 
+  - "2.7"
+  - "3.5"
 
 # Doc: https://docs.travis-ci.com/user/customizing-the-build#Build-Matrix
+# https://docs.travis-ci.com/user/common-build-problems/
 env:
   - ANSIBLE_VERSION=latest
   - ANSIBLE_VERSION=2.2.2.0
   - ANSIBLE_VERSION=2.3.0.0
   - ANSIBLE_VERSION=2.4.0.0
+  - ANSIBLE_VERSION=2.5.0b2
 
 branches:
   only:
-    - doc
+    - master
+    - dev
 
 before_install:
   - sudo apt-get update -qq
@@ -22,15 +27,11 @@ before_install:
 install:
   # Install Ansible.
   - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
-  - pip install ansible-lint
+  - pip install ansible-lint jmespath
 
 script:
   # Check the role/playbook's syntax.
   - ansible-lint .
 
   # Run the role/playbook with ansible-playbook.
-  # - ansible-playbook services.yml
-
-  # check is the user is created or not
-  # - id -u testusername | grep -q "no" && (echo "user not found" && exit 1) || (echo "user found" && exit 0)
-
+  - tests/tests.sh
