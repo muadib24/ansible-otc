@@ -8,4 +8,3 @@ ansible==2.3.0.0
 jmespath
 # OpenStack CLI for Tests
 python-openstackclient==3.14.0
-otcclient
