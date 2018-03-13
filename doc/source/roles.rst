@@ -15,6 +15,7 @@ Variables:
 Functions:
 ==========
 
+.. include:: ../../roles/os-client-config/README.rst
 .. include:: ../../roles/otc_auth/README.rst
 .. include:: ../../roles/otc_ims/README.rst
 .. include:: ../../roles/otc_vpc/README.rst
