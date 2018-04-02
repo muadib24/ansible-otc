@@ -34,6 +34,13 @@ For local build use:
     pip install -r requirements.txt
 ```
 
+
+Presentations
+=============
+
+* https://www.slideshare.net/FrankKloeker/ansible-otc
+
+
 Contributing
 ------------
 Very welcome. We are in a very early state of automated platform deployment
