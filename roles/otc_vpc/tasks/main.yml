@@ -2,47 +2,47 @@
   include: list.yml
   when:
     - localaction is defined and localaction == "list"
-  tags: 
+  tags:
     - vpclist
 
 - name: Configure SNAT on VPC
   include: snat.yml
   when:
     - localaction is defined and localaction == "snat"
-  tags: 
+  tags:
     - vpcsnat
 
 - name: Get VPC Router Info
   include: router.yml
   when:
     - localaction is defined and localaction == "router"
-  tags: 
+  tags:
     - vpcrouter
 
 - name: Get vpc_id
   include: lookup.yml
   when:
     - vpc_name is defined
-  tags: 
+  tags:
     - vpclookup
 
 - name: Get VPC detail
   include: show.yml
   when:
     - localaction is defined and localaction == "show"
-  tags: 
+  tags:
     - vpcshow
 
 - name: Create VPC
   include: create.yml
   when:
     - localaction is defined and localaction == "create"
-  tags: 
+  tags:
     - vpccreate
 
 - name: Delete VPC
   include: delete.yml
   when:
     - localaction is defined and localaction == "delete"
-  tags: 
+  tags:
     - vpcdelete

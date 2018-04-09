@@ -2,26 +2,26 @@
   include: list.yml
   when:
     - localaction is defined and localaction == "list"
-  tags: 
+  tags:
     - obslist
 
 - name: Uplpad data OBS
   include: upload.yml
   when:
     - localaction is defined and localaction == "upload"
-  tags: 
+  tags:
     - obsupload
 
 - name: Create OBS bucket
   include: create.yml
   when:
     - localaction is defined and localaction == "create"
-  tags: 
+  tags:
     - obscreate
 
 - name: Delete OBS bucket
   include: delete.yml
   when:
     - localaction is defined and localaction == "delete"
-  tags: 
+  tags:
     - obsdelete

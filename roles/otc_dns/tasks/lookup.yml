@@ -28,7 +28,7 @@
   when: zone_name is defined
 
 - name: Debug zone_name
-  debug: 
+  debug:
     msg: "{{ zone_name }}"
 
 - name: Set fact zone_id for dns if zone_name is defined
@@ -39,6 +39,6 @@
   when: zone_name is defined
 
 - name: Debug zone_id
-  debug: 
+  debug:
     msg: "{{ zone_id }}"
   when: zone_id is defined

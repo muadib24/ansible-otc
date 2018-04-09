@@ -2,26 +2,26 @@
   include: list.yml
   when:
     - localaction is defined and localaction == "list"
-  tags: 
+  tags:
     - eiplist
 
 - name: Get EIP detail
   include: show.yml
   when:
     - localaction is defined and localaction == "show"
-  tags: 
+  tags:
     - eipshow
 
 - name: Create EIP
   include: create.yml
   when:
     - localaction is defined and localaction == "create"
-  tags: 
+  tags:
     - eipcreate
 
 - name: Delete EIP
   include: delete.yml
   when:
     - localaction is defined and localaction == "delete"
-  tags: 
+  tags:
     - eipdelete

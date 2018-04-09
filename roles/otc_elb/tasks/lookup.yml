@@ -70,7 +70,7 @@
   when:
     - listener_name is defined
 
-- name: Send Request to API (list elb listener) 
+- name: Send Request to API (list elb listener)
   uri:
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners?loadbalancer_id={{ elb_id}}"
     method: GET

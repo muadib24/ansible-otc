@@ -2,26 +2,26 @@
   include: list.yml
   when:
     - localaction is defined and localaction == "list"
-  tags: 
+  tags:
     - evslist
 
 - name: Get EVS detail
   include: show.yml
   when:
     - localaction is defined and localaction == "show"
-  tags: 
+  tags:
     - evsshow
 
 - name: Create EVS
   include: create.yml
   when:
     - localaction is defined and localaction == "create"
-  tags: 
+  tags:
     - evscreate
 
 - name: Delete EVS
   include: delete.yml
   when:
     - localaction is defined and localaction == "delete"
-  tags: 
+  tags:
     - evsdelete
