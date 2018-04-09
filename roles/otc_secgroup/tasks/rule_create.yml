@@ -30,6 +30,10 @@
     - secgroup_id is defined
   register: secgrouprule_result
 
+- name: Set fact secgrouprule_json
+  set_fact:
+    secgrouprule_json: "{{ secgrouprule_result.json | default() }}"
+
 - name: Send request to API (remove security group default rules)
   vars:
     secgrouprule_id: "{{ item }}"
@@ -45,10 +49,8 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: secgroup_rule
-  when:
-    - secgrouprule_result is defined
   with_items:
-    - "{{ secgrouprule_result.json|json_query('security_group_rules[].id') }}"
+    - "{{ secgrouprule_json|json_query('security_group_rules[].id') }}"
 
 - name: Send request to API (create security group rule)
   vars:
