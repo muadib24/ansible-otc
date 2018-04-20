@@ -37,11 +37,14 @@
     - ecs_name is defined
     - image_id is defined
     - flavor_id is defined
+    - not ecs_id or ecs_id is undefined
 
 - name: Set fact job_id
   set_fact:
     job_id: "{{ (ecs.content|from_json)|json_query('job_id') }}"
-  when: ecs is defined and ecs.content|length != 0
+  when:
+    - not ecs_id or ecs_id is undefined
+    - ecs is defined and ecs.content|length != 0
 
 - name: Output of job_id
   debug:

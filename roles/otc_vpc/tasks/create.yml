@@ -1,3 +1,8 @@
+- name: Get vpc_id
+  include: lookup.yml
+  when:
+    - vpc_name is defined
+
 - name: Send request to API (create VPC)
   uri:
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/vpcs"
@@ -12,7 +17,7 @@
     body: "{{ lookup('template', 'create.json.j2')|to_json }}"
   when:
     - not vpc_id or vpc_id is undefined
-    - vpc_name is defined
+#    - vpc_name is defined
   register: vpc
 
 - debug:

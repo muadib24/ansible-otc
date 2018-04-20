@@ -1,3 +1,6 @@
+- name: Keypair lookup
+  include: lookup.yml
+
 - stat: path={{ keypair_file }}
   register: keypair_file_stat
 
