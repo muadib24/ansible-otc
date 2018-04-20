@@ -1,3 +1,8 @@
+- name: Get elb_id
+  include: lookup.yml
+  when:
+    - elb_name is defined
+
 - name: Send request to API (create ELB)
   uri:
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/loadbalancers"
@@ -14,6 +19,7 @@
     - listener_name is undefined
     - vpc_id is defined
     - elb_name is defined
+    - not elb_id or elb_id is undefined
   register: elb
 
 - debug:

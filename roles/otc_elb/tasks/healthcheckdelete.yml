@@ -1,6 +1,6 @@
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/healthcheck/{{ elb_healthcheck_id}}"
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/healthcheck/{{ healthcheck_id }}"
     method: DELETE
     follow_redirects: all
     return_content: yes

@@ -70,7 +70,7 @@
   when:
     - listener_name is defined
 
-- name: Send Request to API (list elb listener)
+- name: Send Request to API (list elb listener) 
   uri:
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners?loadbalancer_id={{ elb_id}}"
     method: GET
@@ -87,3 +87,23 @@
   set_fact:
     listener_id: "{{ (listener_result.content|from_json)|json_query(\"[?name=='\" + listener_name + \"'].id|[0]\") }}"
   when: listener_name is defined
+
+- name: Send Request to API (show elb listener details)
+  uri:
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners/{{ listener_id}}"
+    method: GET
+    follow_redirects: all
+    return_content: yes
+    validate_certs: yes
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ token['x_subject_token'] }}"
+  register: listenerdetail_result
+  when: listener_id is defined and listener_id|length != 0
+
+- name: Set fact healthcheck_id for elb listener
+  set_fact:
+    healthcheck_id: "{{ (listenerdetail_result.content|from_json)|json_query('healthcheck_id') }}"
+  when: 
+    - listenerdetail_result is defined 
+    - listener_id is defined and listener_id|length != 0
