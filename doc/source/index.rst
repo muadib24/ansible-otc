@@ -18,6 +18,7 @@ Welcome to Ansible-OTC documentation!
    workshop
    buildservice
    dns
+   ara
    roles
    changelog
    authors
