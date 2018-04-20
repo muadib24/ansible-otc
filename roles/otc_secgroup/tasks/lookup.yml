@@ -17,6 +17,12 @@
   when:
     - secgroup_name is defined and secgroup_name| length != 0
 
+- name: Set empty fact secgroup_names
+  set_fact:
+    secgroup_names: []
+  when: 
+    - secgroup_names is not defined
+
 - name: Set empty fact secgroup_ids
   set_fact:
     secgroup_ids: []
@@ -26,5 +32,6 @@
 - name: Set fact for secgroup_ids if secgroup_id is defined
   set_fact:
     secgroup_ids: "{{ secgroup_ids }} + [ '{{ secgroup_id }}' ]"
+    secgroup_names: "{{ secgroup_names }} + [ '{{ secgroup_name }}' ]"
   when:
     - secgroup_id is defined and secgroup_id| length != 0
