@@ -7,8 +7,8 @@
     # VPC,Subnet,Secgroup,ECS,EIP
     image_name: "{{ vms[ecs_name].image_name | default(default.image_name) }}"
     availability_zone: "{{ vms[ecs_name].availability_zone | default(default.availability_zone) }}"
-    vpc_name: "{{ vms[ecs_name].vpc_name | default(default.vpc_name) }}"
-    vpc_net: "{{ vms[ecs_name].vpc_net | default(default.vpc_net) }}"
+    vpc_name: "{{ vms[ecs_name].vpc_name  }}"
+    vpc_net: "{{ vms[ecs_name].vpc_net  }}"
     subnet_name: "{{ vms[ecs_name].subnet_name | default(default.subnet_name) }}"
     subnet_net: "{{ vms[ecs_name].subnet_net | default(default.subnet_net) }}"
     subnet_gateway: "{{ vms[ecs_name].subnet_gateway | default(default.subnet_gateway) }}"
