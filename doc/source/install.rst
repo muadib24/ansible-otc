@@ -4,7 +4,7 @@ Installrequirements
 * curl
 * openssl
 * base64
-* ansible==2.2.0.0
+* ansible==2.5.0.0
 * python-jmespath
 * python-netaddr
 
@@ -15,7 +15,7 @@ Installrequirements
      apt-get update
      apt-cache policy ansible
      apt-get install curl python-pip python-jmespath python-netaddr
-     pip install ansible==2.2.0.0
+     pip install ansible==2.5.0.0
   
   *OpenSuSE 13.2:*::
   

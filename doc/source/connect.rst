@@ -21,7 +21,7 @@ Alternate way::
     apt-get -y install curl git python-openstackclient python-pip python-jmespath python-netaddr libs3-2 jq
     pip install pip -U
     pip install python-otcclient
-    pip install ansible==2.2.0.0
+    pip install ansible==2.5.0.0
 
 Follow instruction as normal user. You need always username, password, domain data.
 
