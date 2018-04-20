@@ -12,13 +12,13 @@
     - flavors
 
 - name: Debug output flavor long list
-  debug:
+  debug: 
     msg: "{{ flavorlist.content }}"
   when:
     - output is defined and output == "long"
 
 - name: Debug output flavors short list
-  debug:
+  debug: 
     msg: "[<id> <name> <vcpu> <ram>] {% for flavor in flavorlist.json.flavors %}[{{ flavor.id }} {{ flavor.name }} {{ flavor.vcpus }} {{ flavor.ram }}]{% endfor %}"
   when:
     - output is undefined
