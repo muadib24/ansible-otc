@@ -4,7 +4,9 @@
 
 pbr>=2.0 # Apache-2.0
 sphinx>=1.6.2 # BSD
-ansible==2.3.0.0
+ansible==2.5.0.0
 jmespath
+# Ara for Web reports
+ara
 # OpenStack CLI for Tests
 python-openstackclient==3.14.0

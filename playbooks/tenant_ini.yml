@@ -26,8 +26,8 @@
     subnet_dhcp_enable: "{{ lookup('ini', 'subnet_dhcp_enable section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_dhcp_enable section=DEFAULT file={{ tenant_ini }}') ) }}"
     subnet_primary_dns: "{{ lookup('ini', 'subnet_primary_dns section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_primary_dns section=DEFAULT file={{ tenant_ini }}') ) }}"
     subnet_secondary_dns: "{{ lookup('ini', 'subnet_secondary_dns section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'subnet_secondary_dns section=DEFAULT file={{ tenant_ini }}') ) }}"
-    vpc_name: "{{ lookup('ini', 'vpc_name section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'vpc_name section=DEFAULT file={{ tenant_ini }}') ) }}"
-    vpc_net: "{{ lookup('ini', 'vpc_net section={{ ecs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'vpc_net section=DEFAULT file={{ tenant_ini }}') ) }}"
+    vpc_name: "{{ lookup('ini', 'vpc_name section={{ ecs_name }} file={{ tenant_ini }}') }}"
+    vpc_net: "{{ lookup('ini', 'vpc_net section={{ ecs_name }} file={{ tenant_ini }}') }}"
     # EVS vars
     evs_availability_zone: "{{ lookup('ini', 'evs_availability_zone section={{ evs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'evs_availability_zone section=DEFAULT file={{ tenant_ini }}') ) }}"
     evs_volume_type: "{{ lookup('ini', 'evs_volume_type section={{ evs_name }} file={{ tenant_ini }}') | default(lookup('ini', 'evs_volume_type section=DEFAULT file={{ tenant_ini }}') ) }}"

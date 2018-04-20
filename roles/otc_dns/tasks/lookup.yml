@@ -27,18 +27,9 @@
     zonelist_result: "{{ zonelist_public.json.zones }} + {{ zonelist_private.json.zones }}"
   when: zone_name is defined
 
-- name: Debug zone_name
-  debug: 
-    msg: "{{ zone_name }}"
-
 - name: Set fact zone_id for dns if zone_name is defined
   vars:
     zonenamedot: "{{ zone_name }}."
   set_fact:
     zone_id: "{{ zonelist_result|json_query(\"[?name=='\" + zonenamedot + \"'].id|[0]\") }}"
   when: zone_name is defined
-
-- name: Debug zone_id
-  debug: 
-    msg: "{{ zone_id }}"
-  when: zone_id is defined

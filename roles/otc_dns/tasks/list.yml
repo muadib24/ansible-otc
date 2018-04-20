@@ -25,6 +25,6 @@
     zonelist: "{{ zonelist_public.json.zones }} + {{ zonelist_private.json.zones }}"
 
 - name: List zones
-  debug: 
+  debug:
     msg: "{{ zonelist }}"
   when: zonelist is defined

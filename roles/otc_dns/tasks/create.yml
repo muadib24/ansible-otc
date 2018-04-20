@@ -21,15 +21,16 @@
   register: zone
   when: zone_name is defined
 
-- debug:
-    msg: "{{ zone }}"
-
-- pause:
+- name: Pause while creating zone
+  pause:
     minutes: 1
+
+- name: Lookup zone_id
+  include: lookup.yml
 
 - name: Create zonerecords
   include: zonerecord_create.yml
-  with_items:
-    - "{{ zone_records }}"
-  loop_control:
-    loop_var: zone_record
+#  with_items:
+#    - "{{ zone_records }}"
+#  loop_control:
+#    loop_var: zone_record

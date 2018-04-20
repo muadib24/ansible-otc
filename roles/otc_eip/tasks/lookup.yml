@@ -13,4 +13,5 @@
   set_fact:
     eip_id: "{{ (floatingiplist_result.content|from_json)|json_query(\"publicips[?public_ip_address=='\" + public_ip_address + \"'].id|[0]\") }}"
   when:
-    - (public_ip_address is defined and public_ip_address | ipaddr)
+    - public_ip_address | ipaddr
+#    - (public_ip_address is defined and public_ip_address | ipaddr)

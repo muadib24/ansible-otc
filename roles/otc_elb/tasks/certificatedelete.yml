@@ -1,6 +1,9 @@
-- name: Send request to API
+- name: Get elb_certificate_id
+  include: certificatelookup.yml
+
+- name: Send request to API (delete certificate)
   uri:
-    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/certificate/{{ listener_certificate_id }}"
+    url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/certificate/{{ elb_certificate_id }}"
     method: DELETE
     follow_redirects: all
     return_content: yes
@@ -10,10 +13,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: elbcertifcate
-  when: listener_certificate_id is defined
+  when: elb_certificate_id is defined and elb_certificate_id|length != 0
 
 - debug:
     msg: "{{ elbcertifcate }}"
   when:
     - elbcertifcate is defined
-    - listener_certificate_id is defined
+    - elb_certificate_id is defined

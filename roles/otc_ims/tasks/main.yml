@@ -1,27 +1,3 @@
-- name: Get Image list
-  include: list.yml
-  when:
-    - localaction is defined and localaction == "list"
-  tags: 
-    - imagelist
-
-- name: Get Image detail
-  include: show.yml
-  when:
-    - localaction is defined and localaction == "show"
-  tags: 
-    - imageshow
-
-- name: Create Image
-  include: create.yml
-  when:
-    - localaction is defined and localaction == "create"
-  tags: 
-    - imagecreate
-
-- name: Delete Image
-  include: delete.yml
-  when:
-    - localaction is defined and localaction == "delete"
-  tags: 
-    - imagedelete
+- name: action {{ localaction }}
+  include: "{{ localaction }}.yml"
+  when: localaction is defined

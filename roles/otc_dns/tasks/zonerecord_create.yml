@@ -1,7 +1,4 @@
-- name: Lookup zone_id
-  include: lookup.yml
-
-- name: send request to API (create zonerecords)
+- name: Send request to API (create zonerecords)
   vars:
     zonerecord_part: "{{ item.split(';') }}"
   uri:

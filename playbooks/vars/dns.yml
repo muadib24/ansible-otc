@@ -1,4 +1,8 @@
 ---
+default:
+  vpc_name : "ansible-vpc01",
+  zone_email: "nobody@example.com",
+  zone_ttl: 86400
 dnszones:
   ansible.internal.corp:
     zone_description: "Core Zone internal services"

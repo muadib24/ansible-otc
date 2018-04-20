@@ -11,18 +11,16 @@ python:
 # https://docs.travis-ci.com/user/common-build-problems/
 env:
   - ANSIBLE_VERSION=latest
-  - ANSIBLE_VERSION=2.2.2.0
-  - ANSIBLE_VERSION=2.3.0.0
-  - ANSIBLE_VERSION=2.4.0.0
-  - ANSIBLE_VERSION=2.5.0b2
+  - ANSIBLE_VERSION=2.4.3.0
+  - ANSIBLE_VERSION=2.5.0
 
 branches:
   only:
     - master
     - dev
 
-before_install:
-  - sudo apt-get update -qq
+# before_install:
+#   - sudo apt-get update -qq
 
 install:
   # Install Ansible.
@@ -31,7 +29,7 @@ install:
 
 script:
   # Check the role/playbook's syntax.
-  - ansible-lint .
+  - find roles/ -name "*.yml" | xargs ansible-lint
 
   # Run the role/playbook with ansible-playbook.
   - tests/tests.sh
