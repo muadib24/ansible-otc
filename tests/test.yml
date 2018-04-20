@@ -4,6 +4,9 @@
   roles:
   - role: ../roles/otc_auth
   - role: ../roles/otc_ims
+    localaction: "show"
+    image_name: "Community_Ubuntu_16.04_TSI_latest"
   - role: ../roles/otc_ecs
+    localaction: "flavors"
 #  tasks:
 #  - include: ../roles/otc_ecs/tasks/flavors.yml
