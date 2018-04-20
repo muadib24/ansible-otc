@@ -49,13 +49,13 @@
 #   register: ims_result
 #   when:
 #     - image_name is defined
-# 
+#
 # - name: Set fact image_id if image_name is defined
 #   set_fact:
 #     image_id: "{{ (ims_result.content|from_json)|json_query('images[].id|[0]') }}"
 #   when:
 #     - image_name is defined
-# 
+#
 # - name: Send request to API (list subnet for lookup)
 #   uri:
 #     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
@@ -68,10 +68,10 @@
 #   when:
 #     - subnet_name is defined
 #   register: subnet_result
-# 
+#
 # - name: Set fact for subnet_id if subnet_name is defined
 #   set_fact:
 #     subnet_id: "{{ (subnet_result.content|from_json)|json_query(\"subnets[?name=='\" + subnet_name + \"'].id|[0]\") }}"
 #   when:
 #     - subnet_name is defined and subnet_name|length != 0
-# 
+#

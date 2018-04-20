@@ -6,6 +6,6 @@
   include: lookup.yml
 #  when:
 #    - localaction is defined and localaction == "lookup"
-  tags: 
+  tags:
     - keypairlookup
 

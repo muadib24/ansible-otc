@@ -20,7 +20,7 @@
 - name: Set empty fact secgroup_names
   set_fact:
     secgroup_names: []
-  when: 
+  when:
     - secgroup_names is not defined
 
 - name: Set empty fact secgroup_ids
