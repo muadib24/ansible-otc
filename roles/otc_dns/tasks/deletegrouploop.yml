@@ -30,6 +30,3 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: secgroup
-
-- debug:
-    msg: "{{ secgroup }}"
