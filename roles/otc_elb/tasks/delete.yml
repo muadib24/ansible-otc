@@ -12,6 +12,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: elb
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: elb.status == 200
+  changed_when: false
 
 - debug:
     msg: "{{ elb }}"

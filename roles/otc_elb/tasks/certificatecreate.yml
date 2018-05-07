@@ -22,6 +22,10 @@
       X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'certificatecreate.json.j2')|to_json }}"
   register: elbcertificate
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: elbcertificate.status == 200
+  changed_when: false
   when:
     - not elb_certificate_id or elb_certificate_id is undefined
 

@@ -16,6 +16,9 @@
       X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'listenercreate.json.j2')|to_json }}"
   register: elblistner
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: elblistener.status == 200
   when:
     - elb_id is defined
     - listener_name is defined
