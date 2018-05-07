@@ -14,6 +14,10 @@
       X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'show.json.j2')|to_json }}"
   register: ecs
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: ecs.status == 200 
+  changed_when: false
 
 - debug:
     msg: "{{ ecs }}"

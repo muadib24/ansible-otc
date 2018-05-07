@@ -8,6 +8,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: ecs_result
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: ecs_result.status == 200 
+  changed_when: false
   when: ecs_name is defined
 
 - name: Set fact ecs_id for ecs if ecs_name is defined
@@ -25,6 +29,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: flavor_result
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: flavor_result.status == 200 
+  changed_when: false
   when:
     - ecs_name is defined
     - (ecs_ram is defined and ecs_ram|length != 0) and (ecs_vcpus is defined and ecs_vcpus|length != 0)

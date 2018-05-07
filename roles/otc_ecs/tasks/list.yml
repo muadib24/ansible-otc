@@ -8,6 +8,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: ecslist
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: ecslist.status == 200 
+  changed_when: false
 
 - debug:
     msg: "{{ ecslist.json }}"
