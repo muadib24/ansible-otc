@@ -8,6 +8,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: floatingiplist_result
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: floatingiplist_result.status == 200
+  changed_when: false
 
 - name: Set fact eip_id if public_ip_address is defined
   set_fact:
@@ -30,6 +34,10 @@
       X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: '{ "ptrdname": null }'
   register: ptrrecord
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: ptrrecord.status == 200 or ptrrecord.status == 201 or ptrrecord.status == 202 or ptrrecord.status == 203 or ptrrecord.status = 400 or ptrrecord.status = 404
+  changed_when: false
   when:
     - eip_id is defined and eip_id|length != 0
 
