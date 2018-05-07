@@ -12,6 +12,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: subnetdetail
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: subnetdetail.status == 200
+  changed_when: false
   when:
     - subnet_id is defined
 

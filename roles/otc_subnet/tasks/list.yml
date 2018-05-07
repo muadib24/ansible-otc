@@ -9,6 +9,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: subnetlist
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: subnetlist.status == 200
+  changed_when: false
 
 - debug:
     msg: "{{  subnetlist.json }}"
