@@ -3,7 +3,8 @@
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
     method: GET
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -26,9 +27,9 @@
     url: "{{ AUTH_URL_VPC }}/v2.0/security-groups/{{ secgroup_id }}"
     method: DELETE
     body_format: raw
-    follow_redirects: all
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     status_code: 200,201,202,203,204
     headers:
       Content-Type: "application/json"
@@ -39,7 +40,6 @@
   until: secgroup.status == 200 or secgroup.status == 201 or secgroup.status == 202 or secgroup.status == 203 or secgroup.status == 204
   changed_when: false
   when: (secgroup_id is defined and secgroup_id| length != 0)
-
 
 - debug:
     msg: "{{ secgroup }}"
