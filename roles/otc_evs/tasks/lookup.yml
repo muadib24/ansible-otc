@@ -9,6 +9,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: evs_result
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: evs_result.status == 200
+  changed_when: false
   when: evs_name is defined
 
 - name: Set fact evs_id if evs_name is defined
