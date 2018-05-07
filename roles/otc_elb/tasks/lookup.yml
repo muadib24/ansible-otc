@@ -2,9 +2,9 @@
   uri:
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/loadbalancers"
     method: GET
-    follow_redirects: all
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -25,7 +25,8 @@
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/vpcs"
     method: GET
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -46,7 +47,8 @@
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/subnets"
     method: GET
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -68,9 +70,9 @@
   uri:
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/certificate"
     method: GET
-    follow_redirects: all
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -90,9 +92,9 @@
   uri:
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners?loadbalancer_id={{ elb_id}}"
     method: GET
-    follow_redirects: all
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -112,9 +114,9 @@
   uri:
     url: "{{ AUTH_URL_ELB }}/{{ PROJECT_ID }}/elbaas/listeners/{{ listener_id}}"
     method: GET
-    follow_redirects: all
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
