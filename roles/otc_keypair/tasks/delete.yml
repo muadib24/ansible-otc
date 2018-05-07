@@ -2,9 +2,9 @@
   uri:
     url: "{{ AUTH_URL_ECS }}/os-keypairs/{{ ecs_adminkey }}"
     method: DELETE
-    follow_redirects: all
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     status_code: 200,201,202,203,204
     headers:
       Content-Type: "application/json"
