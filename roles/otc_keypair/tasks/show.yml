@@ -8,6 +8,11 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: keypairdetail
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: keypairdetail.status == 200
+  changed_when: false
+
 
 - debug:
     msg: "{{ keypairdetail.json }}"

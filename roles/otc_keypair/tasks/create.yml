@@ -21,10 +21,14 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'create.json.j2')|to_json }}"
+  register: keypair
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: keypair.status == 200
+  changed_when: false
   when:
     - keypair_file_stat.stat.exists
     - (not ecs_adminkey_name or ecs_adminkey_name is undefined)
-  register: keypair
 
 - debug:
     msg: "{{ keypair }}"
