@@ -22,14 +22,18 @@
     url: "{{ IAM_AUTH_URL }}/auth/tokens"
     method: POST
     body_format: raw
-    follow_redirects: all
-    status_code: 201
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    status_code: 201
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
     body: "{{ lookup('template', 'request.json.j2',convert_data=True)|to_json }}"
   register: uritoken
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: uritoken.status == 201
+  changed_when: false
 
 - name: Set fact token
   set_fact:
