@@ -11,6 +11,10 @@
       X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'create.json.j2')|to_json }}"
   register: image_create
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: image_create.status == 200
+  changed_when: false
   when: image_name is defined
 
 - debug:

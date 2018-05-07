@@ -11,6 +11,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: imagedetail
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: imagedetail.status == 200
+  changed_when: false
   when:
     - image_id is defined
 
