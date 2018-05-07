@@ -3,7 +3,8 @@
     url: "{{ AUTH_URL_RDS }}/{{ OS_USER_DOMAIN_ID }}/flavors?dbId={{ rds_version_id }}&region={{ PROJECT_NAME }}"
     method: GET
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       Accept: "application/json"
