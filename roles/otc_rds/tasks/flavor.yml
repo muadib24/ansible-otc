@@ -11,6 +11,10 @@
       X-Language: "en-us"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: rds_flavors
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: rds_flavors.status == 200
+  changed_when: false
 
 - debug:
     msg: "{{ rds_flavors.json }}"
