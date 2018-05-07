@@ -16,7 +16,7 @@
   register: ecs
   retries: "{{ uri_retries }}"
   delay: "{{ uri_delay }}"
-  until: ecs.status == 200 
+  until: ecs.status == 200
   changed_when: false
 
 - debug:

@@ -13,7 +13,7 @@
   register: eip
   retries: "{{ uri_retries }}"
   delay: "{{ uri_delay }}"
-  until: eip.status == 200 
+  until: eip.status == 200
   changed_when: false
   when: public_ip_address == "0.0.0.0"
 

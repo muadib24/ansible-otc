@@ -11,7 +11,7 @@
   register: ecs_result
   retries: "{{ uri_retries }}"
   delay: "{{ uri_delay }}"
-  until: ecs_result.status == 200 
+  until: ecs_result.status == 200
   changed_when: false
   when: ecs_name is defined
 
@@ -33,7 +33,7 @@
   register: flavor_result
   retries: "{{ uri_retries }}"
   delay: "{{ uri_delay }}"
-  until: flavor_result.status == 200 
+  until: flavor_result.status == 200
   changed_when: false
   when:
     - ecs_name is defined

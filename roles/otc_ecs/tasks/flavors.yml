@@ -11,7 +11,7 @@
   register: flavorlist
   retries: "{{ uri_retries }}"
   delay: "{{ uri_delay }}"
-  until: flavorlist.status == 200 
+  until: flavorlist.status == 200
   changed_when: false
   tags:
     - flavors
