@@ -8,6 +8,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: secgrouplistvpc
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: secgrouplistvpc.status == 200
+  changed_when: false
   when: vpc_id is defined
 
 - name: Send request to API (list security groups)
@@ -20,6 +24,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: secgrouplist
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: secgrouplist.status == 200
+  changed_when: false
   when: vpc_id is not defined
 
 - debug:

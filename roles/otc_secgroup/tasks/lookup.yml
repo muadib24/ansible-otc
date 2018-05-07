@@ -7,9 +7,13 @@
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
+  register: secgroup_result
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: secgroup_result.status == 200
+  changed_when: false
   when:
     - secgroup_name is defined
-  register: secgroup_result
 
 - name: Set fact for secgroup_id if secgroup_name is defined
   set_fact:

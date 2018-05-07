@@ -21,6 +21,10 @@
     - secgroups is defined
     - secgroup_name not in secgroup_names
   register: secgroupcreate
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: secgroupcreate.status == 200
+  changed_when: false
   with_items:
     - "{{ secgroups }}"
   loop_control:

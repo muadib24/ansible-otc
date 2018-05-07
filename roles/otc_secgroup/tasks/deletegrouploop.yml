@@ -10,6 +10,10 @@
   when:
     - secgroup_name is defined
   register: secgroup_result
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: secgroup_result.status == 200
+  changed_when: false
 
 - name: Set fact for secgroup_id if secgroup_name is defined
   set_fact:
@@ -30,6 +34,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: secgroup
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: secgroup.status == 200 or secgroup.status == 201 or secgroup.status == 202 or secgroup.status == 203 or secgroup.status == 204
+  changed_when: false
   when: (secgroup_id is defined and secgroup_id| length != 0)
 
 
