@@ -8,8 +8,12 @@
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
-  when: job_id is defined
   register: jobstatus
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: jobstatus.status == 200
+  changed_when: false
+  when: job_id is defined
 
 - debug:
     msg: "{{ jobstatus.json }}"
