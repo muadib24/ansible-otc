@@ -11,6 +11,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: vpcdetail
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: vpcdetail.status == 200
+  changed_when: false
   when:
     - vpc_id is defined
 

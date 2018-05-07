@@ -15,10 +15,14 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'create.json.j2')|to_json }}"
+  register: vpc
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: vpc.status == 200
+  changed_when: false
   when:
     - not vpc_id or vpc_id is undefined
 #    - vpc_name is defined
-  register: vpc
 
 - debug:
     msg: "{{ vpc }}"
