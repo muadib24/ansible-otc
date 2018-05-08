@@ -31,9 +31,9 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.intersphinx',
-    'sphinx.ext.coverage',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages']
+              'sphinx.ext.coverage',
+              'sphinx.ext.viewcode',
+              'sphinx.ext.githubpages']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -66,7 +66,7 @@ release = u'0.2'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-#language = 'en, de'
+# language = 'en, de'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -85,14 +85,14 @@ todo_include_todos = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-#html_theme = 'alabaster'
+# html_theme = 'alabaster'
 html_theme = 'classic'
-#html_theme = 'scrolls'
-#html_theme = 'nature'
-#html_theme = 'sphinxdoc'
-#html_theme = 'agogo'
-#html_theme = 'traditional'
-#html_theme = 'bizstyle'
+# html_theme = 'scrolls'
+# html_theme = 'nature'
+# html_theme = 'sphinxdoc'
+# html_theme = 'agogo'
+# html_theme = 'traditional'
+# html_theme = 'bizstyle'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -112,9 +112,6 @@ html_theme_options = {
     'textcolor': '#6c6c6c',
     'linkcolor': '#4b4b4b',
     'visitedlinkcolor': '#6c6c6c',
-#    'headbgcolor':
-#    'headtextcolor':
-#    'headlinkcolor':
     'codebgcolor': '#ededed',
     'codetextcolor': '#a4a4a4',
     'bodyfont': 'Tele-GroteskNor',
@@ -201,8 +198,6 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-
-
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
@@ -222,8 +217,6 @@ epub_copyright = copyright
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
-
-
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}
