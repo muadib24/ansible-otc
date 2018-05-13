@@ -1,4 +1,4 @@
-Ansible for Open Telekom Cloud
+Ansible for Open Telekom Cloud  [![GitHub release](https://img.shields.io/github/release/eumel8/ansible-otc.svg?maxAge=3600)](https://github.com/eumel8/ansible-otc/releases)
 ==============================
 
 [![Documentation Status](https://readthedocs.org/projects/ansible-otc/badge/?version=latest)](http://ansible-otc.readthedocs.io/en/dev/?badge=latest)
