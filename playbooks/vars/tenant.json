@@ -97,7 +97,7 @@
     "ansible.internal.corp": [ "ansible-test01.ansible.internal.corp;description;A;300;192.168.0.101",
                                "ansible-test02.ansible.internal.corp;description;A;300;192.168.0.102" ],
     "ansible.otc.telekomcloud99.com": [ "ansible-test01.example.com;;A;300;80.158.23.253" ]
-  }
+  },
   "rds" : {
     "ansible-mysql01": {
       "rds_availability_zone": "eu_de-01",
