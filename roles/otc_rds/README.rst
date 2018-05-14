@@ -60,7 +60,7 @@ Variables:
 +-------------------------+-----------------------------------------------------------+
 | errorlog_perpage        | Error message per page (1-100, default 100)               |
 +-------------------------+-----------------------------------------------------------+
-| slowlog_type            | Type of slowlog (INSERT, UPDATE, SELECT, DELETE, CREATE)  |               |
+| slowlog_type            | Type of slowlog (INSERT, UPDATE, SELECT, DELETE, CREATE)  |
 +-------------------------+-----------------------------------------------------------+
 
 
