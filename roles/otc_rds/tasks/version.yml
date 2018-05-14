@@ -34,8 +34,24 @@
   until: rds_postgresql_versions.status == 200
   changed_when: false
 
+- name: Set fact rds_version_id (MySQL)
+  set_fact:
+    rds_version_id: "{{ (rds_mysql_versions.content|from_json)|json_query(\"dataStores[?name=='\" + rds_version + \"'].id|[0]\") }}"
+  when:
+    - rds_type == "MySQL"
+
+- name: Set fact rds_version_id (PostgreSQL)
+  set_fact:
+    rds_version_id: "{{ (rds_postgresql_versions.content|from_json)|json_query(\"dataStores[?name=='\" + rds_version + \"'].id|[0]\") }}"
+  when:
+    - rds_type == "PostgreSQL"
+
 - debug:
     msg: "{{ rds_mysql_versions.json }}"
+  when:
+    - rds_name is not defined
 
 - debug:
     msg: "{{ rds_postgresql_versions.json }}"
+  when:
+    - rds_name is not defined

@@ -68,6 +68,23 @@
     zone_email: "{{ lookup('ini','zone_email section={{ zone_name }} file={{ tenant_ini }}') | default(lookup('ini', 'zone_email section=DEFAULT file={{ tenant_ini }}') ) }}"
     zone_ttl: "{{ lookup('ini','zone_ttl section={{ zone_name }} file={{ tenant_ini }}') | default(lookup('ini', 'zone_ttl section=DEFAULT file={{ tenant_ini }}') ) }}"
     zone_records: "{{ lookup('ini','{{ zone_name }} section=dnszonerecords file={{ tenant_ini }}') }}"
+   # RDS
+    rds_availability_zone: "{{ lookup('ini','rds_availability_zone' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_vpc_name: "{{ lookup('ini','rds_vpc_name' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_secgroup_name: "{{ lookup('ini','rds_secgroup_name' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_subnet_name: "{{ lookup('ini','rds_subnet_name' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_type: "{{ lookup('ini','rds_type' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_version: "{{ lookup('ini','rds_version' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_root_password: "{{ lookup('ini','rds_root_password' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_port: "{{ lookup('ini','rds_port' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_ram: "{{ lookup('ini','rds_ram' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_volume_type: "{{ lookup('ini','rds_volume_type' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_volume_size: "{{ lookup('ini','rds_volume_size' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_backup_time: "{{ lookup('ini','rds_backup_time' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_backup_days: "{{ lookup('ini','rds_backup_days' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_ha_enabled: "{{ lookup('ini','rds_ha_enabled' section={{ rds_name }} file={{ tenant_ini }}')"
+    rds_ha_replication_mode: "{{ lookup('ini','rds_ha_replication_mode' section={{ rds_name }} file={{ tenant_ini }}')"
+
     # playbook action
     localaction: "create"
 
