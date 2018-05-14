@@ -13,6 +13,7 @@ env:
   - ANSIBLE_VERSION=latest
   - ANSIBLE_VERSION=2.4.3.0
   - ANSIBLE_VERSION=2.5.0
+  - ANSIBLE_VERSION=2.5.2
 
 branches:
   only:
