@@ -35,7 +35,7 @@ vms:
     vpc_net: "192.168.0.0/16"
     availability_zone: "eu-de-01"
     subnet_name: "ansible-subnet01"
-    secgroups: 
+    secgroups:
       - "default-ansible"
       - "ansible-test01"
     ecs_ipaddress: "192.168.0.101"
