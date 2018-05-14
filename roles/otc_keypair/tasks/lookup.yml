@@ -21,4 +21,3 @@
     ecs_adminkey_name: "{{ (keypairlist_result.content|from_json)|json_query(\"keypairs[?keypair.name=='\" + ecs_adminkey + \"'].keypair.name\") }}"
   when:
     - ecs_adminkey is defined and ecs_adminkey|length != 0
-
