@@ -38,14 +38,14 @@
   set_fact:
     rds_version_id: "{{ (rds_mysql_versions.content|from_json)|json_query(\"dataStores[?name=='\" + rds_version + \"'].id|[0]\") }}"
   when:
-    - rds_name is defined
+    - (rds_name is defined or localaction == "flavor")
     - rds_type == "MySQL"
 
 - name: Set fact rds_version_id (PostgreSQL)
   set_fact:
     rds_version_id: "{{ (rds_postgresql_versions.content|from_json)|json_query(\"dataStores[?name=='\" + rds_version + \"'].id|[0]\") }}"
   when:
-    - rds_name is defined
+    - (rds_name is defined or localaction == "flavor")
     - rds_type == "PostgreSQL"
 
 - debug:
