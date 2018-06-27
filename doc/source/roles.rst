@@ -25,6 +25,7 @@ Functions:
 
 .. include:: ../../roles/os-client-config/README.rst
 .. include:: ../../roles/otc_auth/README.rst
+.. include:: ../../roles/otc_cts/README.rst
 .. include:: ../../roles/otc_dns/README.rst
 .. include:: ../../roles/otc_ecs/README.rst
 .. include:: ../../roles/otc_eip/README.rst
