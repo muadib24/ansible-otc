@@ -16,7 +16,7 @@
     AUTH_URL_ELB: "https://elb.{{ PROJECT_NAME }}.otc.t-systems.com/v1.0"
     AUTH_URL_ECS_CLOUD: "https://ecs.{{ PROJECT_NAME }}.otc.t-systems.com/v1"
     AUTH_URL_RDS: "https://rds.{{ PROJECT_NAME }}.otc.t-systems.com/rds/v1"
-    AUTH_URL_CTS: "https://cts.{{ PROJECT_NAME }}.otc.t-systems.com/rds/v2.0"
+    AUTH_URL_CTS: "https://cts.{{ PROJECT_NAME }}.otc.t-systems.com/v2.0"
 
 - name: Request token from AUTH API
   uri:
