@@ -10,9 +10,9 @@
     url: "{{ AUTH_URL_VPC }}/v1/{{ PROJECT_ID }}/security-groups"
     method: POST
     body_format: raw
-    follow_redirects: all
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
@@ -21,6 +21,10 @@
     - secgroups is defined
     - secgroup_name not in secgroup_names
   register: secgroupcreate
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: secgroupcreate.status == 200
+  changed_when: false
   with_items:
     - "{{ secgroups }}"
   loop_control:

@@ -58,4 +58,3 @@
       localaction: "delete"
     - role: "otc_dns"
       localaction: "ptrdelete"
-

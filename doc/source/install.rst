@@ -7,6 +7,7 @@ Installrequirements
 * ansible==2.5.0.0
 * python-jmespath
 * python-netaddr
+* libxml2-utils
 
 
   *Ubuntu 14.04/16.04:*::

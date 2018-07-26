@@ -7,7 +7,7 @@ lint:
   script:
     - sudo apt-get -y install python-pip
     - sudo pip install yamllint
-    - yamllint .
+    - find roles/ -name "*.yml" | xargs ansible-lint
 
 package:
    stage: package

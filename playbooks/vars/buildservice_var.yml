@@ -11,7 +11,7 @@ subnet_gateway: "192.168.0.1"
 subnet_dhcp_enable: true
 subnet_primary_dns: 8.8.8.8
 subnet_secondary_dns: 8.4.4.8
-secgroups: 
+secgroups:
   - "buildserver-secgroup01"
 securitygroups:
   buildserver-secgroup01:

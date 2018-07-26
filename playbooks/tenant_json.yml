@@ -67,6 +67,22 @@
     zone_email: "{{ tenant_cf['dnszones'][zone_name]['zone_email'] | default(tenant_cf['default']['zone_email']) }}"
     zone_ttl: "{{ tenant_cf['dnszones'][zone_name]['zone_ttl'] | default(tenant_cf['default']['zone_ttl']) }}"
     zone_records: "{{ tenant_cf['dnszonerecords'][zone_name] }}"
+    # RDS
+    rds_availability_zone: "{{ tenant_cf['rds'][rds_name][rds_availability_zone] }}"
+    rds_vpc_name: "{{ tenant_cf['rds'][rds_name][rds_vpc_name] }}"
+    rds_secgroup_name: "{{ tenant_cf['rds'][rds_name][rds_secgroup_name] }}"
+    rds_subnet_name: "{{ tenant_cf['rds'][rds_name][rds_subnet_name] }}"
+    rds_type: "{{ tenant_cf['rds'][rds_name][rds_type] }}"
+    rds_version: "{{ tenant_cf['rds'][rds_name][rds_version] }}"
+    rds_root_password: "{{ tenant_cf['rds'][rds_name][rds_root_password] }}"
+    rds_port: "{{ tenant_cf['rds'][rds_name][rds_port] }}"
+    rds_ram: "{{ tenant_cf['rds'][rds_name][rds_ram] }}"
+    rds_volume_type: "{{ tenant_cf['rds'][rds_name][rds_volume_type] }}"
+    rds_volume_size: "{{ tenant_cf['rds'][rds_name][rds_volume_size] }}"
+    rds_backup_time: "{{ tenant_cf['rds'][rds_name][rds_backup_time] }}"
+    rds_backup_days: "{{ tenant_cf['rds'][rds_name][rds_backup_days] }}"
+    rds_ha_enabled: "{{ tenant_cf['rds'][rds_name][rds_ha_enabled] }}"
+    rds_ha_replication_mode: "{{ tenant_cf['rds'][rds_name][rds_ha_replication_mode] }}"
     # playbook action
     localaction: "create"
 

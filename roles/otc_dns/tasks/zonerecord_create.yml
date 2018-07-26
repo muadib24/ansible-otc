@@ -14,5 +14,9 @@
       X-Auth-Token: "{{ token['x_subject_token'] }}"
     body: "{{ lookup('template', 'zonerecord_create.json.j2')|to_json }}"
   register: zonerecord
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: zonerecord.status == 200 or zonerecord.status == 201 or zonerecord.status == 202 or zonerecord.status == 203 zonerecord.status == 400
+  changed_when: false
   with_items:
     - "{{ zone_records }}"

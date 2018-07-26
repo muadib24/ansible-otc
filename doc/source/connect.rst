@@ -6,7 +6,7 @@ OTC Connect Cheat Sheet
 How to connect to the Open Telekom Cloud
 ----------------------------------------
 
-Install prerequisites as root on your Ubuntu 16.04 machine::
+Install prerequisites as root on your Ubuntu 16.04 machine:
 
 Using requirements file in ansible-otc repo::
 

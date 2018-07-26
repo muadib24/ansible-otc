@@ -142,4 +142,4 @@ Public zone::
     ansible-playbook dns_ini.yml -e "zone_name=example.com" -e "localaction=create"
 
 
-End of PoC. Look at the `[other plays and roles]<https://github.com/eumel8/ansible-otc>`__ to interact with OTC API
+End of PoC. Look at the `[other plays and roles] <https://github.com/eumel8/ansible-otc>`__ to interact with OTC API

@@ -3,11 +3,16 @@
     url: "{{ AUTH_URL_IMS }}/v2/cloudimages?name={{ image_name }}"
     method: GET
     return_content: yes
-    validate_certs: yes
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: ims_result
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: ims_result.status == 200
+  changed_when: false
   when:
     - image_name is defined
 

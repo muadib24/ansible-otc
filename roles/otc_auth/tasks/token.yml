@@ -16,20 +16,25 @@
     AUTH_URL_ELB: "https://elb.{{ PROJECT_NAME }}.otc.t-systems.com/v1.0"
     AUTH_URL_ECS_CLOUD: "https://ecs.{{ PROJECT_NAME }}.otc.t-systems.com/v1"
     AUTH_URL_RDS: "https://rds.{{ PROJECT_NAME }}.otc.t-systems.com/rds/v1"
+    AUTH_URL_CTS: "https://cts.{{ PROJECT_NAME }}.otc.t-systems.com/v2.0"
 
 - name: Request token from AUTH API
   uri:
     url: "{{ IAM_AUTH_URL }}/auth/tokens"
     method: POST
     body_format: raw
-    follow_redirects: all
-    status_code: 201
     return_content: yes
-    validate_certs: yes
+    status_code: 201
+    follow_redirects: "{{ uri_follow_redirects }}"
+    validate_certs: "{{ uri_validate_certs }}"
     headers:
       Content-Type: "application/json"
     body: "{{ lookup('template', 'request.json.j2',convert_data=True)|to_json }}"
   register: uritoken
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: uritoken.status == 201
+  changed_when: false
 
 - name: Set fact token
   set_fact:

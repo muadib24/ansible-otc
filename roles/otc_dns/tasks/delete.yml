@@ -13,6 +13,10 @@
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   when: zone_id is defined and zone_id|length != 0
   register: zone
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: zone.status == 200 or zone.status == 201 or zone.status == 202 or zone.status == 203
+  changed_when: false
 
 - debug: var=zone.json
   when: zone is defined

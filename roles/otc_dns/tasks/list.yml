@@ -8,6 +8,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: zonelist_public
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: zonelist_piblic.status == 200
+  changed_when: false
 
 - name: Send request to API (list private zones)
   uri:
@@ -19,6 +23,10 @@
       Content-Type: "application/json"
       X-Auth-Token: "{{ token['x_subject_token'] }}"
   register: zonelist_private
+  retries: "{{ uri_retries }}"
+  delay: "{{ uri_delay }}"
+  until: zonelist_private.status == 200
+  changed_when: false
 
 - name: Set fact zonelist
   set_fact:

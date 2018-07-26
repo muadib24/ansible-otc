@@ -6,4 +6,3 @@
   include: lookup.yml
   when:
     - vpc_name is defined
-

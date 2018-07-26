@@ -1,6 +1,6 @@
 ---
 default:
-  vpc_name : "ansible-vpc01",
+  vpc_name: "ansible-vpc01",
   zone_email: "nobody@example.com",
   zone_ttl: 86400
 dnszones:
