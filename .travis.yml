@@ -30,7 +30,7 @@ install:
 
 script:
   # Check the role/playbook's syntax.
-  - find roles/ -name "*.yml" | xargs ansible-lint
+  # - find roles/ -name "*.yml" | xargs ansible-lint
 
   # Run the role/playbook with ansible-playbook.
-  - tests/tests.sh
+  # - tests/tests.sh
