@@ -8,6 +8,8 @@
   src: eumel8.otc_ecs
 - name: otc_eip
   src: eumel8.otc_eip
+- name: otc_elb
+  src: eumel8.otc_elb
 - name: otc_evs
   src: eumel8.otc_evs
 - name: otc_ims
