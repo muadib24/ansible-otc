@@ -95,6 +95,20 @@ List of all roles
 
     </pre>
 
+`otc_elb <https://www.github.com/eumel8/otc_elb/README.rst>`__
+---------------------------------------------------------------
+
+.. raw:: html
+
+    <pre>
+
+.. raw:: html
+   :url: https://raw.githubusercontent.com/eumel8/otc_elb/master/README.rst
+
+.. raw:: html
+
+    </pre>
+
 `otc_evs <https://www.github.com/eumel8/otc_evss/README.rst>`__
 ---------------------------------------------------------------
 
