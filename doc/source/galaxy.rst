@@ -11,7 +11,11 @@ To install a specific role you can use::
 
     ansible-galaxy install eumel8.otc_auth
 
-or with the requirements file::
+or with the requirements file with Galaxy source::
+
+    ansible-galaxy install -r galaxy.yml
+
+or with the requirements file with Git source::
 
     ansible-galaxy install -r ansible-role-requirements.yml
 
