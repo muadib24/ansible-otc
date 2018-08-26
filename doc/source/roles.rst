@@ -137,7 +137,7 @@ List of all roles
 
     </pre>
 
-`otc_jobs <https://www.github.com/eumel8/otc_jobs/README.rst>`__
+`otc_job <https://www.github.com/eumel8/otc_job/README.rst>`__
 ----------------------------------------------------------------
 
 .. raw:: html
@@ -145,7 +145,7 @@ List of all roles
     <pre>
 
 .. raw:: html
-   :url: https://raw.githubusercontent.com/eumel8/otc_jobs/master/README.rst
+   :url: https://raw.githubusercontent.com/eumel8/otc_job/master/README.rst
 
 .. raw:: html
 
