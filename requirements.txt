@@ -10,4 +10,5 @@ netaddr
 # Ara for Web reports
 ara
 # for tests
+yamllint
 ansible-lint

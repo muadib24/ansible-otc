@@ -22,9 +22,9 @@
 - name: otc_ims
   scm: git
   src: https://github.com/eumel8/otc_ims.git
-- name: otc_jobs
+- name: otc_job
   scm: git
-  src: https://github.com/eumel8/otc_jobs.git
+  src: https://github.com/eumel8/otc_job.git
 - name: otc_keypair
   scm: git
   src: https://github.com/eumel8/otc_keypair.git
