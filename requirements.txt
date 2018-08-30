@@ -12,3 +12,5 @@ ara
 # for tests
 yamllint
 ansible-lint
+# for docs
+otcdocstheme
