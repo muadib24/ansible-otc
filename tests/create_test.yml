@@ -2,48 +2,50 @@
 - hosts: localhost
   gather_facts: no
   vars:
-    # VPC,Subnet,Secgroup,ECS,EIP
     tenant_json: "vars/tenant.json"
     tenant_cf: "{{ lookup('file', tenant_json) | from_json }}"
-    image_name: "{{ tenant_cf['vms'][ecs_name]['image_name'] | default(tenant_cf['default']['image_name']) }}"
-    availability_zone: "{{ tenant_cf['vms'][ecs_name]['availability_zone'] | default(tenant_cf['default']['availability_zone']) }}"
-    vpc_name: "{{ tenant_cf['vms'][ecs_name]['vpc_name'] | default(tenant_cf['default']['vpc_name']) }}"
-    vpc_net: "{{ tenant_cf['vms'][ecs_name]['vpc_net'] | default(tenant_cf['default']['vpc_net']) }}"
-    subnet_name: "{{ tenant_cf['vms'][ecs_name]['subnet_name'] | default(tenant_cf['default']['subnet_name']) }}"
-    subnet_net: "{{ tenant_cf['vms'][ecs_name]['subnet_net'] | default(tenant_cf['default']['subnet_net']) }}"
-    subnet_gateway: "{{ tenant_cf['vms'][ecs_name]['subnet_gateway'] | default(tenant_cf['default']['subnet_gateway']) }}"
-    subnet_dhcp_enable: "{{ tenant_cf['vms'][ecs_name]['subnet_dhcp_enable'] | default(tenant_cf['default']['subnet_dhcp_enable']) }}"
-    subnet_primary_dns: "{{ tenant_cf['vms'][ecs_name]['subnet_primary_dns'] | default(tenant_cf['default']['subnet_primary_dns']) }}"
-    subnet_secondary_dns: "{{ tenant_cf['vms'][ecs_name]['subnet_secondary_dns'] | default(tenant_cf['default']['subnet_secondary_dns']) }}"
-    secgroups: "{{ tenant_cf['vms'][ecs_name]['secgroups'] | default(tenant_cf['default']['secgroups']) }}"
-    secgrouprules: "{{ tenant_cf['securitygroups'][secgroup_name] }}"
-    ecs_ipaddress: "{{ tenant_cf['vms'][ecs_name]['ecs_ipaddress'] | default(tenant_cf['default']['ecs_ipaddress']) }}"
-    public_ip_address: "{{ tenant_cf['vms'][ecs_name]['ecs_publicip'] }}"
-    ptr_name: "{{ tenant_cf['vms'][ecs_name]['ecs_publicfqdn'] }}"
-    eip_bandwidth_name: "{{ tenant_cf['vms'][ecs_name]['eip_bandwidth_name'] | default(tenant_cf['default']['eip_bandwidth_name']) }}"
-    eip_bandwidth_size: "{{ tenant_cf['vms'][ecs_name]['eip_bandwidth_size'] | default(tenant_cf['default']['eip_bandwidth_size']) }}"
-    ecs_volumetype: "{{ tenant_cf['vms'][ecs_name]['ecs_volumetype'] | default(tenant_cf['default']['ecs_volumetype']) }}"
-    ecs_ram: "{{ tenant_cf['vms'][ecs_name]['ecs_ram'] | default(tenant_cf['default']['ecs_ram']) }}"
-    ecs_vcpus: "{{ tenant_cf['vms'][ecs_name]['ecs_vcpus'] | default(tenant_cf['default']['ecs_vcpus']) }}"
-    ecs_adminkey: "{{ tenant_cf['vms'][ecs_name]['ecs_adminkey'] | default(tenant_cf['default']['ecs_adminkey']) }}"
-    keypair_file: "{{ tenant_cf['vms'][ecs_name]['keypair_file'] | default(tenant_cf['default']['keypair_file']) }}"
-    # EVS
-    evs_availability_zone: "{{ tenant_cf['volumes'][evs_name]['evs_availability_zone'] | default(tenant_cf['default']['evs_availability_zone']) }}"
-    evs_volume_type: "{{ tenant_cf['volumes'][evs_name]['evs_volume_type'] | default(tenant_cf['default']['evs_volume_type']) }}"
-    evs_size: "{{ tenant_cf['volumes'][evs_name]['evs_size'] | default(tenant_cf['default']['evs_size']) }}"
-    evs_multiattach: "{{ tenant_cf['volumes'][evs_name]['evs_multiattach'] | default(tenant_cf['default']['evs_multiattach']) }}"
-    evs_scsi: "{{ tenant_cf['volumes'][evs_name]['evs_scsi'] | default(tenant_cf['default']['evs_scsi']) }}"
-    # DNS
-    zone_description: "{{ tenant_cf['dnszones'][zone_name]['zone_description'] | default(tenant_cf['default']['zone_description']) }}"
-    zone_type: "{{ tenant_cf['dnszones'][zone_name]['zone_type'] | default(tenant_cf['default']['zone_type']) }}"
-    zone_email: "{{ tenant_cf['dnszones'][zone_name]['zone_email'] | default(tenant_cf['default']['zone_email']) }}"
-    zone_ttl: "{{ tenant_cf['dnszones'][zone_name]['zone_ttl'] | default(tenant_cf['default']['zone_ttl']) }}"
+
+    # Common Defaults and Reusable Variables
+    default_vars: "{{ tenant_cf['default'] }}"
+    vm_vars: "{{ tenant_cf['vms'][ecs_name] | combine(default_vars, recursive=True) }}"
+    evs_vars: "{{ tenant_cf['volumes'][evs_name] | combine(default_vars, recursive=True) }}"
+    dns_vars: "{{ tenant_cf['dnszones'][zone_name] | combine(default_vars, recursive=True) }}"
+
+    # VM-specific Variables
+    image_name: "{{ vm_vars['image_name'] }}"
+    availability_zone: "{{ vm_vars['availability_zone'] }}"
+    vpc_name: "{{ vm_vars['vpc_name'] }}"
+    subnet_name: "{{ vm_vars['subnet_name'] }}"
+    subnet_net: "{{ vm_vars['subnet_net'] }}"
+    subnet_gateway: "{{ vm_vars['subnet_gateway'] }}"
+    ecs_ipaddress: "{{ vm_vars['ecs_ipaddress'] }}"
+    public_ip_address: "{{ vm_vars['ecs_publicip'] }}"
+    ptr_name: "{{ vm_vars['ecs_publicfqdn'] }}"
+    ecs_volumetype: "{{ vm_vars['ecs_volumetype'] }}"
+    ecs_ram: "{{ vm_vars['ecs_ram'] }}"
+    ecs_vcpus: "{{ vm_vars['ecs_vcpus'] }}"
+    keypair_file: "{{ vm_vars['keypair_file'] }}"
+
+    # EVS-specific Variables
+    evs_availability_zone: "{{ evs_vars['evs_availability_zone'] }}"
+    evs_volume_type: "{{ evs_vars['evs_volume_type'] }}"
+    evs_size: "{{ evs_vars['evs_size'] }}"
+    evs_multiattach: "{{ evs_vars['evs_multiattach'] }}"
+    evs_scsi: "{{ evs_vars['evs_scsi'] }}"
+
+    # DNS-specific Variables
+    zone_description: "{{ dns_vars['zone_description'] }}"
+    zone_type: "{{ dns_vars['zone_type'] }}"
+    zone_email: "{{ dns_vars['zone_email'] }}"
+    zone_ttl: "{{ dns_vars['zone_ttl'] }}"
     zone_records: "{{ tenant_cf['dnszonerecords'][zone_name] }}"
-    # playbook action
+    zone_name: "travis.otc.telekomcloud99.com"
+
+    # Playbook Action
     localaction: "create"
 
   roles:
-    # create VM
+    # VM Creation Roles
     - role: "otc_auth"
     - role: "otc_vpc"
     - role: "otc_subnet"
@@ -52,19 +54,23 @@
     - role: "otc_eip"
     - role: "otc_ecs"
     - role: "otc_dns"
-      localaction: "ptrcreate"
-    # create internal DNS zone
+      vars:
+        localaction: "ptrcreate"
+    
+    # Internal DNS Zone Creation
     - role: "otc_vpc"
-      localaction: "router"
+      vars:
+        localaction: "router"
     - role: "otc_dns"
-      localaction: "create"
-      zone_name: "travis.otc.telekomcloud99.com"
+      vars:
+        localaction: "create"
 
   tasks:
-    - name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+    - name: Wait for port 22 to become available
       wait_for:
         port: 22
-        host: '{{ public_ip_address }}'
-        search_regex: OpenSSH
+        host: "{{ public_ip_address }}"
+        search_regex: "OpenSSH"
         delay: 10
+        timeout: 300
       connection: local
